@@ -380,7 +380,6 @@ Function ConvertFrom-Base64String {
     return $DecodedText
 }
 
-
 function Get-MSGraphToken {
     [CmdletBinding()]
     param (
@@ -671,5 +670,3 @@ about_Functions_Advanced_Parameters
         Write-Verbose "[$((Get-Date).TimeofDay) END    ] Ending $($myinvocation.mycommand)"
     } #end
 }
-
-Export-ModuleMember -Function '*' -Cmdlet '*' -Variable '*' -Alias '*'

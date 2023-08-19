@@ -69,7 +69,25 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @()
+    FunctionsToExport = @(
+        'IsGUID',
+        'Search-GUID',
+        'IsNullOrEmpty',
+        'IsNotNullOrEmpty',
+        'Merge-Hashtables',
+        'Set-GitHubEnv',
+        'New-GitHubLogGroup',
+        'Import-Variables',
+        'ConvertTo-Boolean',
+        'Remove-EmptyFolder',
+        'ConvertTo-Base64String',
+        'ConvertFrom-Base64String',
+        'Get-MSGraphToken',
+        'Add-EnvPath',
+        'Clear-GitRepo',
+        'Test-Administrator',
+        'New-PSDynamicParameter'
+    )
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
     CmdletsToExport   = @()
@@ -104,8 +122,7 @@
             ProjectUri = 'https://github.com/MariusStorhaug/Utilities'
 
             # A URL to an icon representing this module.
-            IconUri    = 'https://github.com/MariusStorhaug/Utilities/blob/main/icon/PowerShell_Core_6.0_icon.png'
-
+            IconUri    = 'https://raw.githubusercontent.com/MariusStorhaug/Utilities/main/icon/PowerShell_Core_6.0_icon.png'
             # ReleaseNotes of this module
             # ReleaseNotes = ''
 
