@@ -1,0 +1,28 @@
+name: Publish [Utilities]
+
+on:
+  push:
+    paths:
+    - scripts/**
+    - src/Utilities/**
+    - .github/workflows/Publish.Utilities.yml
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+env:
+  ModuleName: 'Utilities'
+  APIKey: ${{ secrets.apikey }}
+
+jobs:
+  publish:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Publish module
+        run: |
+          .\scripts\Publish-Module.ps1 -ModuleName $env:ModuleName -APIKey $env:APIKey -Verbose
