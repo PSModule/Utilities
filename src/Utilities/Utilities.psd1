@@ -113,16 +113,17 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags = @('Utilities','PowerShell','Module')
+            Tags                     = @('Utilities', 'PowerShell', 'Module')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/MariusStorhaug/Utilities/blob/main/LICENSE'
+            LicenseUri               = 'https://github.com/MariusStorhaug/Utilities/blob/main/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/MariusStorhaug/Utilities'
+            ProjectUri               = 'https://github.com/MariusStorhaug/Utilities'
 
             # A URL to an icon representing this module.
-            IconUri    = 'https://raw.githubusercontent.com/MariusStorhaug/Utilities/main/icon/PowerShell_Core_6.0_icon.png'
+            IconUri                  = 'https://raw.githubusercontent.com/MariusStorhaug/Utilities/main/icon/PowerShell_Core_6.0_icon.png'
+
             # ReleaseNotes of this module
             # ReleaseNotes = ''
 
@@ -140,7 +141,7 @@
     } # End of PrivateData hashtable
 
     # HelpInfo URI of this module
-    HelpInfoURI = 'https://mariusstorhaug.github.io/Utilities'
+    HelpInfoURI       = 'https://mariusstorhaug.github.io/Utilities'
 
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''
