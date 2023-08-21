@@ -9,31 +9,31 @@
 @{
 
     # Script module or binary module file associated with this manifest.
-    RootModule        = 'Utilities.psm1'
+    RootModule           = 'Utilities.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '0.0.1'
+    ModuleVersion        = '0.0.1'
 
     # Supported PSEditions
-    # CompatiblePSEditions = @()
+    CompatiblePSEditions = @('Core')
 
     # ID used to uniquely identify this module
-    GUID              = '616a3d74-4eee-4e5a-84c7-782a91c1cf81'
+    GUID                 = '616a3d74-4eee-4e5a-84c7-782a91c1cf81'
 
     # Author of this module
-    Author            = 'Marius Storhaug'
+    Author               = 'Marius Storhaug'
 
     # Company or vendor of this module
-    CompanyName       = 'Marius Storhaug'
+    CompanyName          = 'Marius Storhaug'
 
     # Copyright statement for this module
-    Copyright         = '(c) Marius Storhaug. All rights reserved.'
+    Copyright            = '(c) Marius Storhaug. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description       = 'PowerShell Module of Utilities'
+    Description          = 'PowerShell Module of Utilities'
 
     # Minimum version of the PowerShell engine required by this module
-    # PowerShellVersion = ''
+    PowerShellVersion    = '7.0'
 
     # Name of the PowerShell host required by this module
     # PowerShellHostName = ''
@@ -69,35 +69,16 @@
     # NestedModules = @()
 
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-    FunctionsToExport = @(
-        'IsGUID',
-        'Search-GUID',
-        'IsNullOrEmpty',
-        'IsNotNullOrEmpty',
-        'Merge-Hashtables',
-        'Set-GitHubEnv',
-        'New-GitHubLogGroup',
-        'Import-Variables',
-        'ConvertTo-Boolean',
-        'Remove-EmptyFolder',
-        'ConvertTo-Base64String',
-        'ConvertFrom-Base64String',
-        'Get-MSGraphToken',
-        'Add-EnvPath',
-        'Clear-GitRepo',
-        'Test-Administrator',
-        'New-PSDynamicParameter',
-        'Get-FileInfo'
-    )
+    FunctionsToExport    = '*'
 
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-    CmdletsToExport   = @()
+    CmdletsToExport      = '*'
 
     # Variables to export from this module
-    VariablesToExport = '*'
+    VariablesToExport    = '*'
 
     # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-    AliasesToExport   = @()
+    AliasesToExport      = '*'
 
     # DSC resources to export from this module
     # DscResourcesToExport = @()
@@ -109,7 +90,7 @@
     # FileList = @()
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData       = @{
+    PrivateData          = @{
 
         PSData = @{
 
@@ -142,7 +123,7 @@
     } # End of PrivateData hashtable
 
     # HelpInfo URI of this module
-    HelpInfoURI       = 'https://mariusstorhaug.github.io/Utilities'
+    HelpInfoURI          = 'https://mariusstorhaug.github.io/Utilities'
 
     # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
     # DefaultCommandPrefix = ''

@@ -487,21 +487,34 @@ function Clear-GitRepo {
 
 <#
 .SYNOPSIS
-    Test if the current user is an administrator.
-.DESCRIPTION
-    Test if the current user is an administrator.
-.OUTPUTS
-    Boolean
-.EXAMPLE
-    Test-Administrator
+Test if the current context is running as a specified role.
 
-    Returns true if the current user is an administrator.
+.DESCRIPTION
+Test if the current context is running as a specified role.
+
+.EXAMPLE
+Test-Role -Role Administrator
+
+Test if the current context is running as an Administrator.
+
+.EXAMPLE
+Test-Role -Role User
+
+Test if the current context is running as a User.
 #>
-function Test-Administrator {
+function Test-Role {
     [OutputType([Boolean])]
+    [CmdletBinding()]
+    [alias('Test-Admin','Test-Administrator','IsAdmin','IsAdministrator')]
+    param(
+        [Security.Principal.WindowsBuiltInRole] $Role = 'Administrator'
+    )
+
+    Write-Verbose "Test Role - [$Role]"
     $user = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = New-Object Security.Principal.WindowsPrincipal($user)
-    $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    $isAdmin = $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::$Role)
+    Write-Verbose "Test Role - [$Role] - [$isAdmin]"
     return $isAdmin
 }
 
