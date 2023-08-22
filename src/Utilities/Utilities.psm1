@@ -505,7 +505,7 @@ Test if the current context is running as a User.
 function Test-Role {
     [OutputType([Boolean])]
     [CmdletBinding()]
-    [alias('Test-Admin','Test-Administrator','IsAdmin','IsAdministrator')]
+    [alias('Test-Admin', 'Test-Administrator', 'IsAdmin', 'IsAdministrator')]
     param(
         [Security.Principal.WindowsBuiltInRole] $Role = 'Administrator'
     )
