@@ -367,7 +367,7 @@ Removes empty folders under the current path and outputs the results to the cons
 
 #>
 Function Remove-EmptyFolder {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory = $true)]
         [string]
@@ -375,9 +375,11 @@ Function Remove-EmptyFolder {
     )
 
     Get-ChildItem -Path $Path -Recurse -Directory | ForEach-Object {
-        if ($null -eq (Get-ChildItem $_.FullName)) {
-            Write-Verbose "Removing empty folder: $_.FullName"
-            Remove-Item $_.FullName -Force
+        if ($null -eq (Get-ChildItem $_.FullName -Force -Recurse)) {
+            Write-Verbose "Removing empty folder: [$($_.FullName)]"
+            if ($PSCmdlet.ShouldProcess("folder [$($_.FullName)]", 'Remove')) {
+                Remove-Item $_.FullName -Force
+            }
         }
     }
 }
