@@ -865,11 +865,40 @@ function Prune-Module {
     }
 }
 
+<#
+.SYNOPSIS
+Reinstalls module into a given scope.
+
+.DESCRIPTION
+Reinstalls module into a given scope. This is useful when you want to reinstall or clean up your module versions.
+With this command you always get the newest available version of the module and all the previous version wiped out.
+
+.PARAMETER Name
+The name of the module to be reinstalled. Wildcards are supported.
+
+.PARAMETER Scope
+The scope of the module to will be reinstalled to.
+
+.EXAMPLE
+Reinstall-Module -Name Pester -Scope CurrentUser
+
+Reinstall Pester module for the current user.
+
+.EXAMPLE
+Reinstall-Module -Scope CurrentUser
+
+Reinstall all reinstallable modules into the current user.
+
+.NOTES
+General notes
+#>
 function Reinstall-Module {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $false)]
+        [SupportsWildcards()]
         [string[]] $Name = '*',
+
         [Parameter(Mandatory = $false)]
         [ValidateSet('CurrentUser', 'AllUsers')]
         [string[]] $Scope = 'CurrentUser'
@@ -880,14 +909,18 @@ function Reinstall-Module {
     }
 
     $modules = Get-GalleryModule | Where-Object Name -Like "$Name"
-    Write-Verbose
+    Write-Verbose "Found [$($modules.Count)] modules" -Verbose
 
     $modules | ForEach-Object {
+        if ($_.name -eq 'Pester') {
+            Uninstall-Pester -All
+            continue
+        }
         Uninstall-Module -Name $_ -AllVersions -Force -ErrorAction SilentlyContinue
     }
 
     $modules.Name | ForEach-Object {
-        Install-Module -Name $_ -Scope CurrentUser -Force
+        Install-Module -Name $_ -Scope $Scope -Force
     }
 }
 
@@ -945,7 +978,15 @@ function Uninstall-Pester {
         icacls $pesterPath /grant '*S-1-5-32-544:F' /inheritance:d /T
         Remove-Item -Path $pesterPath -Recurse -Force -Confirm:$false
     }
-
 }
+
+function Squash-Main {
+    $gitHightFrom2ndCommit = [int](git rev-list --count --first-parent main) - 1
+    git reset HEAD~$gitHightFrom2ndCommit
+    git add .
+    git commit -m 'Reset'
+    git push --force
+}
+
 
 Export-ModuleMember -Function '*' -Cmdlet '*' -Alias '*' -Variable '*'
