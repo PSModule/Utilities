@@ -15,6 +15,8 @@
     return $String -match $guidRegex
 }
 
+
+
 function Search-GUID {
     [Cmdletbinding()]
     [OutputType([guid])]
@@ -820,10 +822,6 @@ function Show-FileExtension {
     }
 }
 
-function Get-GalleryModule {
-    Get-Module -ListAvailable -Refresh | Where-Object RepositorySourceLocation -Match 'https://www.powershellgallery.com/api/v2'
-}
-
 function Prune-Module {
     [CmdletBinding()]
     param (
@@ -838,7 +836,7 @@ function Prune-Module {
         throw "Administrator rights are required to uninstall modules for all users. Please run the command again with elevated rights (Run as Administrator) or provide '-Scope CurrentUser' to your command."
     }
 
-    $UpdateableModules = Get-GalleryModule | Where-Object Name -Like "$Name"
+    $UpdateableModules = Get-InstalledModule | Where-Object Name -Like "$Name"
     $UpdateableModuleNames = $UpdateableModules.Name | Sort-Object -Unique
     foreach ($UpdateableModuleName in $UpdateableModuleNames) {
         $UpdateableModule = $UpdateableModules | Where-Object Name -EQ $UpdateableModuleName | Sort-Object -Property Version -Descending
@@ -908,7 +906,7 @@ function Reinstall-Module {
         throw "Administrator rights are required to uninstall modules for all users. Please run the command again with elevated rights (Run as Administrator) or provide '-Scope CurrentUser' to your command."
     }
 
-    $modules = Get-GalleryModule | Where-Object Name -Like "$Name"
+    $modules = Get-InstalledModule | Where-Object Name -Like "$Name"
     Write-Verbose "Found [$($modules.Count)] modules" -Verbose
 
     $modules | ForEach-Object {
