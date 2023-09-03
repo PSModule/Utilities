@@ -822,8 +822,9 @@ function Show-FileExtension {
     }
 }
 
-function Prune-Module {
+function Invoke-PruneModule {
     [CmdletBinding()]
+    [Alias('Prune-Module')]
     param (
         [Parameter(Mandatory = $false)]
         [string[]] $Name = '*',
@@ -890,8 +891,9 @@ Reinstall all reinstallable modules into the current user.
 .NOTES
 General notes
 #>
-function Reinstall-Module {
+function Invoke-ReinstallModule {
     [CmdletBinding()]
+    [Alias('Reinstall-Module')]
     param (
         [Parameter(Mandatory = $false)]
         [SupportsWildcards()]
@@ -978,7 +980,10 @@ function Uninstall-Pester {
     }
 }
 
-function Squash-Main {
+function Invoke-GitSquash {
+    [CmdletBinding()]
+    [Alias('Squash-Main')]
+    param()
     $gitHightFrom2ndCommit = [int](git rev-list --count --first-parent main) - 1
     git reset HEAD~$gitHightFrom2ndCommit
     git add .
@@ -986,5 +991,4 @@ function Squash-Main {
     git push --force
 }
 
-
-Export-ModuleMember -Function '*' -Cmdlet '*' -Alias '*' -Variable '*'
+Export-ModuleMember -Function '*' -Cmdlet '*' -Variable '*' -Alias '*'
