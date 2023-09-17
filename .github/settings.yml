@@ -100,7 +100,7 @@ repository:
 
   # Either true to allow rebase-merging pull requests, or false to prevent rebase-merging.
   # Default: true
-  allow_rebase_merge: true
+  allow_rebase_merge: false
 
   # Whenever there are new changes available in the base branch, present an “update branch” option in the pull request.
   # Either true to always allow a pull request head branch that is behind its base branch to be updated even if it is not required to be up to date before merging, or false otherwise.
