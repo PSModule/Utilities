@@ -15,7 +15,7 @@ repository:
   # A comma-separated list of topics to set on the repository
   topics: github, powershell, Utilities, scripts, tools, Module
 
-  is_template: true
+  is_template: false
 
   # Either true to make the repository private or false to make it public. Default: false.
   private: false
