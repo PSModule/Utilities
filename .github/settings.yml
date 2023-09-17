@@ -1,7 +1,11 @@
 # These settings are synced to GitHub by https://probot.github.io/apps/settings/
 
 repository:
-  # See https://docs.github.com/en/free-pro-team@latest/rest/repos/repos#update-a-repository for all available settings.
+# See https://docs.github.com/en/free-pro-team@latest/rest/repos/repos#update-a-repository for all available settings.
+
+#
+# General
+#
 
   # The name of the repository.
   name: Utilities
@@ -9,69 +13,127 @@ repository:
   # A short description of the repository.
   description: The Utilities repository contains a collection of scripts and tools that should have been in PowerShell to start with.
 
-  # A URL with more information about the repository
+  # A URL with more information about the repository.
   homepage: https://www.psmodule.io/Utilities
 
-  # A comma-separated list of topics to set on the repository
-  topics: github, powershell, Utilities, scripts, tools, Module
-
-  # Either true to make this repo available as a template repository or false to prevent it. Default: false
-  is_template: false
-
   # Either true to make the repository private or false to make it public. Default: false.
+  # Note: You will get a 422 error if the organization restricts changing repository visibility to organization owners and a non-owner tries to change the value of private.
+  # Default: false
   private: false
 
-  # The visibility of the repository. Can be one of: public, private
+  # The visibility of the repository.
+  # Can be one of: public, private
   visibility: public
 
-  # Specify which security and analysis features to enable or disable for the repository.
-  security_and_analysis:
-    advanced_security: enabled
-    secret_scanning: enabled
-    secret_scanning_push_protection: enabled
+  # Either true to make this repo available as a template repository or false to prevent it.
+  # Template repositories let users generate new repositories with the same directory structure and files.
+  # Default: false
+  is_template: false
 
+  # Enabling this setting will require contributors to sign off on commits made through GitHub’s web interface. Signing off is a way for contributors to affirm that their commit complies with the repository's terms, commonly the Developer Certificate of Origin (DCO).
+  # Either true to require contributors to sign off on web-based commits, or false to not require contributors to sign off on web-based commits.
+  # Default: false
+  web_commit_signoff_required: false
 
-  # Either `true` to enable issues for this repository, `false` to disable them.
-  has_issues: true
+#
+# Default branch
+#
 
-  # Either `true` to enable projects for this repository, or `false` to disable them.
-  # If projects are disabled for the organization, passing `true` will cause an API error.
-  has_projects: true
-
-  # Either `true` to enable the wiki for this repository, `false` to disable it.
-  has_wiki: false
-
-  # Either `true` to enable downloads for this repository, `false` to disable them.
-  has_downloads: false
-
-  # Updates the default branch for this repository.
+  # Sets the default branch for this repository.
   default_branch: main
 
-  # Either `true` to allow squash-merging pull requests, or `false` to prevent
-  # squash-merging.
-  allow_squash_merge: true
+#
+# Features
+#
 
-  # Either `true` to allow merging pull requests with a merge commit, or `false`
-  # to prevent merging pull requests with merge commits.
+  # Wikis host documentation for your repository.
+  # Either true to enable the wiki for this repository or false to disable it.
+  # Default: true
+  has_wiki: false
+
+  # Issues integrate lightweight task tracking into your repository. Keep projects on track with issue labels and milestones, and reference them in commit messages.
+  # Either true to enable issues for this repository or false to disable them.
+  # Default: true
+  has_issues: true
+
+  # Either true to enable projects for this repository or false to disable them.
+  # Default: true
+  has_projects: true
+
+#
+# Pull Requests
+#
+
+  # Either true to allow merging pull requests with a merge commit, or false to prevent merging pull requests with merge commits.
+  # Default: true
   allow_merge_commit: false
 
-  # Either `true` to allow rebase-merging pull requests, or `false` to prevent
-  # rebase-merging.
-  allow_rebase_merge: false
+  # The default value for a merge commit title.
+  # - PR_TITLE      - default to the pull request's title.
+  # - MERGE_MESSAGE - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name).
+  # Can be one of: PR_TITLE, MERGE_MESSAGE
+  merge_commit_title: null
 
-  # Either true to allow auto-merge on pull requests, or false to disallow auto-merge. Default: false
+  # The default value for a merge commit message.
+  # - PR_TITLE - default to the pull request's title.
+  # - PR_BODY - default to the pull request's body.
+  # - BLANK - default to a blank commit message.
+  # Can be one of: PR_BODY, PR_TITLE, BLANK
+  merge_commit_message: null
+
+  # Either true to allow squash-merging pull requests, or false to prevent squash-merging.
+  # Default: true
+  allow_squash_merge: true
+
+  # The default value for a squash merge commit title:
+  # - PR_TITLE           - default to the pull request's title.
+  # - COMMIT_OR_PR_TITLE - default to the commit's title (if only one commit) or the pull request's title (when more than one commit).
+  # Can be one of: PR_TITLE, COMMIT_OR_PR_TITLE
+  squash_merge_commit_title: PR_TITLE
+
+  # The default value for a squash merge commit message:
+  # - PR_BODY         - default to the pull request's body.
+  # - COMMIT_MESSAGES - default to the branch's commit messages.
+  # - BLANK           - default to a blank commit message.
+  # Can be one of: PR_BODY, COMMIT_MESSAGES, BLANK
+  squash_merge_commit_message: PR_BODY
+
+  # Either true to allow rebase-merging pull requests, or false to prevent rebase-merging.
+  # Default: true
+  allow_rebase_merge: true
+
+  # Whenever there are new changes available in the base branch, present an “update branch” option in the pull request.
+  # Either true to always allow a pull request head branch that is behind its base branch to be updated even if it is not required to be up to date before merging, or false otherwise.
+  # Default: false
+  allow_update_branch: true
+
+  # Either true to allow auto-merge on pull requests, or false to disallow auto-merge.
+  # Default: false
   allow_auto_merge: true
 
-  # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
+  # Either true to allow automatically deleting head branches when pull requests are merged, or false to prevent automatic deletion.
+  # Default: false
   delete_branch_on_merge: true
 
-  # Either `true` to enable automated security fixes, or `false` to disable
-  # automated security fixes.
-  enable_automated_security_fixes: true
 
-  # Either `true` to enable vulnerability alerts, or `false` to disable
-  # vulnerability alerts.
-  enable_vulnerability_alerts: true
+#
+# Danger Zone
+#
+
+  # Whether to archive this repository. false will unarchive a previously archived repository.
+  # Default: false
+  archived: false
+
+  # Either true to allow private forks, or false to prevent private forks.
+  # Default: false
+  allow_forking: true
+
+#
+# Code security and analysis
+#
+
+  # Specify which security and analysis features to enable or disable for the repository.
+  security_and_analysis: null
 
 # Labels: define labels for Issues and Pull Requests
 labels:
