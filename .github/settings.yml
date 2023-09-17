@@ -15,6 +15,8 @@ repository:
   # A comma-separated list of topics to set on the repository
   topics: github, powershell, Utilities, scripts, tools, Module
 
+  is_template: true
+
   # Either true to make the repository private or false to make it public. Default: false.
   private: false
 
@@ -23,12 +25,10 @@ repository:
 
   # Specify which security and analysis features to enable or disable for the repository.
   security_and_analysis:
-    advanced_security:
-      status: enabled
-    secret_scanning:
-      status: enabled
-    secret_scanning_push_protection:
-      status: enabled
+    advanced_security: enabled
+    secret_scanning: enabled
+    secret_scanning_push_protection: enabled
+
 
   # Either `true` to enable issues for this repository, `false` to disable them.
   has_issues: true
@@ -138,7 +138,7 @@ branches:
       # Required. Require status checks to pass before merging. Set to null to disable
       required_status_checks:
         # Required. Require branches to be up to date before merging.
-        strict: true
+        strict: false
         # Required. The list of status checks to require in order to merge into this branch
         contexts: []
       # Required. Enforce all configured restrictions for administrators. Set to true to enforce required status checks for repository administrators. Set to null to disable.
