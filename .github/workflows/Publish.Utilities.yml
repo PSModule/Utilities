@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - '*'
+    paths:
+      - '.github\workflows\Publish.Utilities.yml'
+      - 'src\Utilities\*'
+      - 'icon\*'
   workflow_dispatch:
 
 jobs:
