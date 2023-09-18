@@ -1,0 +1,9 @@
+﻿$DocsPath = [environment]::GetFolderPath('MyDocuments')
+$CommonDocsPath = [environment]::GetFolderPath('CommonDocuments')
+$DesktopPath = [environment]::GetFolderPath('Desktop')
+$CommonDesktopPath = [environment]::GetFolderPath('CommonDesktop')
+$DownloadPath = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path
+$StartMenuPath = [environment]::GetFolderPath('StartMenu')
+$CommonStartMenuPath = [environment]::GetFolderPath('CommonStartMenu')
+$FontsPath = [environment]::GetFolderPath('Fonts')
+$IPConfigFilePath = "$([Environment]::GetFolderPath('MyDocuments'))\IPConfig.json"
