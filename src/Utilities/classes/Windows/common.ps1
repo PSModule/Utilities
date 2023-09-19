@@ -2,8 +2,8 @@
 $CommonDocsPath = [environment]::GetFolderPath('CommonDocuments')
 $DesktopPath = [environment]::GetFolderPath('Desktop')
 $CommonDesktopPath = [environment]::GetFolderPath('CommonDesktop')
-$shellApplication = New-Object -ComObject Shell.Application
-$DownloadPath = $shellApplication.NameSpace('shell:Downloads').Self.Path
+#$shellApplication = New-Object -ComObject Shell.Application
+#$DownloadPath = $shellApplication.NameSpace('shell:Downloads').Self.Path
 $StartMenuPath = [environment]::GetFolderPath('StartMenu')
 $CommonStartMenuPath = [environment]::GetFolderPath('CommonStartMenu')
 $FontsPath = [environment]::GetFolderPath('Fonts')
