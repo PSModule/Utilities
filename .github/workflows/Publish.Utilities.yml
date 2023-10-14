@@ -20,18 +20,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Initialize PSModule
+        uses: PSModule/Initialize-PSModule@main
+        with:
+          Verbose: true
+
       - name: Build Module
-        uses: PSModule/Build-Module@main
+        uses: PSModule/Build-PSModule@main
         with:
           Verbose: true
 
       - name: Test Module
-        uses: PSModule/Test-Module@main
+        uses: PSModule/Test-PSModule@main
         with:
           Verbose: true
 
       - name: Release Module
-        uses: PSModule/Release-Module@main
+        uses: PSModule/Release-PSModule@main
         with:
           APIKey: ${{ secrets.APIKEY }}
           Verbose: true
