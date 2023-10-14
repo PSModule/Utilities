@@ -1,42 +1,38 @@
-name: Publish [Utilities]
+name: Process-PSModule
 
 on:
   push:
     branches:
       - '*'
-    paths:
-      - .github/workflows/Publish.Utilities.yml
-      - src/Utilities/**
-      - icon/**
   workflow_dispatch:
 
 jobs:
-  BuildModule:
-    name: Build Module
+  Process-PSModule:
+    name: Process-PSModule
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }} # Used for GitHub CLI authentication
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Initialize PSModule
+      - name: Initialize-PSModule
         uses: PSModule/Initialize-PSModule@main
         with:
           Verbose: true
 
-      - name: Build Module
+      - name: Build-PSModule
         uses: PSModule/Build-PSModule@main
         with:
           Verbose: true
 
-      - name: Test Module
+      - name: Test-PSModule
         uses: PSModule/Test-PSModule@main
         with:
           Verbose: true
 
-      - name: Release Module
+      - name: Release-PSModule
         uses: PSModule/Release-PSModule@main
         with:
           APIKey: ${{ secrets.APIKEY }}
           Verbose: true
+        env:
+          GH_TOKEN: ${{ github.token }} # Used for GitHub CLI authentication
