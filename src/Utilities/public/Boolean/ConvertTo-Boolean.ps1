@@ -1,4 +1,5 @@
 ﻿function ConvertTo-Boolean {
+    [OutputType([bool])]
     [CmdletBinding()]
     param(
         [Parameter(
@@ -8,7 +9,6 @@
     )
     switch -regex ($String.Trim()) {
         '^(1|true|yes|on|enabled)$' { $true }
-
         default { $false }
     }
 }
