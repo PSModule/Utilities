@@ -1,5 +1,6 @@
-﻿function IsGUID {
+﻿filter Test-IsGUID {
     [Cmdletbinding()]
+    [Alias('IsGUID')]
     [OutputType([bool])]
     param (
         [Parameter( Mandatory = $true,
