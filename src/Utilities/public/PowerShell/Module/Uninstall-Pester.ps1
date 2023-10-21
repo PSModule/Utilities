@@ -1,26 +1,25 @@
 ﻿function Uninstall-Pester {
     <#
-.SYNOPSIS
-Uninstall Pester 3 from Program Files and Program Files (x86)
+        .SYNOPSIS
+        Uninstall Pester 3 from Program Files and Program Files (x86)
 
-.DESCRIPTION
-Uninstall Pester 3 from Program Files and Program Files (x86). This is useful
-when you want to install Pester 4 and you have Pester 3 installed.
+        .DESCRIPTION
+        Uninstall Pester 3 from Program Files and Program Files (x86). This is useful
+        when you want to install Pester 4 and you have Pester 3 installed.
 
-.PARAMETER All
-Completely remove all built-in Pester 3 installations
+        .PARAMETER All
 
-.EXAMPLE
-Uninstall-Pester
+        .EXAMPLE
+        Uninstall-Pester
 
-Uninstall Pester 3 from Program Files and Program Files (x86).
+        Uninstall Pester 3 from Program Files and Program Files (x86).
 
-.EXAMPLE
-Uninstall-Pester -All
+        .EXAMPLE
+        Uninstall-Pester -All
 
-Completely remove all built-in Pester 3 installations.
-
-#>
+        Completely remove all built-in Pester 3 installations.
+    #>
+    [OutputType([String])]
     [CmdletBinding()]
     param (
         # Completely remove all built-in Pester 3 installations
