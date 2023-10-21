@@ -1,8 +1,9 @@
 ﻿function Get-TLSConfig {
-    [OutputType([Net.SecurityProtocolType])]
-    [CmdletBinding()]
+    [OutputType(ParameterSetName = 'Default',[Net.SecurityProtocolType])]
+    [OutputType(ParameterSetName = 'ListAvailable',[Net.SecurityProtocolType[]])]
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
-        [Parameter()]
+        [Parameter(ParameterSetName = 'ListAvailable')]
         [switch] $ListAvailable
     )
     if ($ListAvailable) {
