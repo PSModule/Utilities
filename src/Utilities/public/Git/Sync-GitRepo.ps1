@@ -1,4 +1,4 @@
-﻿function Sync-Git {
+﻿function Sync-GitRepo {
     git fetch upstream --prune
     git pull
     git push
