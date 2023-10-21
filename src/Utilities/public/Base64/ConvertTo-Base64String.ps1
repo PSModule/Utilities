@@ -24,8 +24,8 @@
         )]
         [string] $Text
     )
-    $Bytes = [System.Text.Encoding]::Unicode.GetBytes($Text)
-    $EncodedText = [System.Convert]::ToBase64String($Bytes)
+    $bytes = [System.Text.Encoding]::Unicode.GetBytes($Text)
+    $encodedText = [System.Convert]::ToBase64String($bytes)
     #$ADOToken = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($PAT)"))
-    $EncodedText
+    $encodedText
 }
