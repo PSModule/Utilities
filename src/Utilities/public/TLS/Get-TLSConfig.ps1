@@ -1,4 +1,5 @@
 ﻿function Get-TLSConfig {
+    [OutputType([Net.SecurityProtocolType])]
     [CmdletBinding()]
     param(
         [Parameter()]
