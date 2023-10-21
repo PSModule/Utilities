@@ -1,33 +1,36 @@
 ﻿function IsNullOrEmpty {
-    [Cmdletbinding()]
     [OutputType([bool])]
+    [Cmdletbinding()]
     param(
-        [Parameter( Position = 0,
-            ValueFromPipeline = $true)]
-        $Object
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline
+        )]
+        [object] $Object
     )
 
     if ($PSBoundParameters.Keys.Contains('Verbose')) {
-        Write-Output 'Received object:'
+        Write-Verbose 'Received object:'
         $Object
-        Write-Output "Length is: $($Object.Length)" -ea continue
-        Write-Output "Count is: $($Object.Count)" -ea continue
+        Write-Verbose "Length is: $($Object.Length)"
+        Write-Verbose "Count is: $($Object.Count)"
         try {
-            Write-Output "Enumerator: $($Object.GetEnumerator())" -ea continue
+            Write-Verbose "Enumerator: $($Object.GetEnumerator())"
         } catch {}
 
-        'PSObject'
-        $Object.PSObject
-        'PSObject  --   BaseObject'
-        $Object.PSObject.BaseObject
+        Write-Verbose 'PSObject'
+        Write-Verbose $Object.PSObject
+        Write-Verbose 'PSObject  --   BaseObject'
+        Write-Verbose $Object.PSObject.BaseObject
 
-        'PSObject  --   BaseObject  --   BaseObject'
-        $Object.PSObject.BaseObject.PSObject.BaseObject
+        Write-Verbose 'PSObject  --   BaseObject  --   BaseObject'
+        Write-Verbose $Object.PSObject.BaseObject.PSObject.BaseObject
 
-        'PSObject  --   BaseObject  --   Properties'
-        $Object.PSObject.BaseObject.PSObject.Properties | Select-Object Name, @{n = 'Type'; e = { $_.TypeNameOfValue } }, Value | Format-Table -AutoSize
-        'PSObject  --   Properties'
-        $Object.PSObject.Properties | Select-Object Name, @{n = 'Type'; e = { $_.TypeNameOfValue } }, Value | Format-Table -AutoSize
+        Write-Verbose 'PSObject  --   BaseObject  --   Properties'
+        Write-Verbose ($Object.PSObject.BaseObject.PSObject.Properties | Select-Object Name, @{n = 'Type'; e = { $_.TypeNameOfValue } }, Value | Format-Table -AutoSize)
+
+        Write-Verbose 'PSObject  --   Properties'
+        Write-Verbose ($Object.PSObject.Properties | Select-Object Name, @{n = 'Type'; e = { $_.TypeNameOfValue } }, Value | Format-Table -AutoSize)
     }
 
     try {
