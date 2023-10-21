@@ -12,12 +12,12 @@
         This creates a PSCredential with username "Admin" and password "P@ssw0rd!"
 
         .EXAMPLE
-        New-PSCredential -UserName "Admin" -Password (Read-Host -Prompt "Enter Password" -AsSecureString)
+        New-PSCredential -UserName "Admin"
 
-        This creates a PSCredential with username "Admin" and password by prompting the user for the password
+        Prompts user for password and creates a PSCredential with username "Admin" and password the user provided.
 
         .EXAMPLE
-        $SecretPassword = "P@ssw0rd!" | ConvertTo-SecureString -AsPlainText -Force
+        $SecretPassword = "P@ssw0rd!" | ConvertTo-SecureString -Force
         New-PSCredential -UserName "Admin" -Password $SecretPassword
 
     #>
@@ -25,22 +25,15 @@
     [Cmdletbinding()]
     param(
         # The username of the PSCredential
-        [Parameter(Mandatory)]
-        [string] $UserName = (Read-Host -Prompt 'Enter a UserName'),
+        [Parameter()]
+        [string] $Username = (Read-Host -Prompt 'Enter a username'),
 
         # The plain text password of the PSCredential
-        [Parameter(Mandatory)]
-        [ValidateScript({ ($_ -is [System.Security.SecureString]) -or ($_ -is [System.String]) })]
-        [object] $Password = (Read-Host -Prompt 'Enter Password' -AsSecureString)
+        [Parameter()]
+        [SecureString] $Password = (Read-Host -Prompt 'Enter Password' -AsSecureString)
     )
 
-    try {
-        if ($Password -is [System.String]) {
-            $Password = $Password | ConvertTo-SecureString -AsPlainText -Force
-        }
-        $credential = New-Object -TypeName System.Management.Automation.PSCredential($UserName, $Password)
-    } catch {
-        throw $_.Exception.Message
-    }
+    $credential = New-Object -TypeName System.Management.Automation.PSCredential($Username, $Password)
+
     return $credential
 }
