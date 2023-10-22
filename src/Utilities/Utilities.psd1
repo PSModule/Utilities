@@ -11,4 +11,3 @@
     }
     HelpInfoURI   = 'https://PSModule.github.io/Utilities'
 }
-
