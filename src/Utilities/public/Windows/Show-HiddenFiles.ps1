@@ -34,8 +34,8 @@
     )
     Process {
         # Set a variable with the value we want to set on the registry value/subkey.
-        if ($PSCmdlet.ParameterSetName -eq 'On') { $Value = 1 }
-        if ($PSCmdlet.ParameterSetName -eq 'Off') { $Value = 2 }
+        if ($On) { $Value = 1 }
+        if ($Off) { $Value = 2 }
 
         # Define the path to the registry key that contains the registry value/subkey
         $Path = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
