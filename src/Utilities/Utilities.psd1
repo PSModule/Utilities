@@ -1,16 +1,11 @@
 @{
-
-    # Author of this module
-    Author      = 'Marius Storhaug'
-
-    # Company or vendor of this module
-    CompanyName = 'Marius Storhaug'
+    ModuleVersion = '0.0.1'
 
     # Description of the functionality provided by this module
-    Description = 'PowerShell Module of Utilities'
+    Description   = 'PowerShell Module of Utilities'
 
     # Private data to pass to the module specified in RootModule/ModuleToProcess. This may also contain a PSData hashtable with additional module metadata used by PowerShell.
-    PrivateData = @{
+    PrivateData   = @{
 
         PSData = @{
 
@@ -31,7 +26,7 @@
     } # End of PrivateData hashtable
 
     # HelpInfo URI of this module
-    HelpInfoURI = 'https://mariusstorhaug.github.io/Utilities'
+    HelpInfoURI   = 'https://mariusstorhaug.github.io/Utilities'
 
 }
 
