@@ -13,20 +13,20 @@
             Tags       = @('Utilities', 'PowerShell', 'Module')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/MariusStorhaug/Utilities/blob/main/LICENSE'
+            LicenseUri = 'https://github.com/PSModule/Utilities/blob/main/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/MariusStorhaug/Utilities'
+            ProjectUri = 'https://github.com/PSModule/Utilities'
 
             # A URL to an icon representing this module.
-            IconUri    = 'https://raw.githubusercontent.com/MariusStorhaug/Utilities/main/icon/PowerShell_Core_6.0_icon.png'
+            IconUri    = 'https://raw.githubusercontent.com/PSModule/Utilities/main/icon/PowerShell_Core_6.0_icon.png'
 
         } # End of PSData hashtable
 
     } # End of PrivateData hashtable
 
     # HelpInfo URI of this module
-    HelpInfoURI   = 'https://mariusstorhaug.github.io/Utilities'
+    HelpInfoURI   = 'https://PSModule.github.io/Utilities'
 
 }
 
