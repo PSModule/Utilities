@@ -10,7 +10,10 @@
     )
 
     if ($Scope -eq 'AllUsers' -and -not (IsAdmin)) {
-        throw "Administrator rights are required to uninstall modules for all users. Please run the command again with elevated rights (Run as Administrator) or provide '-Scope CurrentUser' to your command."
+        $message = 'Administrator rights are required to uninstall modules for all users. Please run the command again with' +
+        " elevated rights (Run as Administrator) or provide '-Scope CurrentUser' to your command."
+
+        throw $message
     }
 
     $UpdateableModules = Get-InstalledModule | Where-Object Name -Like "$Name"
