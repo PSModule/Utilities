@@ -1,7 +1,21 @@
-﻿function IsNullOrEmpty {
+﻿function Test-IsNullOrEmpty {
+    <#
+        .SYNOPSIS
+        Test if an object is null or empty
+
+        .DESCRIPTION
+        Test if an object is null or empty
+
+        .EXAMPLE
+        '' | IsNullOrEmpty -Verbose
+
+        True
+    #>
+    [alias('IsNullOrEmpty')]
     [OutputType([bool])]
     [Cmdletbinding()]
     param(
+        # The object to test
         [Parameter(
             Mandatory,
             ValueFromPipeline

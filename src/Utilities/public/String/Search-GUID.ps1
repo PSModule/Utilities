@@ -1,11 +1,23 @@
 ﻿function Search-GUID {
+    <#
+        .SYNOPSIS
+        Search a string for a GUID
+
+        .DESCRIPTION
+        Search a string for a GUID
+
+        .EXAMPLE
+        '123e4567-e89b-12d3-a456-426655440000' | Search-GUID
+    #>
     [Cmdletbinding()]
     [OutputType([guid])]
     param(
-        [Parameter( Mandatory = $true,
-            Position = 0,
-            ValueFromPipeline = $true,
-            ValueFromPipelineByPropertyName = $true)]
+        # The string to search
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
+        )]
         [string] $String
     )
     Write-Verbose "Looking for a GUID in $String"
@@ -14,5 +26,5 @@
         Select-Object -ExpandProperty Matches |
         Select-Object -ExpandProperty Value
     Write-Verbose "Found GUID: $GUID"
-    return $GUID
+    $GUID
 }

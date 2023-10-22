@@ -1,14 +1,4 @@
-﻿function IsNotNullOrEmpty {
-    [Cmdletbinding()]
-    [OutputType([bool])]
-    param(
-        [Parameter( Position = 0,
-            ValueFromPipeline = $true)]
-        $Object
-    )
-    return -not ($Object | IsNullOrEmpty)
-
-    <#
+﻿<#
 '' | IsNullOrEmpty -Verbose
 '' | IsNotNullOrEmpty -Verbose
 
@@ -68,4 +58,3 @@ $Object = [pscustomobject]@{ Something = Get-Date }
 $Object | IsNullOrEmpty -Verbose
 $Object | IsNotNullOrEmpty -Verbose
 #>
-}
