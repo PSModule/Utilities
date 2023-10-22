@@ -1,4 +1,4 @@
-﻿function Search-GUID {
+﻿filter Search-GUID {
     <#
         .SYNOPSIS
         Search a string for a GUID
@@ -20,6 +20,7 @@
         )]
         [string] $String
     )
+
     Write-Verbose "Looking for a GUID in $String"
     $GUID = $String.ToLower() |
         Select-String -Pattern '[0-9a-f]{8}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{4}\-[0-9a-f]{12}' |

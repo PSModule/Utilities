@@ -1,4 +1,4 @@
-﻿function Save-PSCredential {
+﻿filter Save-PSCredential {
     <#
         .SYNOPSIS
         Saves a PSCredential to a file.
@@ -24,7 +24,8 @@
         # The PSCredential to save.
         [Parameter(
             Mandatory,
-            ValueFromPipeline
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
         )]
         [System.Management.Automation.PSCredential] $Credential,
 

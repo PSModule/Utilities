@@ -1,4 +1,4 @@
-﻿function Test-IsNotNullOrEmpty {
+﻿filter Test-IsNotNullOrEmpty {
     <#
         .SYNOPSIS
         Test if an object is not null or empty
@@ -18,7 +18,8 @@
         # Object to test
         [Parameter(
             Mandatory,
-            ValueFromPipeline
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
         )]
         [object] $Object
     )
