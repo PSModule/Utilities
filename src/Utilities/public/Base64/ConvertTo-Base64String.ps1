@@ -22,9 +22,9 @@
             ValueFromPipeline,
             ValueFromPipelineByPropertyName
         )]
-        [string] $Text
+        [string] $String
     )
-    $bytes = [System.Text.Encoding]::Unicode.GetBytes($Text)
+    $bytes = [System.Text.Encoding]::Unicode.GetBytes($String)
     $encodedText = [System.Convert]::ToBase64String($bytes)
     #$ADOToken = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$($PAT)"))
     $encodedText
