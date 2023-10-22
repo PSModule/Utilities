@@ -20,7 +20,7 @@
         )]
         [string] $Path
     )
-    
+
     Write-Output "$($MyInvocation.MyCommand) - $Path - Processing"
     if (-not (Test-Path -Path $Path)) {
         throw "$($MyInvocation.MyCommand) - $Path - File not found"

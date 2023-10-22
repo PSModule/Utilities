@@ -19,7 +19,7 @@
             Mandatory,
             ValueFromPipeline
         )]
-        [Object]$InputObject
+        [Object] $InputObject
     )
 
     $InputObject | ConvertTo-Json -Depth 100 | ConvertFrom-Json
