@@ -1,13 +1,36 @@
 ﻿function Show-HiddenFiles {
+    <#
+        .SYNOPSIS
+        Show or hide hidden files in Windows Explorer
+
+        .DESCRIPTION
+        Show or hide hidden files in Windows Explorer
+
+        .EXAMPLE
+        Show-HiddenFiles -On
+
+        Show hidden files in Windows Explorer
+
+        .EXAMPLE
+        Show-HiddenFiles -Off
+
+        Hide hidden files in Windows Explorer
+    #>
     [CmdletBinding(DefaultParameterSetName = 'On')]
     Param (
-        [Parameter(Mandatory = $true, ParameterSetName = 'On')]
-        [System.Management.Automation.SwitchParameter]
-        $On,
+        # Show hidden files in Windows Explorer
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'On'
+        )]
+        [switch] $On,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'Off')]
-        [System.Management.Automation.SwitchParameter]
-        $Off
+        # Dont show hidden files in Windows Explorer
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Off'
+        )]
+        [switch] $Off
     )
     Process {
         # Set a variable with the value we want to set on the registry value/subkey.

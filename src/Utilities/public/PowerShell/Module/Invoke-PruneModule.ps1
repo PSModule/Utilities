@@ -1,10 +1,24 @@
 ﻿function Invoke-PruneModule {
+    <#
+        .SYNOPSIS
+        Remove all but the newest version of a module
+
+        .DESCRIPTION
+        Remove all but the newest version of a module
+
+        .EXAMPLE
+        Invoke-PruneModule -Name 'Az.*' -Scope CurrentUser
+    #>
+    [OutputType([void])]
     [CmdletBinding()]
     [Alias('Prune-Module')]
     param (
-        [Parameter(Mandatory = $false)]
+        # Name of the module(s) to prune
+        [Parameter()]
         [string[]] $Name = '*',
-        [Parameter(Mandatory = $false)]
+
+        # Scope of the module(s) to prune
+        [Parameter()]
         [ValidateSet('CurrentUser', 'AllUsers')]
         [string[]] $Scope = 'CurrentUser'
     )

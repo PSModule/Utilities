@@ -1,4 +1,21 @@
-﻿function Clean-WingetApps {
+﻿function Invoke-CleanWingetApps {
+    <#
+        .SYNOPSIS
+        Remove bloat-ware using winget
+
+        .DESCRIPTION
+        Remove bloat-ware using winget
+
+        .EXAMPLE
+        Invoke-CleanWingetApps
+
+        Remove bloat-ware using winget
+    #>
+    [Alias('Clean-WingetApps')]
+    [OutputType([void])]
+    [CmdletBinding()]
+    param ()
+
     winget source update
     winget uninstall --id Microsoft.549981C3F5F10_8wekyb3d8bbwe
     winget uninstall --id Microsoft.Getstarted_8wekyb3d8bbwe

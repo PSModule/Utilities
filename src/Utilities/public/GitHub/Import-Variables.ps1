@@ -1,12 +1,26 @@
-﻿function Import-Variables {
+﻿filter Import-Variables {
+    <#
+        .SYNOPSIS
+        Import variables from a JSON file into the current session
+
+        .DESCRIPTION
+        Import variables from a JSON file into the current session
+
+        .EXAMPLE
+        Import-Variables -Path 'C:\path\to\variables.json'
+    #>
+    [OutputType([void])]
     [CmdletBinding()]
     param (
+        # Path to the JSON file containing the variables
         [Parameter(
             Mandatory,
-            Position = 0,
-            ValueFromPipeline = $true)]
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
+        )]
         [string] $Path
     )
+    
     Write-Output "$($MyInvocation.MyCommand) - $Path - Processing"
     if (-not (Test-Path -Path $Path)) {
         throw "$($MyInvocation.MyCommand) - $Path - File not found"

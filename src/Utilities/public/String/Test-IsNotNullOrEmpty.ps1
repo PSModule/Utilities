@@ -15,6 +15,7 @@
     [Cmdletbinding()]
     [OutputType([bool])]
     param(
+        # Object to test
         [Parameter(
             Mandatory,
             ValueFromPipeline

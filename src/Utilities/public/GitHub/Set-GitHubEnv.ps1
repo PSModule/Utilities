@@ -1,8 +1,22 @@
 ﻿function Set-GitHubEnv {
+    <#
+        .SYNOPSIS
+        Set a GitHub environment variable
+
+        .DESCRIPTION
+        Set a GitHub environment variable
+
+        .EXAMPLE
+        Set-GitHubEnv -Name 'MyVariable' -Value 'MyValue'
+    #>
+    [OutputType([void])]
     [CmdletBinding()]
     param (
+        # Name of the variable
         [Parameter(Mandatory)]
         [string] $Name,
+
+        # Value of the variable
         [Parameter(Mandatory)]
         [string] $Value
     )

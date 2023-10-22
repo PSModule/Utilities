@@ -1,13 +1,43 @@
 ﻿function Merge-Hashtables {
+    <#
+        .SYNOPSIS
+        Merge two hashtables, with the second hashtable overriding the first
+
+        .DESCRIPTION
+        Merge two hashtables, with the second hashtable overriding the first
+
+        .EXAMPLE
+        $Main = [ordered]@{
+            Action            = ''
+            ResourceGroupName = 'Main'
+            Subscription      = 'Main'
+            ManagementGroupID = ''
+            Location          = 'Main'
+            ModuleName        = ''
+            ModuleVersion     = ''
+        }
+        $Overrides = [ordered]@{
+            Action            = 'overrides'
+            ResourceGroupName = 'overrides'
+            Subscription      = 'overrides'
+            ManagementGroupID = ''
+            Location          = 'overrides'
+            ModuleName        = ''
+            ModuleVersion     = ''
+        }
+        Merge-Hashtables -Main $Main -Overrides $Overrides
+    #>
+    [OutputType([Hashtable])]
     [CmdletBinding()]
     param (
-        $Main,
-        $Overrides
+        # Main hashtable
+        [Parameter(Mandatory)]
+        [hashtable] $Main,
+
+        # Hashtable with overrides
+        [Parameter(Mandatory)]
+        [hashtable] $Overrides
     )
-
-    $Main = [Hashtable]$Main
-    $Overrides = [Hashtable]$Overrides
-
     $Output = $Main.Clone()
     ForEach ($Key in $Overrides.Keys) {
         if (($Output.Keys) -notcontains $Key) {
@@ -18,38 +48,4 @@
         }
     }
     return $Output
-
-    <#
-
-$env = [ordered]@{
-    Action            = ''
-    ResourceGroupName = 'env'
-    Subscription      = 'env'
-    ManagementGroupID = ''
-    Location          = 'env'
-    ModuleName        = ''
-    ModuleVersion     = ''
-}
-Write-Output '`r`nEnvironment variables:'
-$env
-
-$inputs = [ordered]@{
-    Action              = 'inputs'
-    ResourceGroupName   = ''
-    Subscription        = ''
-    ManagementGroupID   = ''
-    Location            = ''
-    ModuleName          = 'inputs'
-    ModuleVersion       = 'inputs'
-    ParameterFilePath   = ''
-    ParameterFolderPath = ''
-    ParameterOverrides  = 'inputs'
-}
-Write-Output "`r`nEnvironment overrides:"
-$inputs
-
-$Params = Merge-Hashtables -Main $env -Overrides $inputs
-Write-Output "`r`nFinal parameters:"
-$Params
-#>
 }

@@ -20,8 +20,9 @@ function Join-Uri {
         Combines the base URI 'https://example.com' with the child paths '/foo/', '/bar/', '//baz/something/', and '/test/'.
 
     #>
+    [OutputType([uri])]
+    [CmdletBinding()]
     param (
-
         # The base URI to join with the child path.
         [Parameter(Mandatory)]
         [uri]$Path,
