@@ -13,7 +13,7 @@
     #>
     [OutputType([void])]
     [CmdletBinding()]
-    param ()
+    param()
 
     git fetch --all --prune
     (git branch).Trim() | Where-Object { $_ -notmatch 'main|\*' } | ForEach-Object { git branch $_ --delete --force }

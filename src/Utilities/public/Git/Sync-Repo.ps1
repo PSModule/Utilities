@@ -1,4 +1,17 @@
 ﻿function Sync-Repo {
+    <#
+        .SYNOPSIS
+        Sync a Git repository with upstream
+
+        .DESCRIPTION
+        Sync a Git repository with upstream
+
+        .EXAMPLE
+        Sync-Repo
+    #>
+    [OutputType([void])]
+    [CmdletBinding()]
+    param()
     git checkout main
     git pull
     git remote update origin --prune
