@@ -1,12 +1,30 @@
-﻿function ConvertTo-Boolean {
+﻿filter ConvertTo-Boolean {
+    <#
+        .SYNOPSIS
+        Convert string to boolean.
+
+        .DESCRIPTION
+        Convert string to boolean.
+
+        .EXAMPLE
+        ConvertTo-Boolean -String 'true'
+
+        True
+
+        Convert string to boolean.
+    #>
     [OutputType([bool])]
     [CmdletBinding()]
     param(
+        # The string to be converted to boolean.
         [Parameter(
-            Position = 0,
-            ValueFromPipeline = $true)]
+            Mandatory,
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
+        )]
         [string] $String
     )
+
     switch -regex ($String.Trim()) {
         '^(1|true|yes|on|enabled)$' { $true }
         default { $false }
