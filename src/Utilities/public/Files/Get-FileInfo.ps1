@@ -1,7 +1,24 @@
 ﻿function Get-FileInfo {
+    <#
+        .SYNOPSIS
+        Get file information
+
+        .DESCRIPTION
+        Get file information
+
+        .EXAMPLE
+        Get-FileInfo -Path 'C:\temp\test.txt'
+
+        Gets detailed information about the file.
+
+        .NOTES
+        Supported OS: Windows
+    #>
+    [OutputType([pscustomobject])]
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        # The path to the file.
+        [Parameter(Mandatory)]
         [string] $Path
     )
 

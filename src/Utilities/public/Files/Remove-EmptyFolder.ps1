@@ -1,25 +1,22 @@
 ﻿Function Remove-EmptyFolder {
     <#
-.SYNOPSIS
-Removes empty folders under the folder specified
+        .SYNOPSIS
+        Removes empty folders under the folder specified
 
-.DESCRIPTION
-Long description
+        .DESCRIPTION
+        Removes empty folders under the folder specified
 
-.PARAMETER Path
-The path to the folder to be cleaned
+        .EXAMPLE
+        Remove-EmptyFolder -Path . -Verbose
 
-.EXAMPLE
-Remove-EmptyFolder -Path . -Verbose
-
-Removes empty folders under the current path and outputs the results to the console.
-
-#>
+        Removes empty folders under the current path and outputs the results to the console.
+    #>
+    [OutputType([void])]
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory = $true)]
-        [string]
-        $Path
+        # The path to the folder to be cleaned
+        [Parameter(Mandatory)]
+        [string] $Path
     )
 
     Get-ChildItem -Path $Path -Recurse -Directory | ForEach-Object {
