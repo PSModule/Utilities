@@ -16,5 +16,5 @@
         [Parameter()]
         [string] $Title
     )
-    Write-Output "::group::$Title"
+    Write-Host "::group::$Title"
 }
