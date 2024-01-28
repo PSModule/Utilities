@@ -12,7 +12,7 @@
         Set the TLS configuration for the current PowerShell session to TLS 1.2
     #>
     [OutputType([void])]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         # The TLS protocol to enable
         [Parameter()]
@@ -21,6 +21,8 @@
 
     foreach ($protocolItem in $Protocol) {
         Write-Verbose "Enabling $protocolItem"
-        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor $protocolItem
+        if ($PSCmdlet.ShouldProcess("Security Protocol to [$Protocol]", "Set")) {
+            [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor $protocolItem
+        }
     }
 }

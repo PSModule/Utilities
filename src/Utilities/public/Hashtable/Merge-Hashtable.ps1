@@ -1,4 +1,4 @@
-﻿function Merge-Hashtables {
+﻿function Merge-Hashtable {
     <#
         .SYNOPSIS
         Merge two hashtables, with the second hashtable overriding the first
@@ -28,6 +28,7 @@
         Merge-Hashtables -Main $Main -Overrides $Overrides
     #>
     [OutputType([Hashtable])]
+    [Alias('Merge-Hashtables')]
     [CmdletBinding()]
     param (
         # Main hashtable
@@ -39,7 +40,7 @@
         [hashtable] $Overrides
     )
     $Output = $Main.Clone()
-    ForEach ($Key in $Overrides.Keys) {
+    foreach ($Key in $Overrides.Keys) {
         if (($Output.Keys) -notcontains $Key) {
             $Output.$Key = $Overrides.$Key
         }
