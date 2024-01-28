@@ -1,9 +1,4 @@
-﻿# Save the function Get-StringCasingStyle in a file named Get-StringCasingStyle.ps1
-# Then dot-source the file to load the function into the current session
-# . .\Get-StringCasingStyle.ps1
-
-# Define the Pester tests
-Describe 'Get-StringCasingStyle' {
+﻿Describe 'Get-StringCasingStyle' {
     It 'Detects lowercase' {
         'testtesttest' | Get-StringCasingStyle | Should -Be 'lowercase'
     }
