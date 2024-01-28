@@ -12,7 +12,7 @@ function Reset-GitRepo {
         Reset a Git repository to the upstream branch
     #>
     [OutputType([void])]
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         # The upstream repository to reset to
         [Parameter()]
@@ -29,10 +29,14 @@ function Reset-GitRepo {
 
     git fetch $Upstream
     git checkout $Branch
-    git reset --hard $Upstream/$Branch
+    if ($PSCmdlet.ShouldProcess("git repo", "Reset")) {
+        git reset --hard $Upstream/$Branch
+    }
 
     if ($Push) {
+        if ($PSCmdlet.ShouldProcess("git changes to origin", "Push")) {
+
+        }
         git push origin $Branch --force
     }
 }
-Set-Alias -Name Reset -Value Reset-Repo

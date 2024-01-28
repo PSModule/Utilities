@@ -22,7 +22,7 @@
 
     #>
     [OutputType([System.Management.Automation.PSCredential])]
-    [Cmdletbinding()]
+    [Cmdletbinding(SupportsShouldProcess)]
     param(
         # The username of the PSCredential
         [Parameter()]
@@ -33,7 +33,7 @@
         [SecureString] $Password = (Read-Host -Prompt 'Enter Password' -AsSecureString)
     )
 
-    $credential = New-Object -TypeName System.Management.Automation.PSCredential($Username, $Password)
-
-    return $credential
+    if ($PSCmdlet.ShouldProcess('PSCredential', 'Create a new')) {
+        New-Object -TypeName System.Management.Automation.PSCredential($Username, $Password)
+    }
 }
