@@ -52,7 +52,7 @@
     }
 
     It "Detects 'T' as UPPERCASE" {
-        'T' | Get-StringCasingStyle | Should -Be 'Sentencecase'
+        'T' | Get-StringCasingStyle | Should -Be 'UPPERCASE'
     }
 
     It "Detects 'TTTT' UPPERCASE" {
