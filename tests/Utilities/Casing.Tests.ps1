@@ -1,85 +1,85 @@
 ﻿Describe 'Get-StringCasingStyle' {
-    It 'Detects lowercase' {
+    It "Detects 'testtesttest' as lowercase" {
         'testtesttest' | Get-StringCasingStyle | Should -Be 'lowercase'
     }
 
-    It 'Detects UPPERCASE' {
+    It "Detects 'TESTTESTTEST' as UPPERCASE" {
         'TESTTESTTEST' | Get-StringCasingStyle | Should -Be 'UPPERCASE'
     }
 
-    It 'Detects Sentencecase' {
+    It "Detects 'Testtesttest' as Sentencecase" {
         'Testtesttest' | Get-StringCasingStyle | Should -Be 'Sentencecase'
     }
 
-    It 'Detects PascalCase' {
+    It "Detects 'TestTestTest' as PascalCase" {
         'TestTestTest' | Get-StringCasingStyle | Should -Be 'PascalCase'
     }
 
-    It 'Detects camelCase' {
+    It "Detects 'testTestTest' as camelCase" {
         'testTestTest' | Get-StringCasingStyle | Should -Be 'camelCase'
     }
 
-    It 'Detects kebab-case' {
+    It "Detects 'test-test-test' as kebab-case" {
         'test-test-test' | Get-StringCasingStyle | Should -Be 'kebab-case'
     }
 
-    It 'Detects UPPER-KEBAB-CASE' {
+    It "Detects 'TEST-TEST-TEST' as UPPER-KEBAB-CASE" {
         'TEST-TEST-TEST' | Get-StringCasingStyle | Should -Be 'UPPER-KEBAB-CASE'
     }
 
-    It 'Detects snake_case' {
+    It "Detects 'test_test_test' as snake_case" {
         'test_test_test' | Get-StringCasingStyle | Should -Be 'snake_case'
     }
 
-    It 'Detects UPPER_SNAKE_CASE' {
+    It "Detects 'TEST_TEST_TEST' as UPPER_SNAKE_CASE" {
         'TEST_TEST_TEST' | Get-StringCasingStyle | Should -Be 'UPPER_SNAKE_CASE'
     }
 
-    It 'Detects Title Case' {
+    It "Detects 'Test Test Test' as Title Case" {
         'Test Test Test' | Get-StringCasingStyle | Should -Be 'Title Case'
     }
 
-    It 'Detects Unknown for mixed cases 1' {
+    It "Detects 'Test_teSt-Test' as Unknown" {
         'Test_teSt-Test' | Get-StringCasingStyle | Should -Be 'Unknown'
     }
 
-    It 'Detects Unknown for mixed cases 2' {
+    It "Detects 'Test-Test_test' as Unknown" {
         'Test-Test_test' | Get-StringCasingStyle | Should -Be 'Unknown'
     }
 
-    It 'Detects PascalCase for multiple words' {
+    It "Detects 'ThisIsAMultiWordPascalString' as PascalCase" {
         'ThisIsAMultiWordPascalString' | Get-StringCasingStyle | Should -Be 'PascalCase'
     }
 
-    It 'Detects Sentencecase for single uppercase letter' {
+    It "Detects 'T' as UPPERCASE" {
         'T' | Get-StringCasingStyle | Should -Be 'Sentencecase'
     }
 
-    It 'Detects UPPERCASE for single uppercase letter repeated' {
+    It "Detects 'TTTT' UPPERCASE" {
         'TTTT' | Get-StringCasingStyle | Should -Be 'UPPERCASE'
     }
 
-    It 'Detects lowercase for single lowercase letter' {
+    It "Detects 't' as lowercase" {
         't' | Get-StringCasingStyle | Should -Be 'lowercase'
     }
 
-    It 'Detects lowercase for single lowercase letter repeated' {
+    It "Detects 'tttt' as lowercase" {
         'tttt' | Get-StringCasingStyle | Should -Be 'lowercase'
     }
 
-    It 'Detects camelCase for short string' {
+    It "Detects 'tT' as camelCase" {
         'tT' | Get-StringCasingStyle | Should -Be 'camelCase'
     }
 
-    It 'Detects kebab-case for short string' {
+    It "Detects 't-t' as kebab-case" {
         't-t' | Get-StringCasingStyle | Should -Be 'kebab-case'
     }
 
-    It 'Detects UPPER-KEBAB-CASE for short string' {
+    It "Detects 'T-T' as UPPER-KEBAB-CASE" {
         'T-T' | Get-StringCasingStyle | Should -Be 'UPPER-KEBAB-CASE'
     }
 
-    It 'Detects snake_case for short string' {
+    It "Detects 't_t' as snake_case" {
         't_t' | Get-StringCasingStyle | Should -Be 'snake_case'
     }
 }
