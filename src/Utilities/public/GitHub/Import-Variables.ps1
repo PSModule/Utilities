@@ -1,4 +1,4 @@
-﻿filter Import-Variables {
+﻿filter Import-Variable {
     <#
         .SYNOPSIS
         Import variables from a JSON file into the current session
@@ -10,6 +10,7 @@
         Import-Variables -Path 'C:\path\to\variables.json'
     #>
     [OutputType([void])]
+    [Alias('Import-Variables')]
     [CmdletBinding()]
     param (
         # Path to the JSON file containing the variables

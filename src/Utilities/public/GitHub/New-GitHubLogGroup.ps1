@@ -9,6 +9,14 @@
         .EXAMPLE
         New-GitHubLogGroup -Title 'My log group'
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSAvoidUsingWriteHost', '',
+        Justification = 'GitHub Actions functions uses stdout as control mechanism.'
+    )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions', '',
+        Justification = 'GitHub Actions functions uses stdout as control mechanism.'
+    )]
     [OutputType([void])]
     [CmdletBinding()]
     param (
