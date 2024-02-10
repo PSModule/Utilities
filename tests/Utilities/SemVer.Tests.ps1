@@ -35,7 +35,7 @@ Describe 'ConvertTo-SemVer' {
         $semver.Patch | Should -Be 3
     }
     It "Converts '1.2.3-alpha.1+1' to SemVer using parameters." {
-        $semver = ConvertTo-SemVer -Version '1.2.3-alpha'
+        $semver = ConvertTo-SemVer -Version '1.2.3-alpha.1+1'
         $semver.Major | Should -Be 1
         $semver.Minor | Should -Be 2
         $semver.Patch | Should -Be 3
