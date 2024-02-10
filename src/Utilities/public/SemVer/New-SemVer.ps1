@@ -19,8 +19,7 @@
         Compatible with [SemVer 2.0.0](https://semver.org/).
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-        'PSUseShouldProcessForStateChangingFunctions',
-        $null,
+        'PSUseShouldProcessForStateChangingFunctions', '',
         Justification = 'Does not change system state, but creates a new object.'
     )]
     [CmdletBinding()]

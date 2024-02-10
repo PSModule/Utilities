@@ -19,8 +19,7 @@
         Compatible with [SemVer 2.0.0](https://semver.org/).
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-        'PSAvoidLongLines',
-        $null,
+        'PSAvoidLongLines', '',
         Justification = 'Long regex pattern'
     )]
     [CmdletBinding()]
