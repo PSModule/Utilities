@@ -11,9 +11,9 @@
 
         True
     #>
-    [alias('IsNullOrEmpty')]
     [OutputType([bool])]
     [Cmdletbinding()]
+    [Alias('IsNullOrEmpty')]
     param(
         # The object to test
         [Parameter(
