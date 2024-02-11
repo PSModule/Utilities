@@ -30,8 +30,13 @@
             ValueFromPipeline,
             ValueFromPipelineByPropertyName)
         ]
+        [AllowNull()]
         [string] $Version
     )
+
+    if ($null -eq $Version) {
+        return New-SemVer
+    }
 
     $semVerPattern = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
 
@@ -44,7 +49,6 @@
             BuildMetadata = $Matches[5]
         }
     } else {
-        Write-Verbose 'Invalid semver version format'
-        return $null
+        throw 'Invalid semver format.'
     }
 }

@@ -42,4 +42,8 @@ Describe 'ConvertTo-SemVer' {
         $semver.Prerelease | Should -Be 'alpha.1'
         $semver.BuildMetadata | Should -Be '1'
     }
+    It "Converts $null to '0.0.0'." {
+        $semver = $null | ConvertTo-SemVer
+        $semver | Should -Be $null
+    }
 }
