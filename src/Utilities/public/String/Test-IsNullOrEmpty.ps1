@@ -24,8 +24,6 @@
         [object] $Object
     )
 
-    Write-Verbose "Object is: $($Object.GetType().Name)"
-
     try {
         if (-not ($PSBoundParameters.ContainsKey('Object'))) {
             Write-Verbose 'Object was never passed, meaning its empty or null.'
@@ -35,6 +33,7 @@
             Write-Verbose 'Object is null'
             return $true
         }
+        Write-Verbose "Object is: $($Object.GetType().Name)"
         if ($Object -eq 0) {
             Write-Verbose 'Object is 0'
             return $true
