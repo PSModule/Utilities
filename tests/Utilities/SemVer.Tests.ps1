@@ -1,15 +1,11 @@
 ﻿Describe 'New-SemVer' {
-    It "Setting Major to 1" {
+    It "Setting Major to 1, Minor to 2, and Patch to 3. Returns a '1.2.3' version." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Major | Should -Be 1
-    }
-    It "Setting Minor to 2" {
-        $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Minor | Should -Be 2
-    }
-    It "Setting Patch to 3" {
-        $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Patch | Should -Be 3
+        $semver.Prerelease | Should -BeNullOrEmpty
+        $semver.BuildMetadata | Should -BeNullOrEmpty
     }
     It "Setting Prerelease to 'alpha'" {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha'
@@ -19,16 +15,8 @@
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Build '654646554'
         $semver.BuildMetadata | Should -Be '654646554'
     }
-    It "Passing 'null' returns a '0.0.0' version." {
+    It "With no parameters it returns a '0.0.0' version." {
         $semver = New-SemVer
-        $semver.Major | Should -Be 0
-        $semver.Minor | Should -Be 0
-        $semver.Patch | Should -Be 0
-        $semver.Prerelease | Should -BeNullOrEmpty
-        $semver.BuildMetadata | Should -BeNullOrEmpty
-    }
-    It "Passing '' returns a '0.0.0' version." {
-        $semver = '' | New-SemVer
         $semver.Major | Should -Be 0
         $semver.Minor | Should -Be 0
         $semver.Patch | Should -Be 0
