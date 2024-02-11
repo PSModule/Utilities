@@ -42,8 +42,20 @@ Describe 'ConvertTo-SemVer' {
         $semver.Prerelease | Should -Be 'alpha.1'
         $semver.BuildMetadata | Should -Be '1'
     }
-    It "Converts $null to '0.0.0'." {
+    It "Converts null to '0.0.0'." {
         $semver = $null | ConvertTo-SemVer
-        $semver | Should -Be $null
+        $semver.Major | Should -Be 0
+        $semver.Minor | Should -Be 0
+        $semver.Patch | Should -Be 0
+        $semver.Prerelease | Should -BeNullOrEmpty
+        $semver.BuildMetadata | Should -BeNullOrEmpty
+    }
+    It "Converts '' to '0.0.0'." {
+        $semver = '' | ConvertTo-SemVer
+        $semver.Major | Should -Be 0
+        $semver.Minor | Should -Be 0
+        $semver.Patch | Should -Be 0
+        $semver.Prerelease | Should -BeNullOrEmpty
+        $semver.BuildMetadata | Should -BeNullOrEmpty
     }
 }
