@@ -21,6 +21,7 @@
             ValueFromPipeline,
             ValueFromPipelineByPropertyName
         )]
+        [AllowNull()]
         [object] $Object
     )
 
