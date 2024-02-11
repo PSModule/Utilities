@@ -34,15 +34,19 @@
             Write-Verbose 'Object is 0'
             return $true
         }
+        if ($Object.Length -eq 0) {
+            Write-Verbose 'Object is empty array or string'
+            return $true
+        }
         if ($Object.GetType() -eq [string]) {
-            if ([String]::IsNullOrWhiteSpace($Object)) {
+            if ([string]::IsNullOrWhiteSpace($Object)) {
                 Write-Verbose 'Object is empty string'
                 return $true
             } else {
                 return $false
             }
         }
-        if ($Object.count -eq 0) {
+        if ($Object.Count -eq 0) {
             Write-Verbose 'Object count is 0'
             return $true
         }
@@ -50,18 +54,16 @@
             Write-Verbose 'Object evaluates to false'
             return $true
         }
-
         if (($Object.GetType().Name -ne 'pscustomobject') -or $Object.GetType() -ne [pscustomobject]) {
             Write-Verbose 'Casting object to PSCustomObject'
             $Object = [pscustomobject]$Object
         }
-
         if (($Object.GetType().Name -eq 'pscustomobject') -or $Object.GetType() -eq [pscustomobject]) {
             if ($Object -eq (New-Object -TypeName pscustomobject)) {
                 Write-Verbose 'Object is similar to empty PSCustomObject'
                 return $true
             }
-            if ($Object.psobject.Properties | IsNullOrEmpty) {
+            if ($Object.psobject.Properties | Test-IsNullOrEmpty) {
                 Write-Verbose 'Object has no properties'
                 return $true
             }
