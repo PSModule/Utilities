@@ -1,4 +1,1 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidLongLines', '', Justification = 'Contains long links.')]
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseToExportFieldsInManifest', '', Justification = 'Make code more readable.')]
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', '', Justification = 'Make code more readable.')]
-
