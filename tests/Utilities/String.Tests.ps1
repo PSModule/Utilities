@@ -29,7 +29,7 @@ Test
         (@('') | IsNullOrEmpty -Verbose) | Should -BeTrue
     }
     It 'Returns true for empty array' {
-        (@() | IsNullOrEmpty -Verbose) | Should -BeTrue
+        (IsNullOrEmpty -Object @() -Verbose) | Should -BeTrue
     }
     It 'Returns false for non-empty array' {
         (@('test') | IsNullOrEmpty -Verbose) | Should -BeFalse
