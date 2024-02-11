@@ -1,13 +1,13 @@
 ﻿Describe 'New-SemVer' {
-    It "Setting Major to 1" {
+    It 'Setting Major to 1' {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Major | Should -Be 1
     }
-    It "Setting Minor to 2" {
+    It 'Setting Minor to 2' {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Minor | Should -Be 2
     }
-    It "Setting Patch to 3" {
+    It 'Setting Patch to 3' {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Patch | Should -Be 3
     }
@@ -44,18 +44,10 @@ Describe 'ConvertTo-SemVer' {
     }
     It "Converts null to '0.0.0'." {
         $semver = $null | ConvertTo-SemVer
-        $semver.Major | Should -Be 0
-        $semver.Minor | Should -Be 0
-        $semver.Patch | Should -Be 0
-        $semver.Prerelease | Should -BeNullOrEmpty
-        $semver.BuildMetadata | Should -BeNullOrEmpty
+        $semver | Should -Be @{Major = 0; Minor = 0; Patch = 0; Prerelease = ''; BuildMetadata = '' }
     }
     It "Converts '' to '0.0.0'." {
         $semver = '' | ConvertTo-SemVer
-        $semver.Major | Should -Be 0
-        $semver.Minor | Should -Be 0
-        $semver.Patch | Should -Be 0
-        $semver.Prerelease | Should -BeNullOrEmpty
-        $semver.BuildMetadata | Should -BeNullOrEmpty
+        $semver | Should -Be @{Major = 0; Minor = 0; Patch = 0; Prerelease = ''; BuildMetadata = '' }
     }
 }
