@@ -15,9 +15,25 @@
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha'
         $semver.Prerelease | Should -Be 'alpha'
     }
-    It "Setting Build to 'build'" {
+    It "Setting BuildMetadata to '654646554'" {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Build '654646554'
         $semver.BuildMetadata | Should -Be '654646554'
+    }
+    It "Passing 'null' returns a '0.0.0' version." {
+        $semver = New-SemVer
+        $semver.Major | Should -Be 0
+        $semver.Minor | Should -Be 0
+        $semver.Patch | Should -Be 0
+        $semver.Prerelease | Should -BeNullOrEmpty
+        $semver.BuildMetadata | Should -BeNullOrEmpty
+    }
+    It "Passing '' returns a '0.0.0' version." {
+        $semver = '' | New-SemVer
+        $semver.Major | Should -Be 0
+        $semver.Minor | Should -Be 0
+        $semver.Patch | Should -Be 0
+        $semver.Prerelease | Should -BeNullOrEmpty
+        $semver.BuildMetadata | Should -BeNullOrEmpty
     }
 }
 
