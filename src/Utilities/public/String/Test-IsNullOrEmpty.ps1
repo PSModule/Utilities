@@ -17,7 +17,6 @@
     param(
         # The object to test
         [Parameter(
-            Mandatory,
             ValueFromPipeline,
             ValueFromPipelineByPropertyName
         )]
@@ -25,7 +24,13 @@
         [object] $Object
     )
 
+    Write-Verbose "Object is: $($Object.GetType().Name)"
+
     try {
+        if (-not ($PSBoundParameters.ContainsKey('Object'))) {
+            Write-Verbose 'Object was never passed, meaning its empty or null.'
+            return $true
+        }
         if ($null -eq $Object) {
             Write-Verbose 'Object is null'
             return $true
@@ -43,6 +48,7 @@
                 Write-Verbose 'Object is empty string'
                 return $true
             } else {
+                Write-Verbose 'Object is not an empty string'
                 return $false
             }
         }
@@ -54,16 +60,17 @@
             Write-Verbose 'Object evaluates to false'
             return $true
         }
-        if (($Object.GetType().Name -ne 'pscustomobject') -or $Object.GetType() -ne [pscustomobject]) {
+        if (($Object.GetType().Name -ne 'PSCustomObject')) {
             Write-Verbose 'Casting object to PSCustomObject'
-            $Object = [pscustomobject]$Object
+            $Object = [PSCustomObject]$Object
         }
-        if (($Object.GetType().Name -eq 'pscustomobject') -or $Object.GetType() -eq [pscustomobject]) {
-            if ($Object -eq (New-Object -TypeName pscustomobject)) {
+        if (($Object.GetType().Name -eq 'PSCustomObject')) {
+            Write-Verbose 'Object is PSCustomObject'
+            if ($Object -eq (New-Object -TypeName PSCustomObject)) {
                 Write-Verbose 'Object is similar to empty PSCustomObject'
                 return $true
             }
-            if ($Object.psobject.Properties | Test-IsNullOrEmpty) {
+            if (($Object.psobject.Properties).Count | Test-IsNullOrEmpty) {
                 Write-Verbose 'Object has no properties'
                 return $true
             }
@@ -73,5 +80,6 @@
         return $true
     }
 
+    Write-Verbose 'Object is not null or empty'
     return $false
 }

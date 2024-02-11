@@ -25,6 +25,9 @@
 Test
 '@ | IsNullOrEmpty -Verbose) | Should -BeFalse
     }
+    It 'Returns true for empty string in an array' {
+        (@('') | IsNullOrEmpty -Verbose) | Should -BeTrue
+    }
     It 'Returns true for empty array' {
         (@() | IsNullOrEmpty -Verbose) | Should -BeTrue
     }
