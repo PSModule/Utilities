@@ -1,4 +1,4 @@
-﻿Descripbe 'IsNullOrEmpty' {
+﻿Describe 'IsNullOrEmpty' {
     It 'Returns true for $null' {
         ($null | IsNullOrEmpty -Verbose) | Should -BeTrue
     }
