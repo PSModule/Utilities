@@ -31,10 +31,11 @@
             ValueFromPipelineByPropertyName)
         ]
         [AllowNull()]
+        [AllowEmptyString()]
         [string] $Version
     )
 
-    if ($null -eq $Version) {
+    if ($Version | IsNullOrEmpty) {
         return New-SemVer
     }
 
