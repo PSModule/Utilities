@@ -1,4 +1,5 @@
 @{
+    RootModule    = 'Utilities.psm1'
     ModuleVersion = '0.0.1'
     Description   = 'PowerShell Module of Utilities'
     PrivateData   = @{
