@@ -20,5 +20,5 @@
     )]
     param ()
 
-    Stop-LogGroup
+    Write-Host "##[endgroup]"
 }
