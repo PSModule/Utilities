@@ -1,4 +1,6 @@
-﻿Describe 'New-SemVer' {
+﻿using module Utilities
+
+Describe 'New-SemVer' {
     It "Setting Major to 1, Minor to 2, and Patch to 3. Returns a '1.2.3' version." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
         $semver.Major | Should -Be 1
