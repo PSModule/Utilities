@@ -33,11 +33,13 @@
     param (
         # Main hashtable
         [Parameter(Mandatory)]
-        [hashtable] $Main,
+        [object] $Main,
 
-        # Hashtable with overrides
+        # Hashtable with overrides.
+        # Providing a list of overrides will apply them in order.
+        # Last write wins.
         [Parameter(Mandatory)]
-        [hashtable[]] $Overrides
+        [object[]] $Overrides
     )
     $Output = $Main.Clone()
     foreach ($Override in $Overrides) {
