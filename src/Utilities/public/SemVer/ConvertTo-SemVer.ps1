@@ -18,10 +18,7 @@
         .NOTES
         Compatible with [SemVer 2.0.0](https://semver.org/).
     #>
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-        'PSAvoidLongLines', '',
-        Justification = 'Long regex pattern'
-    )]
+    [OutputType([SemVer])]
     [CmdletBinding()]
     param (
         # The version to convert.
@@ -39,17 +36,10 @@
         return New-SemVer
     }
 
-    $semVerPattern = '(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-
-    if ($Version -match $semVerPattern) {
-        [PSCustomObject]@{
-            Major         = [int]$Matches[1]
-            Minor         = [int]$Matches[2]
-            Patch         = [int]$Matches[3]
-            Prerelease    = $Matches[4]
-            BuildMetadata = $Matches[5]
-        }
-    } else {
-        throw 'Invalid semver format.'
+    try {
+        $semver = [SemVer]::new($Version)
+        return $semver
+    } catch {
+        throw "Failed to convert '$Version' to SemVer."
     }
 }

@@ -1,4 +1,4 @@
-﻿Function New-SemVer {
+﻿function New-SemVer {
     <#
         .SYNOPSIS
         Creates a new SemVer object.
@@ -22,6 +22,7 @@
         'PSUseShouldProcessForStateChangingFunctions', '',
         Justification = 'Does not change system state, but creates a new object.'
     )]
+    [OutputType([SemVer])]
     [CmdletBinding()]
     param (
         # The major version.
@@ -38,19 +39,15 @@
 
         # The prerelease version.
         [Parameter()]
+        [Alias('PreReleaseLabel')]
         [string] $Prerelease = '',
 
         # The build metadata.
         [Parameter()]
+        [Alias('Build', 'BuildLabel')]
         [string] $BuildMetadata = ''
     )
     process {
-        [PSCustomObject]@{
-            Major         = $Major
-            Minor         = $Minor
-            Patch         = $Patch
-            Prerelease    = $Prerelease
-            BuildMetadata = $BuildMetadata
-        }
+        [SemVer]::New($Major, $Minor, $Patch, $Prerelease, $BuildMetadata)
     }
 }
