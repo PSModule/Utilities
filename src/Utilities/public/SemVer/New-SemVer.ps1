@@ -22,7 +22,7 @@
         'PSUseShouldProcessForStateChangingFunctions', '',
         Justification = 'Does not change system state, but creates a new object.'
     )]
-    [OutputType([SemVer])]
+    [OutputType([PSSemVer])]
     [CmdletBinding()]
     param (
         # The major version.
@@ -48,6 +48,6 @@
         [string] $BuildMetadata = ''
     )
     process {
-        [SemVer]::New($Major, $Minor, $Patch, $Prerelease, $BuildMetadata)
+        [PSSemVer]::New($Major, $Minor, $Patch, $Prerelease, $BuildMetadata)
     }
 }

@@ -1,4 +1,4 @@
-﻿class SemVer : System.Object, System.IComparable, System.IEquatable[Object] {
+﻿class PSSemVer : System.Object, System.IComparable, System.IEquatable[Object] {
     hidden static [string] $semVerPattern = '(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
     '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?' +
     '(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
@@ -78,18 +78,6 @@
         $this.Patch = $version.Build
         $this.Prerelease = ''
         $this.BuildMetadata = ''
-    }
-
-    [string] ToString() {
-        $output = "$($this.Major).$($this.Minor).$($this.Patch)"
-
-        if (-not [string]::IsNullOrEmpty($this.Prerelease)) {
-            $output += "-$($this.Prerelease)"
-        }
-        if (-not [string]::IsNullOrEmpty($this.BuildMetadata)) {
-            $output += "+$($this.BuildMetadata)"
-        }
-        return $output
     }
 
     [void] BumpMajor() {
@@ -176,5 +164,17 @@
             return $false
         }
         return $true
+    }
+
+    [string] ToString() {
+        [string]$output = "$($this.Major).$($this.Minor).$($this.Patch)"
+
+        if (-not [string]::IsNullOrEmpty($this.Prerelease)) {
+            $output += "-$($this.Prerelease)"
+        }
+        if (-not [string]::IsNullOrEmpty($this.BuildMetadata)) {
+            $output += "+$($this.BuildMetadata)"
+        }
+        return $output
     }
 }

@@ -18,7 +18,7 @@
         .NOTES
         Compatible with [SemVer 2.0.0](https://semver.org/).
     #>
-    [OutputType([SemVer])]
+    [OutputType([PSSemVer])]
     [CmdletBinding()]
     param (
         # The version to convert.
@@ -37,7 +37,7 @@
     }
 
     try {
-        $semver = [SemVer]::new($Version)
+        $semver = [PSSemVer]::new($Version)
         return $semver
     } catch {
         throw "Failed to convert '$Version' to SemVer."

@@ -67,34 +67,41 @@ Describe 'ConvertTo-SemVer' {
 Describe 'Class: ToString()' {
     It "Returns '1.2.3'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3
+        Write-Verbose ($semver.ToString()) -Verbose
         $semver.ToString() | Should -Be '1.2.3'
     }
     It "Returns '1.2.3-alpha.1+001'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -Build '001'
+        Write-Verbose ($semver.ToString())
         $semver.ToString() | Should -Be '1.2.3-alpha.1+001'
     }
     It "Returns '1.2.3-alpha.1'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1'
+        Write-Verbose ($semver.ToString())
         $semver.ToString() | Should -Be '1.2.3-alpha.1'
     }
     It "Returns '1.2.3+001'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Build '001'
+        Write-Verbose ($semver.ToString())
         $semver.ToString() | Should -Be '1.2.3+001'
     }
     It "Returns '1.2.3-alpha.1'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -Build '001'
         $semver.SetBuildLabel('')
+        Write-Verbose ($semver.ToString())
         $semver.ToString() | Should -Be '1.2.3-alpha.1'
     }
     It "Returns '1.2.3+001'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -Build '001'
         $semver.SetPreReleaseLabel('')
+        Write-Verbose ($semver.ToString())
         $semver.ToString() | Should -Be '1.2.3+001'
     }
     It "Returns '1.2.3'." {
         $semver = New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -Build '001'
         $semver.SetPreReleaseLabel('')
         $semver.SetBuildLabel('')
+        Write-Verbose ($semver.ToString())
         $semver.ToString() | Should -Be '1.2.3'
     }
 }
@@ -164,14 +171,14 @@ Describe 'Class: Set prerelease and metadata' {
 
 Describe 'Class: Parse' {
     It "Parses '1.2.3' to SemVer." {
-        $semver = [SemVer]::Parse('1.2.3')
+        $semver = [PSSemVer]::Parse('1.2.3')
         $semver.Major | Should -Be 1
         $semver.Minor | Should -Be 2
         $semver.Patch | Should -Be 3
     }
 
     It "Parses '1.2.3-alpha.1+001' to SemVer." {
-        $semver = [SemVer]::Parse('1.2.3-alpha.1+001')
+        $semver = [PSSemVer]::Parse('1.2.3-alpha.1+001')
         $semver.Major | Should -Be 1
         $semver.Minor | Should -Be 2
         $semver.Patch | Should -Be 3
@@ -180,7 +187,7 @@ Describe 'Class: Parse' {
     }
 
     It "Parses '1.2.3-alpha.1+001' to SemVer." {
-        $semver = [SemVer]::Parse('1.2.3-alpha.1+001')
+        $semver = [PSSemVer]::Parse('1.2.3-alpha.1+001')
         $semver.Major | Should -Be 1
         $semver.Minor | Should -Be 2
         $semver.Patch | Should -Be 3
@@ -189,46 +196,46 @@ Describe 'Class: Parse' {
     }
 
     It "Compares '1.2.3' to '1.2.3'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.3')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.3')
         $semver1.CompareTo($semver2) | Should -Be 0
     }
 }
 
 Describe "Class: Comparison" {
     It "Compares '1.2.3' as less than '1.2.4'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.4')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.4')
         $semver1 -lt $semver2 | Should -BeTrue
     }
     It "Compares '1.2.3' as greater than '1.2.2'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.2')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.2')
         $semver1 -gt $semver2 | Should -BeTrue
     }
     It "Compares '1.2.3' as equal to '1.2.3'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.3')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.3')
         $semver1 -eq $semver2 | Should -BeTrue
     }
     It "Compares '1.2.3' as not equal to '1.2.4'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.4')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.4')
         $semver1 -ne $semver2 | Should -BeTrue
     }
     It "Compares '1.2.3' as less than or equal to '1.2.3'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.3')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.3')
         $semver1 -le $semver2 | Should -BeTrue
     }
     It "Compares '1.2.3' as greater than or equal to '1.2.3'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.3')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.3')
         $semver1 -ge $semver2 | Should -BeTrue
     }
     It "Compares '1.2.3' as less than or equal to '1.2.4'." {
-        $semver1 = [SemVer]::Parse('1.2.3')
-        $semver2 = [SemVer]::Parse('1.2.4')
+        $semver1 = [PSSemVer]::Parse('1.2.3')
+        $semver2 = [PSSemVer]::Parse('1.2.4')
         $semver1 -le $semver2 | Should -BeTrue
     }
 }
