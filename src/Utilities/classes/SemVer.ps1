@@ -65,6 +65,60 @@
         $this.BuildMetadata = $BuildLabel
     }
 
+    SemVer([string]$Prefix) {
+        $this.Prefix = $Prefix
+        $this.Major = 0
+        $this.Minor = 0
+        $this.Patch = 0
+        $this.Prerelease = ''
+        $this.BuildMetadata = ''
+    }
+
+    SemVer([string]$Prefix, [int]$Major) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = 0
+        $this.Patch = 0
+        $this.Prerelease = ''
+        $this.BuildMetadata = ''
+    }
+
+    SemVer([string]$Prefix, [int]$Major, [int]$Minor) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = 0
+        $this.Prerelease = ''
+        $this.BuildMetadata = ''
+    }
+
+    SemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = ''
+        $this.BuildMetadata = ''
+    }
+
+    SemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = $PreReleaseLabel
+        $this.BuildMetadata = ''
+    }
+
+    SemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = $PreReleaseLabel
+        $this.BuildMetadata = $BuildLabel
+    }
+
     SemVer([string]$version) {
         if ($version -match [SemVer]::SemVerPattern) {
             $this.Major = [int]$Matches[1]
@@ -243,7 +297,7 @@
     }
 
     [string] ToString() {
-        [string]$output = "$($this.Major).$($this.Minor).$($this.Patch)"
+        [string]$output = "$($this.Prefix)$($this.Major).$($this.Minor).$($this.Patch)"
 
         if (-not [string]::IsNullOrEmpty($this.Prerelease)) {
             $output += "-$($this.Prerelease)"
