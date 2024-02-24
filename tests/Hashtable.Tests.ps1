@@ -1,11 +1,11 @@
 ﻿Describe 'Merge-Hashtable' {
     It 'Merges two hashtable' {
-        $Main = [ordered]@{
+        $Main = @{
             Action   = ''
             Location = 'Main'
             Mode     = 'Main'
         }
-        $Override = [ordered]@{
+        $Override = @{
             Action   = ''
             Location = ''
             Mode     = 'Override'
