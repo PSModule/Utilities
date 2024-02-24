@@ -20,5 +20,11 @@
     )]
     param ()
 
-    Write-Host "##[endgroup]"
+    if ($env:GITHUB_ACTIONS) {
+        Write-Host "::endgroup::$Name"
+    } elseif ( $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI ) {
+        Write-Host "##[endgroup]$Name"
+    } else {
+        Write-Host "-------- $Name --------"
+    }
 }

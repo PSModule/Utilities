@@ -24,5 +24,11 @@
         [string] $Name
     )
 
-    Write-Host "##[group]$Name"
+    if ($env:GITHUB_ACTIONS) {
+        Write-Host "::group::$Name"
+    } elseif ( $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI ) {
+        Write-Host "##[group]$Name"
+    } else {
+        Write-Host "-------- $Name --------"
+    }
 }
