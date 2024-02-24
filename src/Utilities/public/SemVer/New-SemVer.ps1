@@ -1,13 +1,13 @@
-﻿function New-SemVer {
+﻿function New-PSSemVer {
     <#
         .SYNOPSIS
-        Creates a new SemVer object.
+        Creates a new PSSemVer object.
 
         .DESCRIPTION
-        This function creates a new SemVer object.
+        This function creates a new PSSemVer object.
 
         .EXAMPLE
-        New-SemVer -Version '1.2.3-alpha.1+001'
+        New-PSSemVer -Version '1.2.3-alpha.1+001'
 
         Major         : 1
         Minor         : 2
@@ -16,7 +16,7 @@
         BuildMetadata : 001
 
         .EXAMPLE
-        New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -BuildMetadata '001'
+        New-PSSemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -BuildMetadata '001'
 
         Major         : 1
         Minor         : 2
@@ -25,13 +25,13 @@
         BuildMetadata : 001
 
         .NOTES
-        Compatible with [SemVer 2.0.0](https://semver.org/).
+        Compatible with [PSSemVer 2.0.0](https://PSSemVer.org/).
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
         'PSUseShouldProcessForStateChangingFunctions', '',
         Justification = 'Does not change system state, but creates a new object.'
     )]
-    [OutputType([SemVer])]
+    [OutputType([PSSemVer])]
     [CmdletBinding(DefaultParameterSetName = 'String')]
     param (
         # The major version.
@@ -63,10 +63,10 @@
 
     switch ($PSCmdlet.ParameterSetName) {
         'String' {
-            return [SemVer]::New($Version)
+            return [PSSemVer]::New($Version)
         }
         'Values' {
-            return [SemVer]::New($Major, $Minor, $Patch, $Prerelease, $BuildMetadata)
+            return [PSSemVer]::New($Major, $Minor, $Patch, $Prerelease, $BuildMetadata)
         }
     }
 }

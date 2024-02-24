@@ -1,7 +1,7 @@
-﻿class SemVer : System.Object, System.IComparable, System.IEquatable[Object] {
-    hidden static [string] $semVerPattern = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)' +
+﻿class PSSemVer : System.Object, System.IComparable, System.IEquatable[Object] {
+    hidden static [string] $PSSemVerPattern = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)' +
     '(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-    hidden static [string] $looseSemVerPattern = '^([0-9a-zA-Z-]+-?)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
+    hidden static [string] $loosePSSemVerPattern = '^([0-9a-zA-Z-]+-?)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
     '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
 
     [string] $Prefix
@@ -11,7 +11,7 @@
     [string] $Prerelease
     [string] $BuildMetadata
 
-    SemVer() {
+    PSSemVer() {
         $this.Prefix = ''
         $this.Major = 0
         $this.Minor = 0
@@ -20,7 +20,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major) {
+    PSSemVer([int]$Major) {
         $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = 0
@@ -29,7 +29,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor) {
+    PSSemVer([int]$Major, [int]$Minor) {
         $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
@@ -38,7 +38,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor, [int]$Patch) {
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch) {
         $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
@@ -47,7 +47,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
         $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
@@ -56,7 +56,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
         $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
@@ -65,7 +65,7 @@
         $this.BuildMetadata = $BuildLabel
     }
 
-    SemVer([string]$Prefix) {
+    PSSemVer([string]$Prefix) {
         $this.Prefix = $Prefix
         $this.Major = 0
         $this.Minor = 0
@@ -74,7 +74,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([string]$Prefix, [int]$Major) {
+    PSSemVer([string]$Prefix, [int]$Major) {
         $this.Prefix = $Prefix
         $this.Major = $Major
         $this.Minor = 0
@@ -83,7 +83,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([string]$Prefix, [int]$Major, [int]$Minor) {
+    PSSemVer([string]$Prefix, [int]$Major, [int]$Minor) {
         $this.Prefix = $Prefix
         $this.Major = $Major
         $this.Minor = $Minor
@@ -92,7 +92,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch) {
+    PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch) {
         $this.Prefix = $Prefix
         $this.Major = $Major
         $this.Minor = $Minor
@@ -101,7 +101,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
+    PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
         $this.Prefix = $Prefix
         $this.Major = $Major
         $this.Minor = $Minor
@@ -110,7 +110,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
+    PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
         $this.Prefix = $Prefix
         $this.Major = $Major
         $this.Minor = $Minor
@@ -119,14 +119,14 @@
         $this.BuildMetadata = $BuildLabel
     }
 
-    SemVer([string]$version) {
-        if ($version -match [SemVer]::SemVerPattern) {
+    PSSemVer([string]$version) {
+        if ($version -match [PSSemVer]::PSSemVerPattern) {
             $this.Major = [int]$Matches[1]
             $this.Minor = [int]$Matches[2]
             $this.Patch = [int]$Matches[3]
             $this.Prerelease = $Matches[4]
             $this.BuildMetadata = $Matches[5]
-        } elseif ($version -match [SemVer]::LooseSemVerPattern) {
+        } elseif ($version -match [PSSemVer]::LoosePSSemVerPattern) {
             $this.Prefix = $Matches[1]
             $this.Major = [int]$Matches[2]
             $this.Minor = [int]$Matches[3]
@@ -134,7 +134,7 @@
             $this.Prerelease = $Matches[5]
             $this.BuildMetadata = $Matches[6]
         } else {
-            # Coerce the string to a SemVer object
+            # Coerce the string to a PSSemVer object
             $sections = $version -split '[-+]', 3
             $this.Major, $this.Minor, $this.Patch = $sections[0] -split '\.', 3
             $this.Prerelease = $sections[1]
@@ -142,7 +142,7 @@
         }
     }
 
-    SemVer([version]$version) {
+    PSSemVer([version]$version) {
         $this.Prefix = ''
         $this.Major = $version.Major
         $this.Minor = $version.Minor
@@ -186,13 +186,13 @@
         $this.BuildMetadata = $label
     }
 
-    static [SemVer] Parse([string]$string) {
-        return [SemVer]::new($string)
+    static [PSSemVer] Parse([string]$string) {
+        return [PSSemVer]::new($string)
     }
 
     [int] CompareTo([Object]$other) {
-        if (-not $other -is [SemVer]) {
-            throw [ArgumentException]::new('The argument must be of type SemVer')
+        if (-not $other -is [PSSemVer]) {
+            throw [ArgumentException]::new('The argument must be of type PSSemVer')
         }
         if ($this.Major -lt $other.Major) {
             Write-Verbose "$($this.Major) < $($other.Major)"
@@ -275,7 +275,7 @@
     }
 
     [bool] Equals([Object]$other) {
-        if (-not $other -is [SemVer]) {
+        if (-not $other -is [PSSemVer]) {
             return $false
         }
         if ($this.Major -ne $other.Major) {
