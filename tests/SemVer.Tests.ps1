@@ -23,6 +23,14 @@
         $semver.Prerelease | Should -BeNullOrEmpty
         $semver.BuildMetadata | Should -BeNullOrEmpty
     }
+    It "Takes a string '1.2.3' and returns a '1.2.3' version." {
+        $semver = New-SemVer -Version '1.2.3'
+        $semver.Major | Should -Be 1
+        $semver.Minor | Should -Be 2
+        $semver.Patch | Should -Be 3
+        $semver.Prerelease | Should -BeNullOrEmpty
+        $semver.BuildMetadata | Should -BeNullOrEmpty
+    }
 }
 
 Describe 'ConvertTo-SemVer' {
