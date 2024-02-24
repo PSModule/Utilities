@@ -11,7 +11,11 @@
     #>
     [OutputType([void])]
     [Alias('Set-GitHubEnv')]
-    [CmdletBinding(SupportsShouldProcess)]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions', '', Scope = 'Function',
+        Justification = 'Does not change system state significantly'
+    )]
+    [CmdletBinding()]
     param (
         # Name of the variable
         [Parameter(Mandatory)]
@@ -21,8 +25,6 @@
         [Parameter(Mandatory)]
         [string] $Value
     )
-    Write-Verbose (@{ $Name = $Value } | Format-Table -HideTableHeaders -Wrap -AutoSize | Out-String) -Verbose
-    if ($PSCmdlet.ShouldProcess("GitHub variable [$Name]=[$Value]", "Set")) {
-        Write-Output "$Name=$Value" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
-    }
+    Write-Verbose (@{ $Name = $Value } | Format-Table -Wrap -AutoSize | Out-String)
+    Write-Output "$Name=$Value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 }
