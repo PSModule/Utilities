@@ -186,79 +186,53 @@
             throw [ArgumentException]::new('The argument must be of type PSSemVer')
         }
         if ($this.Major -lt $other.Major) {
-            Write-Verbose "$($this.Major) < $($other.Major)"
             return -1
         }
         if ($this.Major -gt $other.Major) {
-            Write-Verbose "$($this.Major) > $($other.Major)"
             return 1
         }
         if ($this.Minor -lt $other.Minor) {
-            Write-Verbose "$($this.Minor) < $($other.Minor)"
             return -1
         }
         if ($this.Minor -gt $other.Minor) {
-            Write-Verbose "$($this.Minor) > $($other.Minor)"
             return 1
         }
         if ($this.Patch -lt $other.Patch) {
-            Write-Verbose "$($this.Patch) < $($other.Patch)"
             return -1
         }
         if ($this.Patch -gt $other.Patch) {
-            Write-Verbose "$($this.Patch) > $($other.Patch)"
             return 1
         }
         if ([string]::IsNullOrEmpty($this.Prerelease) -and [string]::IsNullOrEmpty($other.Prerelease)) {
-            Write-Verbose 'Neither have prerelease labels' -Verbose
             return 0
         }
         if ([string]::IsNullOrEmpty($this.Prerelease)) {
-            Write-Verbose 'No prerelease label' -Verbose
-            Write-Verbose "'' > $($other.Prerelease)" -Verbose
             return 1
         }
         if ([string]::IsNullOrEmpty($other.Prerelease)) {
-            Write-Verbose 'No prerelease label' -Verbose
-            Write-Verbose "$($this.Prerelease) < ''" -Verbose
             return -1
         }
         $thisPrereleaseArray = $this.Prerelease -split '\.'
         $otherPrereleaseArray = $other.Prerelease -split '\.'
         for ($i = 0; $i -lt [Math]::Max($thisPrereleaseArray.Length, $otherPrereleaseArray.Length); $i++) {
             if ($i -ge $thisPrereleaseArray.Length) {
-                Write-Verbose 'end of prerelease array' -Verbose
-                Write-Verbose "$($this.Prerelease) < $($other.Prerelease)" -Verbose
                 return -1
             }
             if ($i -ge $otherPrereleaseArray.Length) {
-                Write-Verbose 'end of other prerelease array' -Verbose
-                Write-Verbose "$($this.Prerelease) > $($other.Prerelease)" -Verbose
                 return 1
             }
             if ($thisPrereleaseArray[$i] -eq $otherPrereleaseArray[$i]) {
-                Write-Verbose 'Same prerelease label' -Verbose
-                Write-Verbose "$($thisPrereleaseArray[$i]) = $($otherPrereleaseArray[$i])" -Verbose
                 continue
             }
             if ($thisPrereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
-                Write-Verbose 'Numeric prerelease label' -Verbose
-                Write-Verbose "$($thisPrereleaseArray[$i]) - $($otherPrereleaseArray[$i])" -Verbose
                 return [int]$thisPrereleaseArray[$i] - [int]$otherPrereleaseArray[$i]
             }
             if ($thisPrereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -notmatch '^\d+$') {
-                Write-Verbose 'Non-numeric prerelease label wins' -Verbose
-                Write-Verbose "$($thisPrereleaseArray[$i]) < $($otherPrereleaseArray[$i])" -Verbose
                 return -1
             }
             if ($thisPrereleaseArray[$i] -notmatch '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
-                Write-Verbose 'Non-numeric prerelease label wins' -Verbose
-                Write-Verbose "$($thisPrereleaseArray[$i]) > $($otherPrereleaseArray[$i])" -Verbose
                 return 1
             }
-            $comp = $thisPrereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
-            Write-Verbose 'String comparison' -Verbose
-            Write-Verbose "$($thisPrereleaseArray[$i]) Comp $($otherPrereleaseArray[$i]) = $comp" -Verbose
             return $thisPrereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
         }
 
