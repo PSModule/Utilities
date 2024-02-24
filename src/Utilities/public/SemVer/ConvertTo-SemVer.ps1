@@ -1,13 +1,13 @@
-﻿filter ConvertTo-PSSemVer {
+﻿filter ConvertTo-SemVer {
     <#
         .SYNOPSIS
-        Converts a version string to a PSSemVer object.
+        Converts a version string to a SemVer object.
 
         .DESCRIPTION
-        This function takes a version string and converts it to a PSSemVer object.
+        This function takes a version string and converts it to a SemVer object.
 
         .EXAMPLE
-        '1.2.3-alpha.1+001' | ConvertTo-PSSemVer
+        '1.2.3-alpha.1+001' | ConvertTo-SemVer
 
         Major         : 1
         Minor         : 2
@@ -16,9 +16,9 @@
         BuildMetadata : 001
 
         .NOTES
-        Compatible with [PSSemVer 2.0.0](https://PSSemVer.org/).
+        Compatible with [SemVer 2.0.0](https://SemVer.org/).
     #>
-    [OutputType([PSSemVer])]
+    [OutputType([SemVer])]
     [CmdletBinding()]
     param (
         # The version to convert.
@@ -33,13 +33,13 @@
     )
 
     if ($Version | IsNullOrEmpty) {
-        return New-PSSemVer
+        return New-SemVer
     }
 
     try {
-        $PSSemVer = [PSSemVer]::new($Version)
-        return $PSSemVer
+        $SemVer = [SemVer]::new($Version)
+        return $SemVer
     } catch {
-        throw "Failed to convert '$Version' to PSSemVer."
+        throw "Failed to convert '$Version' to SemVer."
     }
 }
