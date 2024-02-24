@@ -1,14 +1,18 @@
 ﻿class SemVer : System.Object, System.IComparable, System.IEquatable[Object] {
-    hidden static [string] $semVerPattern = '(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
-    '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?' +
-    '(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-    [int]$Major
-    [int]$Minor
-    [int]$Patch
-    [string]$Prerelease
-    [string]$BuildMetadata
+    hidden static [string] $semVerPattern = '(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)' +
+    '(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+    hidden static [string] $looseSemVerPattern = '^([0-9a-zA-Z-]+-?)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
+    '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+    [string] $Prefix
+    [int] $Major
+    [int] $Minor
+    [int] $Patch
+    [string] $Prerelease
+    [string] $BuildMetadata
 
     SemVer() {
+        $this.Prefix = ''
         $this.Major = 0
         $this.Minor = 0
         $this.Patch = 0
@@ -17,6 +21,7 @@
     }
 
     SemVer([int]$Major) {
+        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = 0
         $this.Patch = 0
@@ -25,6 +30,7 @@
     }
 
     SemVer([int]$Major, [int]$Minor) {
+        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = 0
@@ -33,6 +39,7 @@
     }
 
     SemVer([int]$Major, [int]$Minor, [int]$Patch) {
+        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
@@ -41,6 +48,7 @@
     }
 
     SemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
+        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
@@ -49,6 +57,7 @@
     }
 
     SemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
+        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
@@ -63,6 +72,13 @@
             $this.Patch = [int]$Matches[3]
             $this.Prerelease = $Matches[4]
             $this.BuildMetadata = $Matches[5]
+        } elseif ($version -match [SemVer]::LooseSemVerPattern) {
+            $this.Prefix = $Matches[1]
+            $this.Major = [int]$Matches[2]
+            $this.Minor = [int]$Matches[3]
+            $this.Patch = [int]$Matches[4]
+            $this.Prerelease = $Matches[5]
+            $this.BuildMetadata = $Matches[6]
         } else {
             # Coerce the string to a SemVer object
             $sections = $version -split '[-+]', 3
@@ -73,6 +89,7 @@
     }
 
     SemVer([version]$version) {
+        $this.Prefix = ''
         $this.Major = $version.Major
         $this.Minor = $version.Minor
         $this.Patch = $version.Build

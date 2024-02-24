@@ -246,4 +246,102 @@ Describe "Class: Comparison" {
         $semver2 = [SemVer]::Parse('1.2.4')
         $semver1 -le $semver2 | Should -BeTrue
     }
+
+    It "Compares '1.0.0' as less than '2.0.0'." {
+        $semver1 = [SemVer]::Parse('1.0.0')
+        $semver2 = [SemVer]::Parse('2.0.0')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '2.0.0' as less than '2.1.0'." {
+        $semver1 = [SemVer]::Parse('2.0.0')
+        $semver2 = [SemVer]::Parse('2.1.0')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '2.1.0' as less than '2.1.1'." {
+        $semver1 = [SemVer]::Parse('2.1.0')
+        $semver2 = [SemVer]::Parse('2.1.1')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-alpha' as less than '1.0.0-alpha.1'." {
+        $semver1 = [SemVer]::Parse('1.0.0-alpha')
+        $semver2 = [SemVer]::Parse('1.0.0-alpha.1')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-alpha.1' as less than '1.0.0-alpha.beta'." {
+        $semver1 = [SemVer]::Parse('1.0.0-alpha.1')
+        $semver2 = [SemVer]::Parse('1.0.0-alpha.beta')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-alpha.beta' as less than '1.0.0-beta'." {
+        $semver1 = [SemVer]::Parse('1.0.0-alpha.beta')
+        $semver2 = [SemVer]::Parse('1.0.0-beta')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-beta' as less than '1.0.0-beta.2'." {
+        $semver1 = [SemVer]::Parse('1.0.0-beta')
+        $semver2 = [SemVer]::Parse('1.0.0-beta.2')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-beta.2' as less than '1.0.0-beta.11'." {
+        $semver1 = [SemVer]::Parse('1.0.0-beta.2')
+        $semver2 = [SemVer]::Parse('1.0.0-beta.11')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-beta.11' as less than '1.0.0-rc.1'." {
+        $semver1 = [SemVer]::Parse('1.0.0-beta.11')
+        $semver2 = [SemVer]::Parse('1.0.0-rc.1')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+
+    It "Compares '1.0.0-rc.1' as less than '1.0.0'." {
+        $semver1 = [SemVer]::Parse('1.0.0-rc.1')
+        $semver2 = [SemVer]::Parse('1.0.0')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+}
+
+Describe "Class: Handles prefix" {
+    It "Parses 'v1.2.3' to SemVer." {
+        $semver = [SemVer]::Parse('v1.2.3')
+        $semver.Prefix | Should -Be 'v'
+        $semver.Major | Should -Be 1
+        $semver.Minor | Should -Be 2
+        $semver.Patch | Should -Be 3
+    }
+    It "Parses 'v1.2.3-alpha.1+001' to SemVer." {
+        $semver = [SemVer]::Parse('v1.2.3-alpha.1+001')
+        $semver.Prefix | Should -Be 'v'
+        $semver.Major | Should -Be 1
+        $semver.Minor | Should -Be 2
+        $semver.Patch | Should -Be 3
+        $semver.Prerelease | Should -Be 'alpha.1'
+        $semver.BuildMetadata | Should -Be '001'
+    }
+    It "Parses 'v1.2.3-alpha.1+001' to SemVer." {
+        $semver = [SemVer]::Parse('v1.2.3-alpha.1+001')
+        $semver.Prefix | Should -Be 'v'
+        $semver.Major | Should -Be 1
+        $semver.Minor | Should -Be 2
+        $semver.Patch | Should -Be 3
+        $semver.Prerelease | Should -Be 'alpha.1'
+        $semver.BuildMetadata | Should -Be '001'
+    }
+    It "Compares 'v1.2.3' as less than 'v1.2.4'." {
+        $semver1 = [SemVer]::Parse('v1.2.3')
+        $semver2 = [SemVer]::Parse('v1.2.4')
+        $semver1 -lt $semver2 | Should -BeTrue
+    }
+    It "Compares 'v1.2.3' as greater than 'v1.2.2'." {
+        $semver1 = [SemVer]::Parse('v1.2.3')
+        $semver2 = [SemVer]::Parse('v1.2.2')
+        $semver1 -gt $semver2 | Should -BeTrue
+    }
 }
