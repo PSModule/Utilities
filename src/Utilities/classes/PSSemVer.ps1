@@ -8,7 +8,7 @@
     [string]$Prerelease
     [string]$BuildMetadata
 
-    SemVer() {
+    PSSemVer() {
         $this.Major = 0
         $this.Minor = 0
         $this.Patch = 0
@@ -16,7 +16,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major) {
+    PSSemVer([int]$Major) {
         $this.Major = $Major
         $this.Minor = 0
         $this.Patch = 0
@@ -24,7 +24,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor) {
+    PSSemVer([int]$Major, [int]$Minor) {
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = 0
@@ -32,7 +32,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor, [int]$Patch) {
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch) {
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
@@ -40,7 +40,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
@@ -48,7 +48,7 @@
         $this.BuildMetadata = ''
     }
 
-    SemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
@@ -56,15 +56,15 @@
         $this.BuildMetadata = $BuildLabel
     }
 
-    SemVer([string]$version) {
-        if ($version -match [SemVer]::SemVerPattern) {
+    PSSemVer([string]$version) {
+        if ($version -match [PSSemVer]::SemVerPattern) {
             $this.Major = [int]$Matches[1]
             $this.Minor = [int]$Matches[2]
             $this.Patch = [int]$Matches[3]
             $this.Prerelease = $Matches[4]
             $this.BuildMetadata = $Matches[5]
         } else {
-            # Coerce the string to a Semver object
+            # Coerce the string to a PSSemVer object
             $sections = $version -split '[-+]', 3
             $this.Major, $this.Minor, $this.Patch = $sections[0] -split '\.', 3
             $this.Prerelease = $sections[1]
@@ -72,7 +72,7 @@
         }
     }
 
-    SemVer([version]$version) {
+    PSSemVer([version]$version) {
         $this.Major = $version.Major
         $this.Minor = $version.Minor
         $this.Patch = $version.Build
@@ -103,13 +103,13 @@
         $this.BuildMetadata = $label
     }
 
-    [semver] Parse([string]$string) {
-        return [SemVer]::new($string)
+    [PSSemVer] Parse([string]$string) {
+        return [PSSemVer]::new($string)
     }
 
     [int] CompareTo([Object]$other) {
-        if (-not $other -is [SemVer]) {
-            throw [ArgumentException]::new('The argument must be of type SemVer')
+        if (-not $other -is [PSSemVer]) {
+            throw [ArgumentException]::new('The argument must be of type PSSemVer')
         }
         if ($this.Major -lt $other.Major) {
             return -1
@@ -145,7 +145,7 @@
     }
 
     [bool] Equals([Object]$other) {
-        if (-not $other -is [SemVer]) {
+        if (-not $other -is [PSSemVer]) {
             return $false
         }
         if ($this.Major -ne $other.Major) {
