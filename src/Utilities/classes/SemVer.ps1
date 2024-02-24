@@ -158,18 +158,30 @@
         if ($this.Patch -gt $other.Patch) {
             return 1
         }
-        if ($this.Prerelease -lt $other.Prerelease) {
-            return -1
+        $prereleaseArray = $this.Prerelease -split '\.'
+        $otherPrereleaseArray = $other.Prerelease -split '\.'
+        for ($i = 0; $i -lt [Math]::Max($prereleaseArray.Length, $otherPrereleaseArray.Length); $i++) {
+            if ($i -ge $prereleaseArray.Length) {
+                return -1
+            }
+            if ($i -ge $otherPrereleaseArray.Length) {
+                return 1
+            }
+            if ($prereleaseArray[$i] -eq $otherPrereleaseArray[$i]) {
+                continue
+            }
+            if ($prereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
+                return [int]$prereleaseArray[$i] - [int]$otherPrereleaseArray[$i]
+            }
+            if ($prereleaseArray[$i] -match '^\d+$') {
+                return -1
+            }
+            if ($otherPrereleaseArray[$i] -match '^\d+$') {
+                return 1
+            }
+            return $prereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
         }
-        if ($this.Prerelease -gt $other.Prerelease) {
-            return 1
-        }
-        if ($this.BuildMetadata -lt $other.BuildMetadata) {
-            return -1
-        }
-        if ($this.BuildMetadata -gt $other.BuildMetadata) {
-            return 1
-        }
+
         return 0
     }
 
