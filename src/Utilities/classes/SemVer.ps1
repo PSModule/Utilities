@@ -115,7 +115,7 @@
         $this.BuildMetadata = $label
     }
 
-    [SemVer] Parse([string]$string) {
+    static [SemVer] Parse([string]$string) {
         return [SemVer]::new($string)
     }
 
