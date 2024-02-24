@@ -8,24 +8,24 @@
 
         .EXAMPLE
         $Main = [ordered]@{
-            Action            = ''
-            ResourceGroupName = 'Main'
-            Subscription      = 'Main'
-            ManagementGroupID = ''
-            Location          = 'Main'
-            ModuleName        = ''
-            ModuleVersion     = ''
+            Action   = ''
+            Location = 'Main'
+            Name     = 'Main'
+            Mode     = 'Main'
         }
-        $Overrides = [ordered]@{
-            Action            = 'overrides'
-            ResourceGroupName = 'overrides'
-            Subscription      = 'overrides'
-            ManagementGroupID = ''
-            Location          = 'overrides'
-            ModuleName        = ''
-            ModuleVersion     = ''
+        $Override1 = [ordered]@{
+            Action   = ''
+            Location = ''
+            Name     = 'Override1'
+            Mode     = 'Override1'
         }
-        Merge-Hashtables -Main $Main -Overrides $Overrides
+        $Override2 = [ordered]@{
+            Action   = ''
+            Location = ''
+            Name     = 'Override1'
+            Mode     = 'Override2'
+        }
+        Merge-Hashtables -Main $Main -Overrides $Override1, $Override2
     #>
     [OutputType([Hashtable])]
     [Alias('Merge-Hashtables')]
@@ -37,15 +37,17 @@
 
         # Hashtable with overrides
         [Parameter(Mandatory)]
-        [hashtable] $Overrides
+        [hashtable[]] $Overrides
     )
     $Output = $Main.Clone()
-    foreach ($Key in $Overrides.Keys) {
-        if (($Output.Keys) -notcontains $Key) {
-            $Output.$Key = $Overrides.$Key
-        }
-        if ($Overrides.item($Key) | IsNotNullOrEmpty) {
-            $Output.$Key = $Overrides.$Key
+    foreach ($Override in $Overrides) {
+        foreach ($Key in $Override.Keys) {
+            if (($Output.Keys) -notcontains $Key) {
+                $Output.$Key = $Override.$Key
+            }
+            if ($Override.item($Key) | IsNotNullOrEmpty) {
+                $Output.$Key = $Override.$Key
+            }
         }
     }
     return $Output

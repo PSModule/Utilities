@@ -1,34 +1,46 @@
-﻿
-<#
+﻿Describe 'Merge-Hashtable' {
+    It 'Merges two hashtables' {
+        $Main = [ordered]@{
+            Action   = ''
+            Location = 'Main'
+            Mode     = 'Main'
+        }
+        $Override = [ordered]@{
+            Action   = ''
+            Location = ''
+            Mode     = 'Override'
+        }
+        $Result = Merge-Hashtables -Main $Main -Overrides $Override
 
-$env = [ordered]@{
-    Action            = ''
-    ResourceGroupName = 'env'
-    Subscription      = 'env'
-    ManagementGroupID = ''
-    Location          = 'env'
-    ModuleName        = ''
-    ModuleVersion     = ''
+        $Result.Action | Should -Be ''
+        $Result.Location | Should -Be 'Main'
+        $Result.Mode | Should -Be 'Override'
+    }
+
+    It 'Merges three hashtables' {
+        $Main = [ordered]@{
+            Action   = ''
+            Location = 'Main'
+            Mode     = 'Main'
+            Name     = 'Main'
+        }
+        $Override1 = [ordered]@{
+            Action   = ''
+            Location = ''
+            Mode     = 'Override1'
+            Name     = 'Override1'
+        }
+        $Override2 = [ordered]@{
+            Action   = ''
+            Location = ''
+            Mode     = ''
+            Name     = 'Override2'
+        }
+        $Result = Merge-Hashtables -Main $Main -Overrides $Override1, $Override2
+
+        $Result.Action | Should -Be ''
+        $Result.Location | Should -Be 'Main'
+        $Result.Mode | Should -Be 'Override1'
+        $Result.Name | Should -Be 'Override2'
+    }
 }
-Write-Output '`r`nEnvironment variables:'
-$env
-
-$inputs = [ordered]@{
-    Action              = 'inputs'
-    ResourceGroupName   = ''
-    Subscription        = ''
-    ManagementGroupID   = ''
-    Location            = ''
-    ModuleName          = 'inputs'
-    ModuleVersion       = 'inputs'
-    ParameterFilePath   = ''
-    ParameterFolderPath = ''
-    ParameterOverrides  = 'inputs'
-}
-Write-Output "`r`nEnvironment overrides:"
-$inputs
-
-$Params = Merge-Hashtables -Main $env -Overrides $inputs
-Write-Output "`r`nFinal parameters:"
-$Params
-#>
