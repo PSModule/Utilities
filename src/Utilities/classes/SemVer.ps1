@@ -164,6 +164,20 @@
             Write-Verbose "$($this.Patch) > $($other.Patch)"
             return 1
         }
+        if ([string]::IsNullOrEmpty($this.Prerelease) -and [string]::IsNullOrEmpty($other.Prerelease)) {
+            Write-Verbose 'No prerelease labels' -Verbose
+            return 0
+        }
+        if ([string]::IsNullOrEmpty($this.Prerelease)) {
+            Write-Verbose 'No prerelease label' -Verbose
+            Write-Verbose "$($this.Prerelease) < $($other.Prerelease)" -Verbose
+            return 1
+        }
+        if ([string]::IsNullOrEmpty($other.Prerelease)) {
+            Write-Verbose 'No other prerelease label' -Verbose
+            Write-Verbose "$($this.Prerelease) > $($other.Prerelease)" -Verbose
+            return -1
+        }
         $prereleaseArray = $this.Prerelease -split '\.'
         $otherPrereleaseArray = $other.Prerelease -split '\.'
         for ($i = 0; $i -lt [Math]::Max($prereleaseArray.Length, $otherPrereleaseArray.Length); $i++) {
