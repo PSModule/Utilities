@@ -168,36 +168,38 @@
         $otherPrereleaseArray = $other.Prerelease -split '\.'
         for ($i = 0; $i -lt [Math]::Max($prereleaseArray.Length, $otherPrereleaseArray.Length); $i++) {
             if ($i -ge $prereleaseArray.Length) {
-                Write-Verbose 'end of prerelease array'
-                Write-Verbose "$($this.Prerelease) < $($other.Prerelease)"
+                Write-Verbose 'end of prerelease array' -Verbose
+                Write-Verbose "$($this.Prerelease) < $($other.Prerelease)" -Verbose
                 return -1
             }
             if ($i -ge $otherPrereleaseArray.Length) {
-                Write-Verbose 'end of other prerelease array'
-                Write-Verbose "$($this.Prerelease) > $($other.Prerelease)"
+                Write-Verbose 'end of other prerelease array' -Verbose
+                Write-Verbose "$($this.Prerelease) > $($other.Prerelease)" -Verbose
                 return 1
             }
             if ($prereleaseArray[$i] -eq $otherPrereleaseArray[$i]) {
-                Write-Verbose 'Same prerelease label'
-                Write-Verbose "$($prereleaseArray[$i]) = $($otherPrereleaseArray[$i])"
+                Write-Verbose 'Same prerelease label' -Verbose
+                Write-Verbose "$($prereleaseArray[$i]) = $($otherPrereleaseArray[$i])" -Verbose
                 continue
             }
             if ($prereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
-                Write-Verbose 'Numeric prerelease label'
-                Write-Verbose "$($prereleaseArray[$i]) - $($otherPrereleaseArray[$i])"
+                Write-Verbose 'Numeric prerelease label' -Verbose
+                Write-Verbose "$($prereleaseArray[$i]) - $($otherPrereleaseArray[$i])" -Verbose
                 return [int]$prereleaseArray[$i] - [int]$otherPrereleaseArray[$i]
             }
             if ($prereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -notmatch '^\d+$') {
-                Write-Verbose "Non-numeric prerelease label wins"
-                Write-Verbose "$($prereleaseArray[$i]) < $($otherPrereleaseArray[$i])"
+                Write-Verbose 'Non-numeric prerelease label wins' -Verbose
+                Write-Verbose "$($prereleaseArray[$i]) < $($otherPrereleaseArray[$i])" -Verbose
                 return -1
             }
             if ($prereleaseArray[$i] -notmatch '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
-                Write-Verbose "$($prereleaseArray[$i]) > $($otherPrereleaseArray[$i])"
+                Write-Verbose 'Non-numeric prerelease label wins' -Verbose
+                Write-Verbose "$($prereleaseArray[$i]) > $($otherPrereleaseArray[$i])" -Verbose
                 return 1
             }
             $comp = $prereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
-            Write-Verbose "$($prereleaseArray[$i]) Comp $($otherPrereleaseArray[$i]) = $comp"
+            Write-Verbose 'String comparison' -Verbose
+            Write-Verbose "$($prereleaseArray[$i]) Comp $($otherPrereleaseArray[$i]) = $comp" -Verbose
             return $prereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
         }
 
