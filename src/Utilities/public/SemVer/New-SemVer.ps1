@@ -1,4 +1,4 @@
-﻿function New-PSSemVer {
+﻿function New-SemVer {
     <#
         .SYNOPSIS
         Creates a new PSSemVer object.
@@ -7,7 +7,7 @@
         This function creates a new PSSemVer object.
 
         .EXAMPLE
-        New-PSSemVer -Version '1.2.3-alpha.1+001'
+        New-SemVer -Version '1.2.3-alpha.1+001'
 
         Major         : 1
         Minor         : 2
@@ -16,7 +16,7 @@
         BuildMetadata : 001
 
         .EXAMPLE
-        New-PSSemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -BuildMetadata '001'
+        New-SemVer -Major 1 -Minor 2 -Patch 3 -Prerelease 'alpha.1' -BuildMetadata '001'
 
         Major         : 1
         Minor         : 2

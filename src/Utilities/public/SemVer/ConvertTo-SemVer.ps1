@@ -1,4 +1,4 @@
-﻿filter ConvertTo-PSSemVer {
+﻿filter ConvertTo-SemVer {
     <#
         .SYNOPSIS
         Converts a version string to a PSSemVer object.
@@ -7,7 +7,7 @@
         This function takes a version string and converts it to a PSSemVer object.
 
         .EXAMPLE
-        '1.2.3-alpha.1+001' | ConvertTo-PSSemVer
+        '1.2.3-alpha.1+001' | ConvertTo-SemVer
 
         Major         : 1
         Minor         : 2
@@ -33,7 +33,7 @@
     )
 
     if ($Version | IsNullOrEmpty) {
-        return New-PSSemVer
+        return New-SemVer
     }
 
     try {
