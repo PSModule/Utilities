@@ -141,44 +141,63 @@
             throw [ArgumentException]::new('The argument must be of type SemVer')
         }
         if ($this.Major -lt $other.Major) {
+            Write-Verbose "$($this.Major) < $($other.Major)"
             return -1
         }
         if ($this.Major -gt $other.Major) {
+            Write-Verbose "$($this.Major) > $($other.Major)"
             return 1
         }
         if ($this.Minor -lt $other.Minor) {
+            Write-Verbose "$($this.Minor) < $($other.Minor)"
             return -1
         }
         if ($this.Minor -gt $other.Minor) {
+            Write-Verbose "$($this.Minor) > $($other.Minor)"
             return 1
         }
         if ($this.Patch -lt $other.Patch) {
+            Write-Verbose "$($this.Patch) < $($other.Patch)"
             return -1
         }
         if ($this.Patch -gt $other.Patch) {
+            Write-Verbose "$($this.Patch) > $($other.Patch)"
             return 1
         }
         $prereleaseArray = $this.Prerelease -split '\.'
         $otherPrereleaseArray = $other.Prerelease -split '\.'
         for ($i = 0; $i -lt [Math]::Max($prereleaseArray.Length, $otherPrereleaseArray.Length); $i++) {
             if ($i -ge $prereleaseArray.Length) {
+                Write-Verbose 'end of prerelease array'
+                Write-Verbose "$($this.Prerelease) < $($other.Prerelease)"
                 return -1
             }
             if ($i -ge $otherPrereleaseArray.Length) {
+                Write-Verbose 'end of other prerelease array'
+                Write-Verbose "$($this.Prerelease) > $($other.Prerelease)"
                 return 1
             }
             if ($prereleaseArray[$i] -eq $otherPrereleaseArray[$i]) {
+                Write-Verbose 'Same prerelease label'
+                Write-Verbose "$($prereleaseArray[$i]) = $($otherPrereleaseArray[$i])"
                 continue
             }
             if ($prereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
+                Write-Verbose 'Numeric prerelease label'
+                Write-Verbose "$($prereleaseArray[$i]) - $($otherPrereleaseArray[$i])"
                 return [int]$prereleaseArray[$i] - [int]$otherPrereleaseArray[$i]
             }
-            if ($prereleaseArray[$i] -match '^\d+$') {
+            if ($prereleaseArray[$i] -match '^\d+$' -and $otherPrereleaseArray[$i] -notmatch '^\d+$') {
+                Write-Verbose "Non-numeric prerelease label wins"
+                Write-Verbose "$($prereleaseArray[$i]) < $($otherPrereleaseArray[$i])"
                 return -1
             }
-            if ($otherPrereleaseArray[$i] -match '^\d+$') {
+            if ($prereleaseArray[$i] -notmatch '^\d+$' -and $otherPrereleaseArray[$i] -match '^\d+$') {
+                Write-Verbose "$($prereleaseArray[$i]) > $($otherPrereleaseArray[$i])"
                 return 1
             }
+            $comp = $prereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
+            Write-Verbose "$($prereleaseArray[$i]) Comp $($otherPrereleaseArray[$i]) = $comp"
             return $prereleaseArray[$i].CompareTo($otherPrereleaseArray[$i])
         }
 
