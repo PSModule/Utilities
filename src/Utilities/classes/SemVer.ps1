@@ -1,8 +1,7 @@
 ﻿class PSSemVer : System.Object, System.IComparable, System.IEquatable[Object] {
     #region Static properties
-    hidden static [string] $PSSemVerPattern = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)' +
-    '(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-    hidden static [string] $LoosePSSemVerPattern = "^([0-9a-zA-Z-]+-?)?$PSSemVerPattern"
+    hidden static [string] $PSSemVerPattern = '^([0-9a-zA-Z-]+-?)?^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
+    '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
     #endregion Static properties
 
     #region Properties
@@ -84,12 +83,6 @@
 
     PSSemVer([string]$version) {
         if ($version -match [PSSemVer]::PSSemVerPattern) {
-            $this.Major = [int]$Matches[1]
-            $this.Minor = [int]$Matches[2]
-            $this.Patch = [int]$Matches[3]
-            $this.Prerelease = $Matches[4]
-            $this.BuildMetadata = $Matches[5]
-        } elseif ($version -match [PSSemVer]::LoosePSSemVerPattern) {
             $this.Prefix = $Matches[1]
             $this.Major = [int]$Matches[2]
             $this.Minor = [int]$Matches[3]
