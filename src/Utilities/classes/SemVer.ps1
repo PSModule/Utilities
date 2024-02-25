@@ -95,7 +95,7 @@
             $this.Minor = [int]$Matches[3]
             $this.Patch = [int]$Matches[4]
             $this.Prerelease = $Matches[5]
-            $this.BuildMetadata = [int]$Matches[6]
+            $this.BuildMetadata = $Matches[6]
         } else {
             Write-Host 'Coercion'
             $sections = $version -split '[-+]', 3
