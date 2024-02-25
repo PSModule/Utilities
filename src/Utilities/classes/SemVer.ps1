@@ -85,12 +85,14 @@
 
     PSSemVer([string]$version) {
         if ($version -match [PSSemVer]::PSSemVerPattern) {
+            Write-Debug 'PSSemVerPattern'
             $this.Major = [int]$Matches[1]
             $this.Minor = [int]$Matches[2]
             $this.Patch = [int]$Matches[3]
             $this.Prerelease = $Matches[4]
             $this.BuildMetadata = $Matches[5]
         } elseif ($version -match [PSSemVer]::LoosePSSemVerPattern) {
+            Write-Debug 'LoosePSSemVerPattern'
             $this.Prefix = $Matches[1]
             $this.Major = [int]$Matches[2]
             $this.Minor = [int]$Matches[3]
@@ -98,7 +100,7 @@
             $this.Prerelease = $Matches[5]
             $this.BuildMetadata = $Matches[6]
         } else {
-            Write-Host 'Coercion'
+            Write-Debug 'Coercion'
             $sections = $version -split '[-+]', 3
             $this.Major, $this.Minor, $this.Patch = $sections[0] -split '\.', 3
             $this.Prerelease = $sections[1]
