@@ -1,86 +1,82 @@
 ﻿class PSSemVer : System.Object, System.IComparable, System.IEquatable[Object] {
+    #region Static properties
     hidden static [string] $PSSemVerPattern = '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)' +
     '(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
-    hidden static [string] $loosePSSemVerPattern = '^([0-9a-zA-Z-]+-?)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
+    hidden static [string] $LoosePSSemVerPattern = '^([0-9a-zA-Z-]+-?)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)' +
     '(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+    #endregion Static properties
 
+    #region Properties
     [string] $Prefix
     [int] $Major
     [int] $Minor
     [int] $Patch
     [string] $Prerelease
+    hidden [Nullable[int]] $PrereleaseNumber
     [string] $BuildMetadata
+    #endregion Properties
 
-    PSSemVer() {
-        $this.Prefix = ''
-        $this.Major = 0
-        $this.Minor = 0
-        $this.Patch = 0
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
-    }
+    #region Constructors
+    PSSemVer() {}
 
     PSSemVer([int]$Major) {
-        $this.Prefix = ''
         $this.Major = $Major
-        $this.Minor = 0
-        $this.Patch = 0
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
 
     PSSemVer([int]$Major, [int]$Minor) {
-        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
-        $this.Patch = 0
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
 
     PSSemVer([int]$Major, [int]$Minor, [int]$Patch) {
-        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
 
     PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
-        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
         $this.Prerelease = $PreReleaseLabel
-        $this.BuildMetadata = ''
+        $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($PreReleaseLabel)
+    }
+
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [int]$PreReleaseNumber) {
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = "$PreReleaseLabel.$PreReleaseNumber"
+        $this.PrereleaseNumber = $PreReleaseNumber
     }
 
     PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
-        $this.Prefix = ''
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
-        $this.Prerelease = $PreReleaseLabel
+        $this.Prerelease = [string]$PreReleaseLabel
+        $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($PreReleaseLabel)
+        $this.BuildMetadata = $BuildLabel
+    }
+
+    PSSemVer([int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [int]$PreReleaseNumber, [string]$BuildLabel) {
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = "$PreReleaseLabel.$PreReleaseNumber"
+        $this.PrereleaseNumber = $PreReleaseNumber
         $this.BuildMetadata = $BuildLabel
     }
 
     PSSemVer([string]$Prefix, [int]$Major) {
         $this.Prefix = $Prefix
         $this.Major = $Major
-        $this.Minor = 0
-        $this.Patch = 0
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
 
     PSSemVer([string]$Prefix, [int]$Major, [int]$Minor) {
         $this.Prefix = $Prefix
         $this.Major = $Major
         $this.Minor = $Minor
-        $this.Patch = 0
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
 
     PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch) {
@@ -88,8 +84,6 @@
         $this.Major = $Major
         $this.Minor = $Minor
         $this.Patch = $Patch
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
 
     PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel) {
@@ -98,7 +92,16 @@
         $this.Minor = $Minor
         $this.Patch = $Patch
         $this.Prerelease = $PreReleaseLabel
-        $this.BuildMetadata = ''
+        $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($PreReleaseLabel)
+    }
+
+    PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [int]$PreReleaseNumber) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = "$PreReleaseLabel.$PreReleaseNumber"
+        $this.PrereleaseNumber = $PreReleaseNumber
     }
 
     PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [string]$BuildLabel) {
@@ -107,25 +110,40 @@
         $this.Minor = $Minor
         $this.Patch = $Patch
         $this.Prerelease = $PreReleaseLabel
+        $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($PreReleaseLabel)
+        $this.BuildMetadata = $BuildLabel
+    }
+
+    PSSemVer([string]$Prefix, [int]$Major, [int]$Minor, [int]$Patch, [string]$PreReleaseLabel, [int]$PreReleaseNumber, [string]$BuildLabel) {
+        $this.Prefix = $Prefix
+        $this.Major = $Major
+        $this.Minor = $Minor
+        $this.Patch = $Patch
+        $this.Prerelease = "$PreReleaseLabel.$PreReleaseNumber"
+        $this.PrereleaseNumber = $PreReleaseNumber
         $this.BuildMetadata = $BuildLabel
     }
 
     PSSemVer([string]$version) {
         if ($version -match [PSSemVer]::PSSemVerPattern) {
+            Write-Host 'PSSemVerPattern'
             $this.Major = [int]$Matches[1]
             $this.Minor = [int]$Matches[2]
             $this.Patch = [int]$Matches[3]
             $this.Prerelease = $Matches[4]
+            $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($Matches[4])
             $this.BuildMetadata = $Matches[5]
         } elseif ($version -match [PSSemVer]::LoosePSSemVerPattern) {
+            Write-Host 'LoosePSSemVerPattern'
             $this.Prefix = $Matches[1]
             $this.Major = [int]$Matches[2]
             $this.Minor = [int]$Matches[3]
             $this.Patch = [int]$Matches[4]
             $this.Prerelease = $Matches[5]
-            $this.BuildMetadata = $Matches[6]
+            $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($Matches[5])
+            $this.BuildMetadata = [int]$Matches[6]
         } else {
-            # Coerce the string to a PSSemVer object
+            Write-Host 'Coercion'
             $sections = $version -split '[-+]', 3
             $this.Major, $this.Minor, $this.Patch = $sections[0] -split '\.', 3
             $this.Prerelease = $sections[1]
@@ -134,14 +152,13 @@
     }
 
     PSSemVer([version]$version) {
-        $this.Prefix = ''
         $this.Major = $version.Major
         $this.Minor = $version.Minor
         $this.Patch = $version.Build
-        $this.Prerelease = ''
-        $this.BuildMetadata = ''
     }
+    #endregion Constructors
 
+    #region Methods
     [void] BumpMajor() {
         $this.Major = $this.Major + 1
         $this.Minor = 0
@@ -157,8 +174,21 @@
         $this.Patch = $this.Patch + 1
     }
 
+    [void] BumpPrereleaseNumber() {
+        if (-not [string]::IsNullOrEmpty($this.Prerelease)) {
+            $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($this.Prerelease)
+            if ([string]::IsNullOrEmpty($this.PrereleaseNumber)) {
+                $this.PrereleaseNumber = 1
+            } else {
+                $this.PrereleaseNumber++
+            }
+            $this.PreRelease = "$([PSSemVer]::GetPrereleaseLabel($this.Prerelease)).$($this.PrereleaseNumber)"
+        }
+    }
+
     [void] SetPrerelease([string]$label) {
         $this.Prerelease = $label
+        $this.PrereleaseNumber = [PSSemVer]::GetPrereleaseNumber($label)
     }
 
     [void] SetPrereleaseLabel([string]$label) {
@@ -175,10 +205,6 @@
 
     [void] SetBuildMetadata([string]$label) {
         $this.BuildMetadata = $label
-    }
-
-    static [PSSemVer] Parse([string]$string) {
-        return [PSSemVer]::new($string)
     }
 
     [int] CompareTo([Object]$other) {
@@ -212,8 +238,8 @@
         if ([string]::IsNullOrEmpty($other.Prerelease)) {
             return -1
         }
-        $thisPrereleaseArray = $this.Prerelease -split '\.'
-        $otherPrereleaseArray = $other.Prerelease -split '\.'
+        $thisPrereleaseArray = ($this.Prerelease -split '\.')
+        $otherPrereleaseArray = ($other.Prerelease -split '\.')
         for ($i = 0; $i -lt [Math]::Max($thisPrereleaseArray.Length, $otherPrereleaseArray.Length); $i++) {
             if ($i -ge $thisPrereleaseArray.Length) {
                 return -1
@@ -272,4 +298,25 @@
         }
         return $output
     }
+    #endregion Methods
+
+    #region Static Methods
+    static [PSSemVer] Parse([string]$string) {
+        return [PSSemVer]::new($string)
+    }
+
+    static [Nullable[int]] GetPrereleaseNumber([string]$string) {
+        if ($string -match '^(.*?)(?:\.(\d+))?$') {
+            return [Nullable[int]]$matches[2]
+        }
+        return $null
+    }
+
+    static [string] GetPrereleaseLabel([string]$string) {
+        if ($string -match '^(.*?)(?:\.(\d+))?$') {
+            return $matches[1]
+        }
+        return $null
+    }
+    #endregion Static Methods
 }
