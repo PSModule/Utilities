@@ -129,9 +129,6 @@ Describe 'Class: Bump versions' {
         $PSSemVer.Minor | Should -Be 2
         $PSSemVer.Patch | Should -Be 0
     }
-}
-
-Describe 'Class: Set prerelease and metadata' {
     It 'Bumps the Patch version from 1 to 2.' {
         $PSSemVer = New-SemVer -Major 2 -Minor 1 -Patch 1
         $PSSemVer.BumpPatch()
@@ -139,6 +136,25 @@ Describe 'Class: Set prerelease and metadata' {
         $PSSemVer.Minor | Should -Be 1
         $PSSemVer.Patch | Should -Be 2
     }
+    It "Bumps the Prerelease version from 'alpha' to 'alpha.1'." {
+        $PSSemVer = New-SemVer -Major 2 -Minor 1 -Patch 1 -Prerelease 'alpha'
+        $PSSemVer.BumpPrereleaseNumber()
+        $PSSemVer.Major | Should -Be 2
+        $PSSemVer.Minor | Should -Be 1
+        $PSSemVer.Patch | Should -Be 1
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+    }
+    It "Bumps the Prerelease version from 'alpha.1' to 'alpha.2'." {
+        $PSSemVer = New-SemVer -Major 2 -Minor 1 -Patch 1 -Prerelease 'alpha.1'
+        $PSSemVer.BumpPrereleaseNumber()
+        $PSSemVer.Major | Should -Be 2
+        $PSSemVer.Minor | Should -Be 1
+        $PSSemVer.Patch | Should -Be 1
+        $PSSemVer.Prerelease | Should -Be 'alpha.2'
+    }
+}
+
+Describe 'Class: Set prerelease and metadata' {
     It "Sets the Prerelease version to 'alpha'." {
         $PSSemVer = New-SemVer
         $PSSemVer.SetPreRelease('alpha')
@@ -166,9 +182,27 @@ Describe 'Class: Set prerelease and metadata' {
         $PSSemVer.Prerelease | Should -BeNullOrEmpty
         $PSSemVer.BuildMetadata | Should -BeNullOrEmpty
     }
+    It "Sets the Prerelease version to '`$null'." {
+        $PSSemVer = New-SemVer -Prerelease 'alpha'
+        $PSSemVer.SetPreReleaseLabel($null)
+        $PSSemVer.Major | Should -Be 0
+        $PSSemVer.Minor | Should -Be 0
+        $PSSemVer.Patch | Should -Be 0
+        $PSSemVer.Prerelease | Should -BeNullOrEmpty
+        $PSSemVer.BuildMetadata | Should -BeNullOrEmpty
+    }
     It "Sets the BuildMetadata to ''." {
         $PSSemVer = New-SemVer -Build '001'
         $PSSemVer.SetBuildLabel('')
+        $PSSemVer.Major | Should -Be 0
+        $PSSemVer.Minor | Should -Be 0
+        $PSSemVer.Patch | Should -Be 0
+        $PSSemVer.Prerelease | Should -BeNullOrEmpty
+        $PSSemVer.BuildMetadata | Should -BeNullOrEmpty
+    }
+    It "Sets the BuildMetadata to '`$null'." {
+        $PSSemVer = New-SemVer -Build '001'
+        $PSSemVer.SetBuildLabel($null)
         $PSSemVer.Major | Should -Be 0
         $PSSemVer.Minor | Should -Be 0
         $PSSemVer.Patch | Should -Be 0
@@ -203,10 +237,13 @@ Describe 'Class: Parse' {
         $PSSemVer.BuildMetadata | Should -Be '001'
     }
 
-    It "Compares '1.2.3' to '1.2.3'." {
-        $PSSemVer1 = [PSSemVer]::Parse('1.2.3')
-        $PSSemVer2 = [PSSemVer]::Parse('1.2.3')
-        $PSSemVer1.CompareTo($PSSemVer2) | Should -Be 0
+    It "Constructs [PSSemVer]'1.2.3-alpha.1+001' to PSSemVer." {
+        $PSSemVer = [PSSemVer]'1.2.3-alpha.1+001'
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+        $PSSemVer.BuildMetadata | Should -Be '001'
     }
 }
 
@@ -318,6 +355,15 @@ Describe 'Class: Handles prefix' {
     }
     It "Parses 'v1.2.3-alpha.1+001' to PSSemVer." {
         $PSSemVer = [PSSemVer]::Parse('v1.2.3-alpha.1+001')
+        $PSSemVer.Prefix | Should -Be 'v'
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+        $PSSemVer.BuildMetadata | Should -Be '001'
+    }
+    It "Parses 'v-1.2.3-alpha.1+001' to PSSemVer." {
+        $PSSemVer = [PSSemVer]::Parse('v-1.2.3-alpha.1+001')
         $PSSemVer.Prefix | Should -Be 'v'
         $PSSemVer.Major | Should -Be 1
         $PSSemVer.Minor | Should -Be 2
