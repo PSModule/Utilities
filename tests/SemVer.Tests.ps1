@@ -380,6 +380,24 @@ Describe 'Class: Handles prefix' {
         $PSSemVer.Prerelease | Should -Be 'alpha.1'
         $PSSemVer.BuildMetadata | Should -Be '001'
     }
+    It "Parses 'v10.2.3-alpha.1+001' to PSSemVer." {
+        $PSSemVer = [PSSemVer]::Parse('v10.2.3-alpha.1+001')
+        $PSSemVer.Prefix | Should -Be 'v'
+        $PSSemVer.Major | Should -Be 10
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+        $PSSemVer.BuildMetadata | Should -Be '001'
+    }
+    It "Parses 'vca10.2.3-alpha.1+001' to PSSemVer." {
+        $PSSemVer = [PSSemVer]::Parse('vca10.2.3-alpha.1+001')
+        $PSSemVer.Prefix | Should -Be 'vca'
+        $PSSemVer.Major | Should -Be 10
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+        $PSSemVer.BuildMetadata | Should -Be '001'
+    }
     It "Compares 'v1.2.3' as less than 'v1.2.4'." {
         $PSSemVer1 = [PSSemVer]::Parse('v1.2.3')
         $PSSemVer2 = [PSSemVer]::Parse('v1.2.4')
