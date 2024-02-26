@@ -381,7 +381,7 @@ Describe 'Class: Handles prefix' {
         $PSSemVer.BuildMetadata | Should -Be '001'
     }
     It "Parses 'v10.2.3-alpha.1+001' to PSSemVer." {
-        $PSSemVer = [PSSemVer]::Parse('v1.2.3-alpha.1+001')
+        $PSSemVer = [PSSemVer]::Parse('v10.2.3-alpha.1+001')
         $PSSemVer.Prefix | Should -Be 'v'
         $PSSemVer.Major | Should -Be 10
         $PSSemVer.Minor | Should -Be 2
@@ -390,9 +390,9 @@ Describe 'Class: Handles prefix' {
         $PSSemVer.BuildMetadata | Should -Be '001'
     }
     It "Parses 'vca10.2.3-alpha.1+001' to PSSemVer." {
-        $PSSemVer = [PSSemVer]::Parse('v1.2.3-alpha.1+001')
+        $PSSemVer = [PSSemVer]::Parse('vca10.2.3-alpha.1+001')
         $PSSemVer.Prefix | Should -Be 'vca'
-        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Major | Should -Be 10
         $PSSemVer.Minor | Should -Be 2
         $PSSemVer.Patch | Should -Be 3
         $PSSemVer.Prerelease | Should -Be 'alpha.1'
