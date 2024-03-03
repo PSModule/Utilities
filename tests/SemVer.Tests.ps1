@@ -72,6 +72,50 @@ Describe 'ConvertTo-SemVer' {
     }
 }
 
+Describe 'Construct convertion: [Version] to [PSSemVer]' {
+    It 'Converts [string]"1.2.3" to PSSemVer.' {
+        $PSSemVer = [PSSemVer]'1.2.3'
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+    }
+    It 'Converts [string]"1.2.3-alpha.1+001" to PSSemVer.' {
+        $PSSemVer = [PSSemVer]'1.2.3-alpha.1+001'
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+        $PSSemVer.BuildMetadata | Should -Be '001'
+    }
+    It 'Converts [string]"1.2.3-alpha.1" to PSSemVer.' {
+        $PSSemVer = [PSSemVer]'1.2.3-alpha.1'
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+        $PSSemVer.Prerelease | Should -Be 'alpha.1'
+    }
+    It "Converts [Version]'1.2' to PSSemVer." {
+        $Version = [Version]'1.2'
+        $PSSemVer = [PSSemVer]$Version
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 0
+    }
+    It "Converts [Version]'1.2.3' to PSSemVer." {
+        $Version = [Version]'1.2.3'
+        $PSSemVer = [PSSemVer]$Version
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+    }
+    It "Converts [Version]'1.2.3.10' to PSSemVer." {
+        $Version = [Version]'1.2.3.10'
+        $PSSemVer = [PSSemVer]$Version
+        $PSSemVer.Major | Should -Be 1
+        $PSSemVer.Minor | Should -Be 2
+        $PSSemVer.Patch | Should -Be 3
+}
+
 Describe 'Class: ToString()' {
     It "Returns '1.2.3'." {
         $PSSemVer = New-SemVer -Major 1 -Minor 2 -Patch 3
