@@ -109,9 +109,9 @@
     }
 
     PSSemVer([version]$version) {
-        $this.Major = $version.Major
-        $this.Minor = $version.Minor
-        $this.Patch = $version.Build
+        $this.Major = $version.Major -lt 0 ? 0 : $version.Major
+        $this.Minor = $version.Minor -lt 0 ? 0 : $version.Minor
+        $this.Patch = $version.Build -lt 0 ? 0 : $version.Build
     }
     #endregion Constructors
 
