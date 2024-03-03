@@ -114,6 +114,7 @@ Describe 'Construct convertion: [Version] to [PSSemVer]' {
         $PSSemVer.Major | Should -Be 1
         $PSSemVer.Minor | Should -Be 2
         $PSSemVer.Patch | Should -Be 3
+    }
 }
 
 Describe 'Class: ToString()' {
