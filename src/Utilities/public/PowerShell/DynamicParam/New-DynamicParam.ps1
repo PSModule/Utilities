@@ -39,8 +39,13 @@
         # https://learn.microsoft.com/en-us/dotnet/api/system.management.automation.runtimedefinedparameter.value?view=powershellsdk-7.3.0
     #>
     [OutputType([void])]
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidLongLines', '', Justification = 'Long links')]
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '', Justification = 'Function does not change state.')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSAvoidLongLines', '', Justification = 'Long links'
+    )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSUseShouldProcessForStateChangingFunctions', '',
+        Justification = 'Function does not change state.'
+    )]
     [CmdletBinding()]
     param(
         # Specifies the name of the parameter.
