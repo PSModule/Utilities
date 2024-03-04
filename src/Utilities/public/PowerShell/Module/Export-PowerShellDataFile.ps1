@@ -13,7 +13,7 @@
     param (
         # The hashtable to export to a .psd1 file.
         [Parameter(Mandatory)]
-        [hashtable] $Hashtable,
+        [object] $Hashtable,
 
         # The path of the .psd1 file to export.
         [Parameter(Mandatory)]

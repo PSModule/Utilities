@@ -37,7 +37,7 @@
     param (
         # The hashtable to convert to a string.
         [Parameter(Mandatory)]
-        [hashtable]$Hashtable,
+        [object]$Hashtable,
 
         # The indentation level.
         [Parameter()]
@@ -50,7 +50,7 @@
 
     foreach ($key in $Hashtable.Keys) {
         $value = $Hashtable[$key]
-        if ($value -is [hashtable]) {
+        if (($value -is [hashtable]) -or ($value -is [ordered])) {
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
             $lines += "$indent    $key = $nestedString"
         } elseif ($value -is [System.Management.Automation.PSCustomObject]) {

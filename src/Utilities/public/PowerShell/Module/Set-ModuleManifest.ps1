@@ -26,7 +26,7 @@
 
         #Version number of this module.
         [Parameter()]
-        [string] $ModuleVersion,
+        [Version] $ModuleVersion,
 
         # Supported PSEditions.
         [Parameter()]
@@ -54,7 +54,7 @@
 
         # Minimum version of the PowerShell engine required by this module.
         [Parameter()]
-        [string] $PowerShellVersion,
+        [Version] $PowerShellVersion,
 
         # Name of the PowerShell host required by this module.
         [Parameter()]
@@ -62,25 +62,25 @@
 
         # Minimum version of the PowerShell host required by this module.
         [Parameter()]
-        [string] $PowerShellHostVersion,
+        [version] $PowerShellHostVersion,
 
         # Minimum version of Microsoft .NET Framework required by this module.
         # This prerequisite is valid for the PowerShell Desktop edition only.
         [Parameter()]
-        [string] $DotNetFrameworkVersion,
+        [Version] $DotNetFrameworkVersion,
 
         # Minimum version of the common language runtime (CLR) required by this module.
         # This prerequisite is valid for the PowerShell Desktop edition only.
         [Parameter()]
-        [string] $ClrVersion,
+        [Version] $ClrVersion,
 
         # Processor architecture (None,X86, Amd64) required by this module
         [Parameter()]
-        [string] $ProcessorArchitecture,
+        [System.Reflection.ProcessorArchitecture] $ProcessorArchitecture,
 
         # Modules that must be imported into the global environment prior to importing this module.
         [Parameter()]
-        [string[]] $RequiredModules,
+        [Object[]] $RequiredModules,
 
         # Assemblies that must be loaded prior to importing this module.
         [Parameter()]
@@ -100,7 +100,7 @@
 
         # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess.
         [Parameter()]
-        [string[]] $NestedModules,
+        [Object[]] $NestedModules,
 
         # Functions to export from this module, for best performance, do not use wildcards and do not
         # delete the entry, use an empty array if there are no functions to export.
@@ -127,7 +127,7 @@
 
         # List of all modules packaged with this module.
         [Parameter()]
-        [string[]] $ModuleList,
+        [Object[]] $ModuleList,
 
         # List of all files packaged with this module.
         [Parameter()]
@@ -139,15 +139,15 @@
 
         # A URL to the license for this module.
         [Parameter()]
-        [string[]] $LicenseUri,
+        [uri] $LicenseUri,
 
         # A URL to the main website for this project.
         [Parameter()]
-        [string] $ProjectUri,
+        [uri] $ProjectUri,
 
         # A URL to an icon representing this module.
         [Parameter()]
-        [string] $IconUri,
+        [uri] $IconUri,
 
         # ReleaseNotes of this module.
         [Parameter()]
@@ -167,7 +167,7 @@
 
         # HelpInfo URI of this module.
         [Parameter()]
-        [string] $HelpInfoURI,
+        [String] $HelpInfoURI,
 
         # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
         [Parameter()]
@@ -176,62 +176,96 @@
         # Private data to pass to the module specified in RootModule/ModuleToProcess.
         # This may also contain a PSData hashtable with additional module metadata used by PowerShell.
         [Parameter()]
-        [hashtable] $PrivateData
+        [object] $PrivateData
     )
 
-    $data = Get-ModuleManifest -Path $Path
+    $outManifest = [ordered]@{}
+    $outPSData = [ordered]@{}
+    $outPrivateData = [ordered]@{}
+    $tempManifest = Get-ModuleManifest -Path $Path
+    if ($tempManifest.Keys.Contains('PrivateData')) {
+        $tempPrivateData = $tempManifest.PrivateData
+        if ($tempPrivateData.Keys.Contains('PSData')) {
+            $tempPSData = $tempPrivateData.PSData
+            $tempPrivateData.Remove('PSData')
+        }
+    }
 
-    if ($PSBoundParameters.ContainsKey('RootModule')) { $data.RootModule = $RootModule }
-    if ($PSBoundParameters.ContainsKey('ModuleVersion')) { $data.ModuleVersion = $ModuleVersion }
-    if ($PSBoundParameters.ContainsKey('CompatiblePSEditions')) { $data.CompatiblePSEditions = $CompatiblePSEditions }
-    if ($PSBoundParameters.ContainsKey('GUID')) { $data.GUID = $GUID }
-    if ($PSBoundParameters.ContainsKey('Author')) { $data.Author = $Author }
-    if ($PSBoundParameters.ContainsKey('CompanyName')) { $data.CompanyName = $CompanyName }
-    if ($PSBoundParameters.ContainsKey('Copyright')) { $data.Copyright = $Copyright }
-    if ($PSBoundParameters.ContainsKey('Description')) { $data.Description = $Description }
-    if ($PSBoundParameters.ContainsKey('PowerShellVersion')) { $data.PowerShellVersion = $PowerShellVersion }
-    if ($PSBoundParameters.ContainsKey('PowerShellHostName')) { $data.PowerShellHostName = $PowerShellHostName }
-    if ($PSBoundParameters.ContainsKey('PowerShellHostVersion')) { $data.PowerShellHostVersion = $PowerShellHostVersion }
-    if ($PSBoundParameters.ContainsKey('DotNetFrameworkVersion')) { $data.DotNetFrameworkVersion = $DotNetFrameworkVersion }
-    if ($PSBoundParameters.ContainsKey('ClrVersion')) { $data.ClrVersion = $ClrVersion }
-    if ($PSBoundParameters.ContainsKey('ProcessorArchitecture')) { $data.ProcessorArchitecture = $ProcessorArchitecture }
-    if ($PSBoundParameters.ContainsKey('RequiredModules')) { $data.RequiredModules = $RequiredModules }
-    if ($PSBoundParameters.ContainsKey('RequiredAssemblies')) { $data.RequiredAssemblies = $RequiredAssemblies }
-    if ($PSBoundParameters.ContainsKey('ScriptsToProcess')) { $data.ScriptsToProcess = $ScriptsToProcess }
-    if ($PSBoundParameters.ContainsKey('TypesToProcess')) { $data.TypesToProcess = $TypesToProcess }
-    if ($PSBoundParameters.ContainsKey('FormatsToProcess')) { $data.FormatsToProcess = $FormatsToProcess }
-    if ($PSBoundParameters.ContainsKey('NestedModules')) { $data.NestedModules = $NestedModules }
-    if ($PSBoundParameters.ContainsKey('FunctionsToExport')) { $data.FunctionsToExport = $FunctionsToExport }
-    if ($PSBoundParameters.ContainsKey('CmdletsToExport')) { $data.CmdletsToExport = $CmdletsToExport }
-    if ($PSBoundParameters.ContainsKey('VariablesToExport')) { $data.VariablesToExport = $VariablesToExport }
-    if ($PSBoundParameters.ContainsKey('AliasesToExport')) { $data.AliasesToExport = $AliasesToExport }
-    if ($PSBoundParameters.ContainsKey('DscResourcesToExport')) { $data.DscResourcesToExport = $DscResourcesToExport }
-    if ($PSBoundParameters.ContainsKey('ModuleList')) { $data.ModuleList = $ModuleList }
-    if ($PSBoundParameters.ContainsKey('FileList')) { $data.FileList = $FileList }
-    if ($PSBoundParameters.ContainsKey('HelpInfoURI')) { $data.HelpInfoURI = $HelpInfoURI }
-    if ($PSBoundParameters.ContainsKey('DefaultCommandPrefix')) { $data.DefaultCommandPrefix = $DefaultCommandPrefix }
+    $psdataOrder = @(
+        'Tags'
+        'LicenseUri'
+        'ProjectUri'
+        'IconUri'
+        'ReleaseNotes'
+        'Prerelease'
+        'RequireLicenseAcceptance'
+        'ExternalModuleDependencies'
+    )
+    foreach ($key in $psdataOrder) {
+        if ($tempPSData.Keys.Contains($key)) {
+            $outPSData.$key = $tempPSData.$key
+        }
+        if ($PSBoundParameters.Keys.Contains($key)) {
+            $outPSData.$key = $PSBoundParameters.$key
+        }
+    }
 
-    # Get existing PrivateData hashtable and override only the new values
-    $tempPrivateData = $data.PrivateData
-    $data.Remove('PrivateData')
+    foreach ($key in $tempPrivateData.Keys) {
+        $outPrivateData.$key = $tempPrivateData.$key
+    }
+    if ($outPSData.Count -gt 0) {
+        $outPrivateData.PSData = $outPSData
+    }
+    foreach ($key in $PrivateData.Keys) {
+        $outPrivateData.$key = $PrivateData.$key
+    }
 
-    # Get existing PSData hashtable and override only the new values
-    $tempPSData = $tempPrivateData.PSData
-    $tempPrivateData.Remove('PSData')
-    if ($PSBoundParameters.ContainsKey('Tags')) { $tempPSData.Tags = $Tags }
-    if ($PSBoundParameters.ContainsKey('LicenseUri')) { $tempPSData.LicenseUri = $LicenseUri }
-    if ($PSBoundParameters.ContainsKey('ProjectUri')) { $tempPSData.ProjectUri = $ProjectUri }
-    if ($PSBoundParameters.ContainsKey('IconUri')) { $tempPSData.IconUri = $IconUri }
-    if ($PSBoundParameters.ContainsKey('ReleaseNotes')) { $tempPSData.ReleaseNotes = $ReleaseNotes }
-    if ($PSBoundParameters.ContainsKey('Prerelease')) { $tempPSData.Prerelease = $Prerelease }
-    if ($PSBoundParameters.ContainsKey('RequireLicenseAcceptance')) { $tempPSData.RequireLicenseAcceptance = $RequireLicenseAcceptance }
-    if ($PSBoundParameters.ContainsKey('ExternalModuleDependencies')) { $tempPSData.ExternalModuleDependencies = $ExternalModuleDependencies }
+    $manifestOrder = @(
+        'RootModule'
+        'ModuleVersion'
+        'CompatiblePSEditions'
+        'GUID'
+        'Author'
+        'CompanyName'
+        'Copyright'
+        'Description'
+        'PowerShellVersion'
+        'PowerShellHostName'
+        'PowerShellHostVersion'
+        'DotNetFrameworkVersion'
+        'ClrVersion'
+        'ProcessorArchitecture'
+        'RequiredModules'
+        'RequiredAssemblies'
+        'ScriptsToProcess'
+        'TypesToProcess'
+        'FormatsToProcess'
+        'NestedModules'
+        'FunctionsToExport'
+        'CmdletsToExport'
+        'VariablesToExport'
+        'AliasesToExport'
+        'DscResourcesToExport'
+        'ModuleList'
+        'FileList'
+        'HelpInfoURI'
+        'DefaultCommandPrefix'
+        'PrivateData'
+    )
+    foreach ($key in $manifestOrder) {
+        if ($tempManifest.Keys.Contains($key)) {
+            $outManifest.$key = $tempManifest.$key
+        }
+        if ($PSBoundParameters.Keys.Contains($key)) {
+            $outManifest.$key = $PSBoundParameters.$key
+        }
+    }
+    if ($outPrivateData.Count -gt 0) {
+        $outManifest.PrivateData = $outPrivateData
+    } else {
+        $outManifest.Remove('PrivateData')
+    }
 
-    if ($PSBoundParameters.ContainsKey('PrivateData')) { $tempPrivateData = $privateData }
-    $tempPrivateData.PSData = $tempPSData
-    $data.PrivateData = $tempPrivateData
-
-    Write-Verbose ($data | Out-String)
     Remove-Item -Path $Path -Force
-    Export-PowerShellDataFile -Hashtable $data -Path $Path
+    Export-PowerShellDataFile -Hashtable $outManifest -Path $Path
 }
