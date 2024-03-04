@@ -218,7 +218,6 @@
     # Get existing PSData hashtable and override only the new values
     $tempPSData = $privateData.PSData
     $privateData.Remove('PSData')
-
     if ($PSBoundParameters.ContainsKey('Tags')) { $tempPSData.Tags = $Tags }
     if ($PSBoundParameters.ContainsKey('LicenseUri')) { $tempPSData.LicenseUri = $LicenseUri }
     if ($PSBoundParameters.ContainsKey('ProjectUri')) { $tempPSData.ProjectUri = $ProjectUri }
