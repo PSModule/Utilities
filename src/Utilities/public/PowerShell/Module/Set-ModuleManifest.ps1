@@ -180,43 +180,43 @@
 
     $data = Get-ModuleManifest -Path $Path
 
-    if ($PSBoundParameters.Contains('RootModule')) { $data.RootModule = $RootModule }
-    if ($PSBoundParameters.Contains('ModuleVersion')) { $data.ModuleVersion = $ModuleVersion }
-    if ($PSBoundParameters.Contains('CompatiblePSEditions')) { $data.CompatiblePSEditions = $CompatiblePSEditions }
-    if ($PSBoundParameters.Contains('GUID')) { $data.GUID = $GUID }
-    if ($PSBoundParameters.Contains('Author')) { $data.Author = $Author }
-    if ($PSBoundParameters.Contains('CompanyName')) { $data.CompanyName = $CompanyName }
-    if ($PSBoundParameters.Contains('Copyright')) { $data.Copyright = $Copyright }
-    if ($PSBoundParameters.Contains('Description')) { $data.Description = $Description }
-    if ($PSBoundParameters.Contains('PowerShellVersion')) { $data.PowerShellVersion = $PowerShellVersion }
-    if ($PSBoundParameters.Contains('PowerShellHostName')) { $data.PowerShellHostName = $PowerShellHostName }
-    if ($PSBoundParameters.Contains('PowerShellHostVersion')) { $data.PowerShellHostVersion = $PowerShellHostVersion }
-    if ($PSBoundParameters.Contains('DotNetFrameworkVersion')) { $data.DotNetFrameworkVersion = $DotNetFrameworkVersion }
-    if ($PSBoundParameters.Contains('ClrVersion')) { $data.ClrVersion = $ClrVersion }
-    if ($PSBoundParameters.Contains('ProcessorArchitecture')) { $data.ProcessorArchitecture = $ProcessorArchitecture }
-    if ($PSBoundParameters.Contains('RequiredModules')) { $data.RequiredModules = $RequiredModules }
-    if ($PSBoundParameters.Contains('RequiredAssemblies')) { $data.RequiredAssemblies = $RequiredAssemblies }
-    if ($PSBoundParameters.Contains('ScriptsToProcess')) { $data.ScriptsToProcess = $ScriptsToProcess }
-    if ($PSBoundParameters.Contains('TypesToProcess')) { $data.TypesToProcess = $TypesToProcess }
-    if ($PSBoundParameters.Contains('FormatsToProcess')) { $data.FormatsToProcess = $FormatsToProcess }
-    if ($PSBoundParameters.Contains('NestedModules')) { $data.NestedModules = $NestedModules }
-    if ($PSBoundParameters.Contains('FunctionsToExport')) { $data.FunctionsToExport = $FunctionsToExport }
-    if ($PSBoundParameters.Contains('CmdletsToExport')) { $data.CmdletsToExport = $CmdletsToExport }
-    if ($PSBoundParameters.Contains('VariablesToExport')) { $data.VariablesToExport = $VariablesToExport }
-    if ($PSBoundParameters.Contains('AliasesToExport')) { $data.AliasesToExport = $AliasesToExport }
-    if ($PSBoundParameters.Contains('DscResourcesToExport')) { $data.DscResourcesToExport = $DscResourcesToExport }
-    if ($PSBoundParameters.Contains('ModuleList')) { $data.ModuleList = $ModuleList }
-    if ($PSBoundParameters.Contains('FileList')) { $data.FileList = $FileList }
-    if ($PSBoundParameters.Contains('Tags')) { $data.Tags = $Tags }
-    if ($PSBoundParameters.Contains('LicenseUri')) { $data.LicenseUri = $LicenseUri }
-    if ($PSBoundParameters.Contains('ProjectUri')) { $data.ProjectUri = $ProjectUri }
-    if ($PSBoundParameters.Contains('IconUri')) { $data.IconUri = $IconUri }
-    if ($PSBoundParameters.Contains('ReleaseNotes')) { $data.ReleaseNotes = $ReleaseNotes }
-    if ($PSBoundParameters.Contains('Prerelease')) { $data.Prerelease = $Prerelease }
-    if ($PSBoundParameters.Contains('RequireLicenseAcceptance')) { $data.RequireLicenseAcceptance = $RequireLicenseAcceptance }
-    if ($PSBoundParameters.Contains('ExternalModuleDependencies')) { $data.ExternalModuleDependencies = $ExternalModuleDependencies }
-    if ($PSBoundParameters.Contains('HelpInfoURI')) { $data.HelpInfoURI = $HelpInfoURI }
-    if ($PSBoundParameters.Contains('DefaultCommandPrefix')) { $data.DefaultCommandPrefix = $DefaultCommandPrefix }
+    if ($PSBoundParameters.ContainsKey('RootModule')) { $data.RootModule = $RootModule }
+    if ($PSBoundParameters.ContainsKey('ModuleVersion')) { $data.ModuleVersion = $ModuleVersion }
+    if ($PSBoundParameters.ContainsKey('CompatiblePSEditions')) { $data.CompatiblePSEditions = $CompatiblePSEditions }
+    if ($PSBoundParameters.ContainsKey('GUID')) { $data.GUID = $GUID }
+    if ($PSBoundParameters.ContainsKey('Author')) { $data.Author = $Author }
+    if ($PSBoundParameters.ContainsKey('CompanyName')) { $data.CompanyName = $CompanyName }
+    if ($PSBoundParameters.ContainsKey('Copyright')) { $data.Copyright = $Copyright }
+    if ($PSBoundParameters.ContainsKey('Description')) { $data.Description = $Description }
+    if ($PSBoundParameters.ContainsKey('PowerShellVersion')) { $data.PowerShellVersion = $PowerShellVersion }
+    if ($PSBoundParameters.ContainsKey('PowerShellHostName')) { $data.PowerShellHostName = $PowerShellHostName }
+    if ($PSBoundParameters.ContainsKey('PowerShellHostVersion')) { $data.PowerShellHostVersion = $PowerShellHostVersion }
+    if ($PSBoundParameters.ContainsKey('DotNetFrameworkVersion')) { $data.DotNetFrameworkVersion = $DotNetFrameworkVersion }
+    if ($PSBoundParameters.ContainsKey('ClrVersion')) { $data.ClrVersion = $ClrVersion }
+    if ($PSBoundParameters.ContainsKey('ProcessorArchitecture')) { $data.ProcessorArchitecture = $ProcessorArchitecture }
+    if ($PSBoundParameters.ContainsKey('RequiredModules')) { $data.RequiredModules = $RequiredModules }
+    if ($PSBoundParameters.ContainsKey('RequiredAssemblies')) { $data.RequiredAssemblies = $RequiredAssemblies }
+    if ($PSBoundParameters.ContainsKey('ScriptsToProcess')) { $data.ScriptsToProcess = $ScriptsToProcess }
+    if ($PSBoundParameters.ContainsKey('TypesToProcess')) { $data.TypesToProcess = $TypesToProcess }
+    if ($PSBoundParameters.ContainsKey('FormatsToProcess')) { $data.FormatsToProcess = $FormatsToProcess }
+    if ($PSBoundParameters.ContainsKey('NestedModules')) { $data.NestedModules = $NestedModules }
+    if ($PSBoundParameters.ContainsKey('FunctionsToExport')) { $data.FunctionsToExport = $FunctionsToExport }
+    if ($PSBoundParameters.ContainsKey('CmdletsToExport')) { $data.CmdletsToExport = $CmdletsToExport }
+    if ($PSBoundParameters.ContainsKey('VariablesToExport')) { $data.VariablesToExport = $VariablesToExport }
+    if ($PSBoundParameters.ContainsKey('AliasesToExport')) { $data.AliasesToExport = $AliasesToExport }
+    if ($PSBoundParameters.ContainsKey('DscResourcesToExport')) { $data.DscResourcesToExport = $DscResourcesToExport }
+    if ($PSBoundParameters.ContainsKey('ModuleList')) { $data.ModuleList = $ModuleList }
+    if ($PSBoundParameters.ContainsKey('FileList')) { $data.FileList = $FileList }
+    if ($PSBoundParameters.ContainsKey('Tags')) { $data.Tags = $Tags }
+    if ($PSBoundParameters.ContainsKey('LicenseUri')) { $data.LicenseUri = $LicenseUri }
+    if ($PSBoundParameters.ContainsKey('ProjectUri')) { $data.ProjectUri = $ProjectUri }
+    if ($PSBoundParameters.ContainsKey('IconUri')) { $data.IconUri = $IconUri }
+    if ($PSBoundParameters.ContainsKey('ReleaseNotes')) { $data.ReleaseNotes = $ReleaseNotes }
+    if ($PSBoundParameters.ContainsKey('Prerelease')) { $data.Prerelease = $Prerelease }
+    if ($PSBoundParameters.ContainsKey('RequireLicenseAcceptance')) { $data.RequireLicenseAcceptance = $RequireLicenseAcceptance }
+    if ($PSBoundParameters.ContainsKey('ExternalModuleDependencies')) { $data.ExternalModuleDependencies = $ExternalModuleDependencies }
+    if ($PSBoundParameters.ContainsKey('HelpInfoURI')) { $data.HelpInfoURI = $HelpInfoURI }
+    if ($PSBoundParameters.ContainsKey('DefaultCommandPrefix')) { $data.DefaultCommandPrefix = $DefaultCommandPrefix }
 
     $tempPrivateData = $data.PrivateData
     $data.Remove('PrivateData')
@@ -224,8 +224,8 @@
     $tempPrivateData.Remove('PSData')
     $data.PrivateData = $tempPrivateData
 
-    if ($PSBoundParameters.Contains('PrivateData')) { $data.PrivateData = $tempPrivateData }
-
+    if ($PSBoundParameters.ContainsKey('PrivateData')) { $data.PrivateData = $tempPrivateData }
+    Write-Verbose ($data | Out-String)
     Remove-Item -Path $Path -Force
     New-ModuleManifest -Path $Path @data
     Format-ModuleManifest -Path $Path
