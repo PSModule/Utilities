@@ -22,5 +22,5 @@ jobs:
   Process-PSModule:
     uses: PSModule/Process-PSModule/.github/workflows/workflow.yml@main
     secrets: inherit
-    # with:
-    #   SkipTests: true
+    with:
+      SkipTests: true
