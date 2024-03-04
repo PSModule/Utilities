@@ -30,13 +30,13 @@
 
     switch ($As) {
         'FileInfo' {
-            return Get-Item -Path $manifestFilePath
+            return Get-Item -Path $Path
         }
         'Content' {
-            return Get-Content -Path $manifestFilePath
+            return Get-Content -Path $Path
         }
         'Hashtable' {
-            return Import-PowerShellDataFile -Path $manifestFilePath
+            return Import-PowerShellDataFile -Path $Path
         }
     }
 }

@@ -45,7 +45,7 @@ function Invoke-ReinstallModule {
     }
 
     $modules = Get-InstalledModule | Where-Object Name -Like "$Name"
-    Write-Verbose "Found [$($modules.Count)] modules" -Verbose
+    Write-Verbose "Found [$($modules.Count)] modules"
 
     $modules | ForEach-Object {
         if ($_.name -eq 'Pester') {

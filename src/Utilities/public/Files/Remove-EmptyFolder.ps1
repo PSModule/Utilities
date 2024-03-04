@@ -7,7 +7,7 @@
         Removes empty folders under the folder specified
 
         .EXAMPLE
-        Remove-EmptyFolder -Path . -Verbose
+        Remove-EmptyFolder -Path .
 
         Removes empty folders under the current path and outputs the results to the console.
     #>
