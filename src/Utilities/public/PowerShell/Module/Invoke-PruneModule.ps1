@@ -34,18 +34,18 @@
     $UpdateableModuleNames = $UpdateableModules.Name | Sort-Object -Unique
     foreach ($UpdateableModuleName in $UpdateableModuleNames) {
         $UpdateableModule = $UpdateableModules | Where-Object Name -EQ $UpdateableModuleName | Sort-Object -Property Version -Descending
-        Write-Verbose "[$($UpdateableModuleName)] - Found [$($UpdateableModule.Count)]" -Verbose
+        Write-Verbose "[$($UpdateableModuleName)] - Found [$($UpdateableModule.Count)]"
 
         $NewestModule = $UpdateableModule | Select-Object -First 1
-        Write-Verbose "[$($UpdateableModuleName)] - Newest [$($NewestModule.Version -join ', ')]" -Verbose
+        Write-Verbose "[$($UpdateableModuleName)] - Newest [$($NewestModule.Version -join ', ')]"
 
         $OutdatedModules = $UpdateableModule | Select-Object -Skip 1
-        Write-Verbose "[$($UpdateableModuleName)] - Outdated [$($OutdatedModules.Version -join ', ')]" -Verbose
+        Write-Verbose "[$($UpdateableModuleName)] - Outdated [$($OutdatedModules.Version -join ', ')]"
 
         foreach ($OutdatedModule in $OutdatedModules) {
-            Write-Verbose "[$($UpdateableModuleName)] - [$($OutdatedModule.Version)] - Removing" -Verbose
+            Write-Verbose "[$($UpdateableModuleName)] - [$($OutdatedModule.Version)] - Removing"
             $OutdatedModule | Remove-Module -Force
-            Write-Verbose "[$($UpdateableModuleName)] - [$($OutdatedModule.Version)] - Uninstalling" -Verbose
+            Write-Verbose "[$($UpdateableModuleName)] - [$($OutdatedModule.Version)] - Uninstalling"
             Uninstall-Module -Name $OutdatedModule.Name -RequiredVersion -Force
             try {
                 $OutdatedModule.ModuleBase | Remove-Item -Force -Recurse -ErrorAction Stop

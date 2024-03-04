@@ -40,7 +40,7 @@
         if ($Property -match 'VariablesFilePaths') {
             continue
         }
-        Set-GitHubEnv -Name $Property.Name -Value $Property.Value -Verbose
+        Set-GitHubEnv -Name $Property.Name -Value $Property.Value
     }
     Write-Output "$($MyInvocation.MyCommand) - $Path - Done"
 }
