@@ -114,7 +114,7 @@
 
         # Variables to export from this module.
         [Parameter()]
-        [string[]] $VariablesToExport = '*',
+        [string[]] $VariablesToExport,
 
         # Aliases to export from this module, for best performance, do not use wildcards and do not
         # delete the entry, use an empty array if there are no aliases to export.
@@ -175,57 +175,63 @@
 
         # Private data to pass to the module specified in RootModule/ModuleToProcess.
         # This may also contain a PSData hashtable with additional module metadata used by PowerShell.
+        [Parameter()]
         [hashtable] $PrivateData
     )
 
     $data = Get-ModuleManifest -Path $Path
 
-    if ($PSBoundParameters.ContainsKey('RootModule')) { $data['RootModule'] = $RootModule }
-    if ($PSBoundParameters.ContainsKey('ModuleVersion')) { $data['ModuleVersion'] = $ModuleVersion }
-    if ($PSBoundParameters.ContainsKey('CompatiblePSEditions')) { $data['CompatiblePSEditions'] = $CompatiblePSEditions }
-    if ($PSBoundParameters.ContainsKey('GUID')) { $data['GUID'] = $GUID }
-    if ($PSBoundParameters.ContainsKey('Author')) { $data['Author'] = $Author }
-    if ($PSBoundParameters.ContainsKey('CompanyName')) { $data['CompanyName'] = $CompanyName }
-    if ($PSBoundParameters.ContainsKey('Copyright')) { $data['Copyright'] = $Copyright }
-    if ($PSBoundParameters.ContainsKey('Description')) { $data['Description'] = $Description }
-    if ($PSBoundParameters.ContainsKey('PowerShellVersion')) { $data['PowerShellVersion'] = $PowerShellVersion }
-    if ($PSBoundParameters.ContainsKey('PowerShellHostName')) { $data['PowerShellHostName'] = $PowerShellHostName }
-    if ($PSBoundParameters.ContainsKey('PowerShellHostVersion')) { $data['PowerShellHostVersion'] = $PowerShellHostVersion }
-    if ($PSBoundParameters.ContainsKey('DotNetFrameworkVersion')) { $data['DotNetFrameworkVersion'] = $DotNetFrameworkVersion }
-    if ($PSBoundParameters.ContainsKey('ClrVersion')) { $data['ClrVersion'] = $ClrVersion }
-    if ($PSBoundParameters.ContainsKey('ProcessorArchitecture')) { $data['ProcessorArchitecture'] = $ProcessorArchitecture }
-    if ($PSBoundParameters.ContainsKey('RequiredModules')) { $data['RequiredModules'] = $RequiredModules }
-    if ($PSBoundParameters.ContainsKey('RequiredAssemblies')) { $data['RequiredAssemblies'] = $RequiredAssemblies }
-    if ($PSBoundParameters.ContainsKey('ScriptsToProcess')) { $data['ScriptsToProcess'] = $ScriptsToProcess }
-    if ($PSBoundParameters.ContainsKey('TypesToProcess')) { $data['TypesToProcess'] = $TypesToProcess }
-    if ($PSBoundParameters.ContainsKey('FormatsToProcess')) { $data['FormatsToProcess'] = $FormatsToProcess }
-    if ($PSBoundParameters.ContainsKey('NestedModules')) { $data['NestedModules'] = $NestedModules }
-    if ($PSBoundParameters.ContainsKey('FunctionsToExport')) { $data['FunctionsToExport'] = $FunctionsToExport }
-    if ($PSBoundParameters.ContainsKey('CmdletsToExport')) { $data['CmdletsToExport'] = $CmdletsToExport }
-    if ($PSBoundParameters.ContainsKey('VariablesToExport')) { $data['VariablesToExport'] = $VariablesToExport }
-    if ($PSBoundParameters.ContainsKey('AliasesToExport')) { $data['AliasesToExport'] = $AliasesToExport }
-    if ($PSBoundParameters.ContainsKey('DscResourcesToExport')) { $data['DscResourcesToExport'] = $DscResourcesToExport }
-    if ($PSBoundParameters.ContainsKey('ModuleList')) { $data['ModuleList'] = $ModuleList }
-    if ($PSBoundParameters.ContainsKey('FileList')) { $data['FileList'] = $FileList }
-    if ($PSBoundParameters.ContainsKey('Tags')) { $data['Tags'] = $Tags }
-    if ($PSBoundParameters.ContainsKey('LicenseUri')) { $data['LicenseUri'] = $LicenseUri }
-    if ($PSBoundParameters.ContainsKey('ProjectUri')) { $data['ProjectUri'] = $ProjectUri }
-    if ($PSBoundParameters.ContainsKey('IconUri')) { $data['IconUri'] = $IconUri }
-    if ($PSBoundParameters.ContainsKey('ReleaseNotes')) { $data['ReleaseNotes'] = $ReleaseNotes }
-    if ($PSBoundParameters.ContainsKey('Prerelease')) { $data['Prerelease'] = $Prerelease }
-    if ($PSBoundParameters.ContainsKey('RequireLicenseAcceptance')) { $data['RequireLicenseAcceptance'] = $RequireLicenseAcceptance }
-    if ($PSBoundParameters.ContainsKey('ExternalModuleDependencies')) { $data['ExternalModuleDependencies'] = $ExternalModuleDependencies }
-    if ($PSBoundParameters.ContainsKey('HelpInfoURI')) { $data['HelpInfoURI'] = $HelpInfoURI }
-    if ($PSBoundParameters.ContainsKey('DefaultCommandPrefix')) { $data['DefaultCommandPrefix'] = $DefaultCommandPrefix }
+    if ($PSBoundParameters.ContainsKey('RootModule')) { $data.RootModule = $RootModule }
+    if ($PSBoundParameters.ContainsKey('ModuleVersion')) { $data.ModuleVersion = $ModuleVersion }
+    if ($PSBoundParameters.ContainsKey('CompatiblePSEditions')) { $data.CompatiblePSEditions = $CompatiblePSEditions }
+    if ($PSBoundParameters.ContainsKey('GUID')) { $data.GUID = $GUID }
+    if ($PSBoundParameters.ContainsKey('Author')) { $data.Author = $Author }
+    if ($PSBoundParameters.ContainsKey('CompanyName')) { $data.CompanyName = $CompanyName }
+    if ($PSBoundParameters.ContainsKey('Copyright')) { $data.Copyright = $Copyright }
+    if ($PSBoundParameters.ContainsKey('Description')) { $data.Description = $Description }
+    if ($PSBoundParameters.ContainsKey('PowerShellVersion')) { $data.PowerShellVersion = $PowerShellVersion }
+    if ($PSBoundParameters.ContainsKey('PowerShellHostName')) { $data.PowerShellHostName = $PowerShellHostName }
+    if ($PSBoundParameters.ContainsKey('PowerShellHostVersion')) { $data.PowerShellHostVersion = $PowerShellHostVersion }
+    if ($PSBoundParameters.ContainsKey('DotNetFrameworkVersion')) { $data.DotNetFrameworkVersion = $DotNetFrameworkVersion }
+    if ($PSBoundParameters.ContainsKey('ClrVersion')) { $data.ClrVersion = $ClrVersion }
+    if ($PSBoundParameters.ContainsKey('ProcessorArchitecture')) { $data.ProcessorArchitecture = $ProcessorArchitecture }
+    if ($PSBoundParameters.ContainsKey('RequiredModules')) { $data.RequiredModules = $RequiredModules }
+    if ($PSBoundParameters.ContainsKey('RequiredAssemblies')) { $data.RequiredAssemblies = $RequiredAssemblies }
+    if ($PSBoundParameters.ContainsKey('ScriptsToProcess')) { $data.ScriptsToProcess = $ScriptsToProcess }
+    if ($PSBoundParameters.ContainsKey('TypesToProcess')) { $data.TypesToProcess = $TypesToProcess }
+    if ($PSBoundParameters.ContainsKey('FormatsToProcess')) { $data.FormatsToProcess = $FormatsToProcess }
+    if ($PSBoundParameters.ContainsKey('NestedModules')) { $data.NestedModules = $NestedModules }
+    if ($PSBoundParameters.ContainsKey('FunctionsToExport')) { $data.FunctionsToExport = $FunctionsToExport }
+    if ($PSBoundParameters.ContainsKey('CmdletsToExport')) { $data.CmdletsToExport = $CmdletsToExport }
+    if ($PSBoundParameters.ContainsKey('VariablesToExport')) { $data.VariablesToExport = $VariablesToExport }
+    if ($PSBoundParameters.ContainsKey('AliasesToExport')) { $data.AliasesToExport = $AliasesToExport }
+    if ($PSBoundParameters.ContainsKey('DscResourcesToExport')) { $data.DscResourcesToExport = $DscResourcesToExport }
+    if ($PSBoundParameters.ContainsKey('ModuleList')) { $data.ModuleList = $ModuleList }
+    if ($PSBoundParameters.ContainsKey('FileList')) { $data.FileList = $FileList }
+    if ($PSBoundParameters.ContainsKey('HelpInfoURI')) { $data.HelpInfoURI = $HelpInfoURI }
+    if ($PSBoundParameters.ContainsKey('DefaultCommandPrefix')) { $data.DefaultCommandPrefix = $DefaultCommandPrefix }
 
+    # Get existing PrivateData hashtable and override only the new values
     $tempPrivateData = $data.PrivateData
     $data.Remove('PrivateData')
-    $data += $tempPrivateData.PSData
-    $tempPrivateData.Remove('PSData')
+
+    # Get existing PSData hashtable and override only the new values
+    $tempPSData = $privateData.PSData
+    $privateData.Remove('PSData')
+    if ($PSBoundParameters.ContainsKey('Tags')) { $tempPSData.Tags = $Tags }
+    if ($PSBoundParameters.ContainsKey('LicenseUri')) { $tempPSData.LicenseUri = $LicenseUri }
+    if ($PSBoundParameters.ContainsKey('ProjectUri')) { $tempPSData.ProjectUri = $ProjectUri }
+    if ($PSBoundParameters.ContainsKey('IconUri')) { $tempPSData.IconUri = $IconUri }
+    if ($PSBoundParameters.ContainsKey('ReleaseNotes')) { $tempPSData.ReleaseNotes = $ReleaseNotes }
+    if ($PSBoundParameters.ContainsKey('Prerelease')) { $tempPSData.Prerelease = $Prerelease }
+    if ($PSBoundParameters.ContainsKey('RequireLicenseAcceptance')) { $tempPSData.RequireLicenseAcceptance = $RequireLicenseAcceptance }
+    if ($PSBoundParameters.ContainsKey('ExternalModuleDependencies')) { $tempPSData.ExternalModuleDependencies = $ExternalModuleDependencies }
+
+    if ($PSBoundParameters.ContainsKey('PrivateData')) { $privateData = $tempPrivateData }
+    $privateData.PSData = $tempPSData
     $data.PrivateData = $tempPrivateData
 
-    if ($PSBoundParameters.ContainsKey('PrivateData')) { $data.PrivateData = $tempPrivateData }
     Write-Verbose ($data | Out-String)
     Remove-Item -Path $Path -Force
-    Set-ModuleManifest -Path $Path @data
+    Export-PowerShellDataFile -Hashtable $data -Path $Path
 }
