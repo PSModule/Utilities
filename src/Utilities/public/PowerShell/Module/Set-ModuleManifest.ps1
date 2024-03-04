@@ -227,6 +227,5 @@
     if ($PSBoundParameters.ContainsKey('PrivateData')) { $data.PrivateData = $tempPrivateData }
     Write-Verbose ($data | Out-String)
     Remove-Item -Path $Path -Force
-    New-ModuleManifest -Path $Path @data
-    Format-ModuleManifest -Path $Path
+    Set-ModuleManifest -Path $Path @data
 }
