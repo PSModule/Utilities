@@ -230,4 +230,3 @@
     New-ModuleManifest -Path $Path @data
     Format-ModuleManifest -Path $Path
 }
-
