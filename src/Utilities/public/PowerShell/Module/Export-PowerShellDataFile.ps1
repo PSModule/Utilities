@@ -14,6 +14,6 @@
         [switch] $Force
     )
 
-    $psd1Content = Convert-HashtableToString -Hashtable $Hashtable
-    $psd1Content | Out-File -FilePath $FilePath -Force:$Force
+    $content = Convert-HashtableToString -Hashtable $Hashtable
+    $content | Out-File -FilePath $Path -Force:$Force
 }
