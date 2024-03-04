@@ -36,3 +36,13 @@
     }
 }
 
+Describe "Set-ModuleManifest" {
+    It "Sets the module manifest" {
+        $originalFilePath = Join-Path $PSScriptRoot 'manifests' 'Pester.psd1'
+        $tempFilePath = Join-Path $PSScriptRoot 'manifests' 'Pester.tmp.psd1'
+        Copy-Item -Path $originalFilePath -Destination $tempFilePath -Force
+        $org = Import-PowerShellDataFile -Path $originalFilePath
+        Set-ModuleManifest -Path $tempFilePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
+        $tempFilePath.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
+    }
+}
