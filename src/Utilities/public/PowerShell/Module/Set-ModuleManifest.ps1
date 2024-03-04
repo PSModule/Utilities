@@ -228,7 +228,7 @@
     if ($PSBoundParameters.ContainsKey('ExternalModuleDependencies')) { $tempPSData.ExternalModuleDependencies = $ExternalModuleDependencies }
 
     if ($PSBoundParameters.ContainsKey('PrivateData')) { $tempPrivateData = $privateData }
-    $privateData.PSData = $tempPSData
+    $tempPrivateData.PSData = $tempPSData
     $data.PrivateData = $tempPrivateData
 
     Write-Verbose ($data | Out-String)
