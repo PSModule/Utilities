@@ -60,9 +60,13 @@
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
             $lines += "$indent    $key = $nestedString"
         } elseif ($value -is [array]) {
-            $lines += "$indent    $key = @("
-            $value | ForEach-Object { $lines += "$indent        '$_'" }
-            $lines += "$indent    )"
+            if ($value.Count -eq 0) {
+                $lines += "$indent    $key = @()"
+            } else {
+                $lines += "$indent    $key = @("
+                $value | ForEach-Object { $lines += "$indent        '$_'" }
+                $lines += "$indent    )"
+            }
         } elseif ($value -is [bool]) {
             $lines += "$indent    $key = `$$($value.ToString().ToLower())"
         } elseif ($value -is [int]) {
