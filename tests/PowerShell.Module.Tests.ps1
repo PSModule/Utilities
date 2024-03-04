@@ -12,9 +12,9 @@
         $filePath = Join-Path $PSScriptRoot 'tmp.psd1'
         Export-PowerShellDataFile -Hashtable $hashtable -Path $filePath
         $test = Import-PowerShellDataFile -Path $filePath
-        $test | Should -Be $hashtable
         $test.Key1 | Should -Be 'Value1'
-        $test.Key2 | Should -Be @{NestedKey1 = 'NestedValue1'; NestedKey2 = 'NestedValue2'}
+        $test.Key2.NestedKey1 | Should -Be 'NestedValue1'
+        $test.Key2.NestedKey2 | Should -Be 'NestedValue2'
         $test.Key3 | Should -Be @(1, 2, 3)
         $test.Key4 | Should -Be $true
     }
