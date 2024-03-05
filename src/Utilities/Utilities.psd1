@@ -11,7 +11,7 @@
             )
             LicenseUri = 'https://github.com/PSModule/Utilities/blob/main/LICENSE'
             ProjectUri = 'https://github.com/PSModule/Utilities'
-            IconUri    = 'https://raw.githubusercontent.com/PSModule/Utilities/main/icon/PowerShell_Core_6.0_icon.png'
+            IconUri    = 'https://raw.githubusercontent.com/PSModule/Utilities/main/icon/icon.png'
         }
     }
 }
