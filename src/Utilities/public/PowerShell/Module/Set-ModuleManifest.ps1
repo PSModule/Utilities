@@ -240,7 +240,7 @@
         'ExternalModuleDependencies'
     )
     foreach ($key in $psdataOrder) {
-        if ($tempPSData.Keys.Contains($key)) {
+        if ($tempPSData -and $tempPSData.Keys.Contains($key)) {
             $outPSData.$key = $tempPSData.$key
         }
         if ($PSBoundParameters.Keys.Contains($key)) {
@@ -252,13 +252,13 @@
         }
     }
 
-    foreach ($key in $tempPrivateData.Keys) {
-        $outPrivateData.$key = $tempPrivateData.$key
-    }
     if ($outPSData.Count -gt 0) {
         $outPrivateData.PSData = $outPSData
     } else {
         $outPrivateData.Remove('PSData')
+    }
+    foreach ($key in $tempPrivateData.Keys) {
+        $outPrivateData.$key = $tempPrivateData.$key
     }
     foreach ($key in $PrivateData.Keys) {
         $outPrivateData.$key = $PrivateData.$key
