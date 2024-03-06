@@ -1,10 +1,18 @@
-﻿# Input should be the path to the module manifest file
-# Validate that the path exists and that it is a module manifest file
-# input the name of a property that takes an array of strings
-# input the values to add to the property
-# Add-ModuleManifestData -Path $rootModuleFile -Property 'FunctionsToExport' -Value 'Get-MyModule'
+﻿function Add-ModuleManifestData {
+    <#
+        .SYNOPSIS
+        Add data to a module manifest file property
 
-function Add-ModuleManifestData {
+        .DESCRIPTION
+        This function adds data to a module manifest file property.
+        If the property doesn't exist, it will be created.
+        If it does exist, the new data will be appended to the existing data.
+
+        .EXAMPLE
+        Add-ModuleManifestData -Path 'MyModule.psd1' -RequiredModules 'pester', 'platyPS'
+
+        Adds the modules 'pester' and 'platyPS' to the RequiredModules property of the module manifest file 'MyModule.psd1'.
+    #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)]
