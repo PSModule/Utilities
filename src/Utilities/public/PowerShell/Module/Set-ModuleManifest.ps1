@@ -17,7 +17,11 @@
     [CmdletBinding()]
     param(
         # Path to the module manifest file.
-        [Parameter(Mandatory)]
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline,
+            ValueFromPipelineByPropertyName
+        )]
         [string] $Path,
 
         #Script module or binary module file associated with this manifest.
