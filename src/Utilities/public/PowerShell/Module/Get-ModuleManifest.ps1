@@ -59,7 +59,7 @@
                 'ExternalModuleDependencies'
             )
             foreach ($key in $psdataOrder) {
-                if ($tempPSData.ContainsKey($key)) {
+                if (($null -ne $tempPSData) -and ($tempPSData.ContainsKey($key))) {
                     $psData.$key = $tempPSData.$key
                 }
             }
