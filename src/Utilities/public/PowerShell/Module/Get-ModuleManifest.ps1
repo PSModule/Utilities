@@ -39,7 +39,6 @@
             $manifest = [ordered]@{}
             $psData = [ordered]@{}
             $privateData = [ordered]@{}
-
             $tempManifest = Import-PowerShellDataFile -Path $Path
             if ($tempManifest.ContainsKey('PrivateData')) {
                 $tempPrivateData = $tempManifest.PrivateData
@@ -64,13 +63,15 @@
                     $psData.$key = $tempPSData.$key
                 }
             }
-
+            if ($psData.Count -gt 0) {
+                $privateData.PSData = $psData
+            } else {
+                $privateData.Remove('PSData')
+            }
             foreach ($key in $tempPrivateData.Keys) {
                 $privateData.$key = $tempPrivateData.$key
             }
-            if ($psData.Count -gt 0) {
-                $privateData.PSData = $psData
-            }
+
             $manifestOrder = @(
                 'RootModule'
                 'ModuleVersion'
