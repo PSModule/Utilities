@@ -244,7 +244,7 @@
         'ExternalModuleDependencies'
     )
     foreach ($key in $psdataOrder) {
-        if ($tempPSData -and $tempPSData.Keys.Contains($key)) {
+        if (($null -ne $tempPSData) -and $tempPSData.Keys.Contains($key)) {
             $outPSData.$key = $tempPSData.$key
         }
         if ($PSBoundParameters.Keys.Contains($key)) {
