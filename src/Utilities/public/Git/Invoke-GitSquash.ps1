@@ -34,7 +34,7 @@
     git checkout -b $TempBranchName
     git add .
     git commit -m "$CommitMessage"
-    git push --force
+    git push --set-upstream origin $TempBranchName
     git checkout $BranchName
     git push --force
 }
