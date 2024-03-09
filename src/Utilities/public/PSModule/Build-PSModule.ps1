@@ -1,6 +1,4 @@
-﻿#REQUIRES -Modules Utilities, PSScriptAnalyzer
-
-function Build-PSModule {
+﻿function Build-PSModule {
     <#
         .SYNOPSIS
         Builds a module.
