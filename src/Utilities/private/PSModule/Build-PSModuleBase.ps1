@@ -1,6 +1,4 @@
-﻿#Requires -Modules Utilities
-
-function Build-PSModuleBase {
+﻿function Build-PSModuleBase {
     <#
         .SYNOPSIS
         Compiles the base module files.

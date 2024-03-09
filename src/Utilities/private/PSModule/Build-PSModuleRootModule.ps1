@@ -1,4 +1,4 @@
-﻿#Requires -Modules PSScriptAnalyzer, Utilities
+﻿#Requires -Modules PSScriptAnalyzer
 
 function Build-PSModuleRootModule {
     <#

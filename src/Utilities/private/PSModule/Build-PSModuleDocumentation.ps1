@@ -1,4 +1,4 @@
-﻿#Requires -Modules platyPS, Utilities
+﻿#Requires -Modules platyPS
 
 function Build-PSModuleDocumentation {
     <#
