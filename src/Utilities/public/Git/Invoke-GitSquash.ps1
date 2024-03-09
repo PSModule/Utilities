@@ -21,12 +21,20 @@
 
         # The branch to squash
         [Parameter()]
-        [string] $BranchName = 'main'
+        [string] $BranchName = 'main',
+
+        # Temporary branch name
+        [Parameter()]
+        [string] $TempBranchName = 'init'
     )
 
     git fetch --all --prune
     $gitHightFrom2ndCommit = [int](git rev-list --count --first-parent $BranchName) - 1
     git reset HEAD~$gitHightFrom2ndCommit
-    git commit -am "$CommitMessage"
+    git checkout -b $TempBranchName
+    git add .
+    git commit -m "$CommitMessage"
+    git push --force
+    git checkout $BranchName
     git push --force
 }
