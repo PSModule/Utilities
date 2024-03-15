@@ -37,4 +37,5 @@
     git push --set-upstream origin $TempBranchName
     git checkout $BranchName
     git push --force
+    git checkout $TempBranchName
 }
