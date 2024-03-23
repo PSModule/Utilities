@@ -49,7 +49,10 @@
     $indent = '    ' * $IndentLevel
 
     foreach ($key in $Hashtable.Keys) {
+        Write-Verbose "Processing key: $key"
         $value = $Hashtable[$key]
+        Write-Verbose "Processing value: $value"
+        Write-Verbose "Value type: $($value.GetType().Name)"
         if (($value -is [hashtable]) -or ($value -is [ordered])) {
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
             $lines += "$indent    $key = $nestedString"
@@ -59,18 +62,32 @@
         } elseif ($value -is [System.Management.Automation.PSObject]) {
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
             $lines += "$indent    $key = $nestedString"
+        } elseif ($value -is [bool]) {
+            $lines += "$indent    $key = `$$($value.ToString().ToLower())"
+        } elseif ($value -is [int]) {
+            $lines += "$indent    $key = $value"
         } elseif ($value -is [array]) {
             if ($value.Count -eq 0) {
                 $lines += "$indent    $key = @()"
             } else {
                 $lines += "$indent    $key = @("
-                $value | ForEach-Object { $lines += "$indent        '$_'" }
+                $value | ForEach-Object {
+                    $nestedValue = $_
+                    Write-Verbose "Processing array element: $_"
+                    Write-Verbose "Element type: $($_.GetType().Name)"
+                    if (($nestedValue -is [hashtable]) -or ($nestedValue -is [ordered])) {
+                        $nestedString = Convert-HashtableToString -Hashtable $nestedValue -IndentLevel ($IndentLevel + 1)
+                        $lines += "$indent    $nestedString"
+                    } elseif ($nestedValue -is [bool]) {
+                        $lines += "$indent    `$$($nestedValue.ToString().ToLower())"
+                    } elseif ($nestedValue -is [int]) {
+                        $lines += "$indent    $nestedValue"
+                    } else {
+                        $lines += "$indent        '$nestedValue'"
+                    }
+                }
                 $lines += "$indent    )"
             }
-        } elseif ($value -is [bool]) {
-            $lines += "$indent    $key = `$$($value.ToString().ToLower())"
-        } elseif ($value -is [int]) {
-            $lines += "$indent    $key = $value"
         } else {
             $lines += "$indent    $key = '$value'"
         }
