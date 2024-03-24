@@ -22,11 +22,13 @@
 
     $path = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
     if ($PSCmdlet.ShouldProcess("'ShowFileExtension' to [$ShowFileExtension]", 'Set')) {
-        Set-ItemProperty -Path $path -Name HideFileExt -Value ($ShowFileExtension ? 0 : 1)
+        $hideFileExt = if ($ShowFileExtension) { 0 } else { 1 }
+        Set-ItemProperty -Path $path -Name HideFileExt -Value $hideFileExt
     }
 
     if ($PSCmdlet.ShouldProcess("'ShowHiddenFiles' to [$ShowFileExtension]", 'Set')) {
-        Set-ItemProperty -Path $path -Name Hidden -Value ($ShowHiddenFiles ? 1 : 2)
+        $hiddenFiles = if ($ShowHiddenFiles) { 1 } else { 2 }
+        Set-ItemProperty -Path $path -Name Hidden -Value $hiddenFiles
     }
 
     # Refresh File Explorer
