@@ -19,7 +19,7 @@
         [string] $Path
     )
 
-    if ($IsWindows) {
+    if ([System.Environment]::OSVersion.Platform -eq 'Win32NT') {
         $PSModulePathSeparator = ';'
     } else {
         $PSModulePathSeparator = ':'
