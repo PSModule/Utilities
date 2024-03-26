@@ -1,5 +1,5 @@
-﻿Describe "Export-PowerShellDataFile" {
-    It "Exports a hashtable to a .psd1 file" {
+﻿Describe 'Export-PowerShellDataFile' {
+    It 'Exports a hashtable to a .psd1 file' {
         $hashtable = @{
             Key1 = 'Value1'
             Key2 = @{
@@ -9,7 +9,7 @@
             Key3 = @(1, 2, 3)
             Key4 = $true
         }
-        $filePath = Join-Path $PSScriptRoot 'tmp.psd1'
+        $filePath = Join-Path -Path $PSScriptRoot -ChildPath 'tmp.psd1'
         Export-PowerShellDataFile -Hashtable $hashtable -Path $filePath
         $test = Import-PowerShellDataFile -Path $filePath
         $test.Key1 | Should -Be 'Value1'
@@ -19,8 +19,8 @@
         $test.Key4 | Should -Be $true
     }
     It "Can correctly read 'Pester.psd1'" {
-        $originalFilePath = Join-Path $PSScriptRoot 'manifests' 'Pester.psd1'
-        $tempFilePath = Join-Path $PSScriptRoot 'manifests' 'Pester.tmp.psd1'
+        $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.psd1'
+        $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests' 'Pester.tmp.psd1'
         $hashtable = Import-PowerShellDataFile -Path $originalFilePath
         Export-PowerShellDataFile -Hashtable $hashtable -Path $tempFilePath
         $test = Import-PowerShellDataFile -Path $tempFilePath
@@ -36,10 +36,10 @@
     }
 }
 
-Describe "Set-ModuleManifest" {
-    It "Sets the module manifest" {
-        $originalFilePath = Join-Path $PSScriptRoot 'manifests' 'Pester.psd1'
-        $tempFilePath = Join-Path $PSScriptRoot 'manifests' 'Pester.tmp.psd1'
+Describe 'Set-ModuleManifest' {
+    It 'Sets the module manifest' {
+        $originalFilePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.psd1'
+        $tempFilePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.tmp.psd1'
         Copy-Item -Path $originalFilePath -Destination $tempFilePath -Force
         $org = Import-PowerShellDataFile -Path $originalFilePath
         Set-ModuleManifest -Path $tempFilePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
