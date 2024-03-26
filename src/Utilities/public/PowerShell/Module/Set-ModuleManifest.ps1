@@ -174,7 +174,7 @@
         [AllowNull()]
         [uri] $LicenseUri,
 
-        # A URL to the main website for this project.
+        # A URL to the main web site for this project.
         [Parameter()]
         [AllowNull()]
         [uri] $ProjectUri,

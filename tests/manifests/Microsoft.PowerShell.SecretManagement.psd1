@@ -67,7 +67,7 @@ PrivateData = @{
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/PowerShell/SecretManagement/blob/master/LICENSE'
 
-        # A URL to the main website for this project.
+        # A URL to the main web site for this project.
         ProjectUri = 'https://github.com/powershell/secretmanagement'
 
         # A URL to an icon representing this module.
