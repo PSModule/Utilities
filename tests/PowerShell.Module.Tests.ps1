@@ -20,7 +20,7 @@
     }
     It "Can correctly read 'Pester.psd1'" {
         $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.psd1'
-        $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests' 'Pester.tmp.psd1'
+        $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.tmp.psd1'
         $hashtable = Import-PowerShellDataFile -Path $originalFilePath
         Export-PowerShellDataFile -Hashtable $hashtable -Path $tempFilePath
         $test = Import-PowerShellDataFile -Path $tempFilePath
