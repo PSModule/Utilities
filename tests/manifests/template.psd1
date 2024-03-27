@@ -38,7 +38,6 @@
             ExternalModuleDependencies = @()
             ExperimentalFeatures       = @()
         }
-        OtherKeys = [object]
     }
     HelpInfoURI            = ''
     DefaultCommandPrefix   = ''
