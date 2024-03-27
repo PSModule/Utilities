@@ -5,7 +5,7 @@
 
         .DESCRIPTION
         Adds a path to the PSModulePath environment variable.
-        For Linux and MacOS, the path delimiter is ':' and for Windows it is ';'.
+        For Linux and macOS, the path delimiter is ':' and for Windows it is ';'.
 
         .EXAMPLE
         Add-PSModulePath -Path 'C:\Users\user\Documents\WindowsPowerShell\Modules'
