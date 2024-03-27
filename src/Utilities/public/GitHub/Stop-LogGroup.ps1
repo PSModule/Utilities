@@ -28,9 +28,9 @@
     param ()
 
     if ($env:GITHUB_ACTIONS) {
-        Write-Host ('::' + 'endgroup::') #Avoid it being run in the pipeline
+        Write-Host '::endgroup::'
     } elseif ( $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI ) {
-        Write-Host ('##' + '[endgroup]') #Avoid it being run in the workflow
+        Write-Host '##[endgroup]'
     } else {
         Write-Host "-------- $Name --------"
     }

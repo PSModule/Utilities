@@ -32,9 +32,9 @@
     )
 
     if ($env:GITHUB_ACTIONS) {
-        Write-Host ('::' + "group::$Name") #Avoid it being run in the pipeline
+        Write-Host "::group::$Name"
     } elseif ( $env:SYSTEM_TEAMFOUNDATIONCOLLECTIONURI ) {
-        Write-Host ("##" + "[group]$Name") #Avoid it being run in the workflow
+        Write-Host "##[group]$Name"
     } else {
         Write-Host "-------- $Name --------"
     }
