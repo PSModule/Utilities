@@ -52,6 +52,10 @@
         Write-Verbose "Processing key: $key"
         $value = $Hashtable[$key]
         Write-Verbose "Processing value: $value"
+        if ($null -eq $value) {
+            Write-Verbose "Value type: `$null"
+            continue
+        }
         Write-Verbose "Value type: $($value.GetType().Name)"
         if (($value -is [System.Collections.Hashtable]) -or ($value -is [System.Collections.Specialized.OrderedDictionary])) {
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
