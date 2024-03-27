@@ -37,6 +37,7 @@
     param (
         # The hashtable to convert to a string.
         [Parameter(Mandatory)]
+        [AllowNull()]
         [object]$Hashtable,
 
         # The indentation level.
@@ -53,7 +54,9 @@
         $value = $Hashtable[$key]
         Write-Verbose "Processing value: $value"
         Write-Verbose "Value type: $($value.GetType().Name)"
-        if (($value -is [System.Collections.Hashtable]) -or ($value -is [System.Collections.Specialized.OrderedDictionary])) {
+        if ($null -eq $Hashtable[$key]) {
+            $lines += "$indent    `$null"
+        } elseif (($value -is [System.Collections.Hashtable]) -or ($value -is [System.Collections.Specialized.OrderedDictionary])) {
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
             $lines += "$indent    $key = $nestedString"
         } elseif ($value -is [System.Management.Automation.PSCustomObject]) {
