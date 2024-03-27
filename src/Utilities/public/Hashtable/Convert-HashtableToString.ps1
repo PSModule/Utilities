@@ -37,6 +37,7 @@
     param (
         # The hashtable to convert to a string.
         [Parameter(Mandatory)]
+        [AllowNull()]
         [object]$Hashtable,
 
         # The indentation level.

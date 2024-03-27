@@ -9,6 +9,7 @@ function Join-Uri {
 
         .EXAMPLE
         Join-Uri -Path 'https://example.com' -ChildPath 'foo' -AdditionalChildPath 'bar'
+        https://example.com/foo/bar
 
         Joins the base URI <https://example.com> with the child paths 'foo' and 'bar' to create the URI <https://example.com/foo/bar>.
 
