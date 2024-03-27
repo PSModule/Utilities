@@ -310,6 +310,8 @@
             } else {
                 $outManifest.$key = $PSBoundParameters.$key
             }
+        } else {
+            $outManifest.Remove($key)
         }
     }
     if ($outPrivateData.Count -gt 0) {
