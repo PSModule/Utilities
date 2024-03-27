@@ -9,7 +9,7 @@
         .EXAMPLE
         Get-PSModuleManifest -Path 'src/PSModule/PSModule.psd1' -As Hashtable
     #>
-    [OutputType([string], [System.IO.FileInfo], [System.Collections.Hashtable], [ordered])]
+    [OutputType([string], [System.IO.FileInfo], [System.Collections.Hashtable], [System.Collections.Specialized.OrderedDictionary])]
     [CmdletBinding()]
     param(
         # Path to the module manifest file.
@@ -36,9 +36,9 @@
             return Get-Content -Path $Path
         }
         'Hashtable' {
-            $manifest = [ordered]@{}
-            $psData = [ordered]@{}
-            $privateData = [ordered]@{}
+            $manifest = [System.Collections.Specialized.OrderedDictionary]@{}
+            $psData = [System.Collections.Specialized.OrderedDictionary]@{}
+            $privateData = [System.Collections.Specialized.OrderedDictionary]@{}
             $tempManifest = Import-PowerShellDataFile -Path $Path
             if ($tempManifest.ContainsKey('PrivateData')) {
                 $tempPrivateData = $tempManifest.PrivateData
