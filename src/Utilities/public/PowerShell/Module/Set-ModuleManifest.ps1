@@ -1,4 +1,4 @@
-﻿function Set-ModuleManifest {
+﻿filter Set-ModuleManifest {
     <#
         .SYNOPSIS
         Sets the values of a module manifest file.
@@ -320,4 +320,5 @@
 
     Remove-Item -Path $Path -Force
     Export-PowerShellDataFile -Hashtable $outManifest -Path $Path
+
 }
