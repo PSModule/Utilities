@@ -1,4 +1,4 @@
-﻿filter Set-ModuleManifest {
+﻿function Set-ModuleManifest {
     <#
         .SYNOPSIS
         Sets the values of a module manifest file.
@@ -310,8 +310,6 @@
             } else {
                 $outManifest.$key = $PSBoundParameters.$key
             }
-        } else {
-            $outManifest.Remove($key)
         }
     }
     if ($outPrivateData.Count -gt 0) {
