@@ -1,4 +1,4 @@
-﻿function Set-ModuleManifest {
+﻿filter Set-ModuleManifest {
     <#
         .SYNOPSIS
         Sets the values of a module manifest file.
