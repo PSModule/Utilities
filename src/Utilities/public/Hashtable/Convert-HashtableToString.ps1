@@ -53,7 +53,7 @@
         $value = $Hashtable[$key]
         Write-Verbose "Processing value: $value"
         Write-Verbose "Value type: $($value.GetType().Name)"
-        if (($value -is [hashtable]) -or ($value -is [ordered])) {
+        if (($value -is [System.Collections.Hashtable]) -or ($value -is [System.Collections.Specialized.OrderedDictionary])) {
             $nestedString = Convert-HashtableToString -Hashtable $value -IndentLevel ($IndentLevel + 1)
             $lines += "$indent    $key = $nestedString"
         } elseif ($value -is [System.Management.Automation.PSCustomObject]) {
@@ -75,7 +75,7 @@
                     $nestedValue = $_
                     Write-Verbose "Processing array element: $_"
                     Write-Verbose "Element type: $($_.GetType().Name)"
-                    if (($nestedValue -is [hashtable]) -or ($nestedValue -is [ordered])) {
+                    if (($nestedValue -is [System.Collections.Hashtable]) -or ($nestedValue -is [System.Collections.Specialized.OrderedDictionary])) {
                         $nestedString = Convert-HashtableToString -Hashtable $nestedValue -IndentLevel ($IndentLevel + 1)
                         $lines += "$indent    $nestedString"
                     } elseif ($nestedValue -is [bool]) {

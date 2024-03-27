@@ -221,9 +221,9 @@
         [object] $PrivateData
     )
 
-    $outManifest = [ordered]@{}
-    $outPSData = [ordered]@{}
-    $outPrivateData = [ordered]@{}
+    $outManifest = [System.Collections.Specialized.OrderedDictionary]@{}
+    $outPSData = [System.Collections.Specialized.OrderedDictionary]@{}
+    $outPrivateData = [System.Collections.Specialized.OrderedDictionary]@{}
     $tempManifest = Get-ModuleManifest -Path $Path
     if ($tempManifest.Keys.Contains('PrivateData')) {
         $tempPrivateData = $tempManifest.PrivateData
