@@ -43,5 +43,4 @@
         $Result.Mode | Should -Be 'Override1'
         $Result.Name | Should -Be 'Override2'
     }
-    
 }
