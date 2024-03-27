@@ -1,6 +1,6 @@
 ﻿@{
     RootModule             = ''
-    ModuleVersion          = ''
+    ModuleVersion          = '0.0.0'
     CompatiblePSEditions   = @()
     GUID                   = ''
     Author                 = ''
