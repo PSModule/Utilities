@@ -10,14 +10,14 @@ function Join-Uri {
         .EXAMPLE
         Join-Uri -Path 'https://example.com' -ChildPath 'foo' -AdditionalChildPath 'bar'
 
-        Joins the base URI 'https://example.com' with the child paths 'foo' and 'bar' to create the URI 'https://example.com/foo/bar'.
+        Joins the base URI <https://example.com> with the child paths 'foo' and 'bar' to create the URI <https://example.com/foo/bar>.
 
         .EXAMPLE
         Join-Uri 'https://example.com' '/foo/' '/bar/' '//baz/something/' '/test/'
 
-        https://example.com/foo/bar/baz/something/test
+        <https://example.com/foo/bar/baz/something/test>
 
-        Combines the base URI 'https://example.com' with the child paths '/foo/', '/bar/', '//baz/something/', and '/test/'.
+        Combines the base URI <https://example.com> with the child paths '/foo/', '/bar/', '//baz/something/', and '/test/'.
 
     #>
     [OutputType([uri])]

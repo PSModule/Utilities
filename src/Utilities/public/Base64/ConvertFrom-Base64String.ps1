@@ -1,21 +1,21 @@
 ﻿filter ConvertFrom-Base64String {
     <#
         .SYNOPSIS
-        Convert to string from Base64
+        Convert to string from base64
 
         .DESCRIPTION
-        Convert to string from Base64
+        Convert to string from base64
 
         .EXAMPLE
         ConvertFrom-Base64String -String 'SABlAGwAbABvACAAVwBvAHIAbABkAA=='
 
         Hello World
 
-        Converts the string from Base64 to a regular string.
+        Converts the string from base64 to a regular string.
     #>
     [CmdletBinding()]
     param (
-        # The string to convert from Base64
+        # The string to convert from base64
         [Parameter(
             Mandatory,
             ValueFromPipeline,
