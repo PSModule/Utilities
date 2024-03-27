@@ -38,7 +38,7 @@
         $test.FunctionsToExport | Should -Contain 'Describe'
         $test.CmdletsToExport | Should -Be ''
         $test.VariablesToExport | Should -Be @()
-        $test.FormatsToProcess | Should -Contain  @()
+        $test.FormatsToProcess | Should -Be  @()
         $test.PrivateData.PSData.Category | Should -Be 'Scripting Techniques'
         $test.PrivateData.PSData.Tags | Should -Contain 'bdd'
         $test.PrivateData.PSData.IconUri | Should -Be 'https://raw.githubusercontent.com/pester/Pester/main/images/pester.PNG'
