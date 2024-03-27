@@ -17,13 +17,16 @@
         [string] $Path
     )
 
+    $Utf8BomEncoding = New-Object System.Text.UTF8Encoding $true
+
     $manifestContent = Get-Content -Path $Path
     $manifestContent = $manifestContent | ForEach-Object { $_ -replace '#.*' }
     $manifestContent = $manifestContent | ForEach-Object { $_.TrimEnd() }
     $manifestContent = $manifestContent | Where-Object { $_ | IsNotNullOrEmpty }
-    $manifestContent | Out-File -FilePath $Path -Encoding utf8BOM -Force
+    [System.IO.File]::WriteAllLines($Path, $manifestContent, $Utf8BomEncoding)
     $manifestContent = Get-Content -Path $Path -Raw
 
-    Invoke-Formatter -ScriptDefinition $manifestContent | Out-File -FilePath $Path -Encoding utf8BOM -Force
+    $content = Invoke-Formatter -ScriptDefinition $manifestContent
+    [System.IO.File]::WriteAllLines($Path, $content, $Utf8BomEncoding)
 
 }
