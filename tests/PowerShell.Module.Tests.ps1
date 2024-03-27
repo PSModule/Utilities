@@ -18,31 +18,44 @@
         $test.Key3 | Should -Be @(1, 2, 3)
         $test.Key4 | Should -Be $true
     }
-    It "Can correctly read 'Pester.psd1'" {
+    It "Can correctly read 'Pester.psd1' after importing and exporting it" {
         $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.psd1'
-        $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests' 'Pester.tmp.psd1'
+        $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.tmp.psd1'
         $hashtable = Import-PowerShellDataFile -Path $originalFilePath
         Export-PowerShellDataFile -Hashtable $hashtable -Path $tempFilePath
+        Write-Verbose (Get-Content -Path $tempFilePath | Out-String) -Verbose
         $test = Import-PowerShellDataFile -Path $tempFilePath
-        $test.Author | Should -Be 'Pester Team'
+        $test.RootModule | Should -Be 'Pester.psm1'
         $test.ModuleVersion | Should -Be '5.5.0'
+        $test.GUID | Should -Be 'a699dea5-2c73-4616-a270-1f7abb777e71'
+        $test.Author | Should -Be 'Pester Team'
+        $test.CompanyName | Should -Be 'Pester'
+        $test.CopyRight | Should -Be 'Copyright (c) 2021 by Pester Team, licensed under Apache 2.0 License.'
+        $test.PowerShellVersion | Should -Be '3.0'
+        $test.TypesToProcess | Should -Be @()
+        $test.FormatsToProcess | Should -Be @()
         $test.AliasesToExport | Should -Contain 'Add-AssertionOperator'
         $test.FunctionsToExport | Should -Contain 'Describe'
-        $test.FormatsToProcess | Should -Contain 'Pester.Format.ps1xml'
+        $test.CmdletsToExport | Should -Be ''
         $test.VariablesToExport | Should -Be @()
+        $test.FormatsToProcess | Should -Be  @()
         $test.PrivateData.PSData.Category | Should -Be 'Scripting Techniques'
         $test.PrivateData.PSData.Tags | Should -Contain 'bdd'
+        $test.PrivateData.PSData.IconUri | Should -Be 'https://raw.githubusercontent.com/pester/Pester/main/images/pester.PNG'
+        $test.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
+        $test.PrivateData.PSData.LicenseUri | Should -Be 'https://www.apache.org/licenses/LICENSE-2.0.html'
+        $test.PrivateData.PSData.ReleaseNotes | Should -Be 'https://github.com/pester/Pester/releases/tag/5.5.0'
+        $test.PrivateData.PSData.preRelease | Should -Be ''
         $test.PrivateData.RequiredAssemblyVersion | Should -Be '5.5.0'
     }
 }
 
 Describe 'Set-ModuleManifest' {
     It 'Sets the module manifest' {
-        $originalFilePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.psd1'
-        $tempFilePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.tmp.psd1'
-        Copy-Item -Path $originalFilePath -Destination $tempFilePath -Force
-        $org = Import-PowerShellDataFile -Path $originalFilePath
-        Set-ModuleManifest -Path $tempFilePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
-        $tempFilePath.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
+        $filePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.psd1'
+        Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
+        $manifest = Import-PowerShellDataFile -Path $filePath
+        Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
+        $manifest.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
     }
 }

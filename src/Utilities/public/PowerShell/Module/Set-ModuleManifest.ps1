@@ -1,4 +1,4 @@
-﻿function Set-ModuleManifest {
+﻿filter Set-ModuleManifest {
     <#
         .SYNOPSIS
         Sets the values of a module manifest file.
@@ -221,9 +221,10 @@
         [object] $PrivateData
     )
 
-    $outManifest = [System.Collections.Specialized.OrderedDictionary]@{}
-    $outPSData = [System.Collections.Specialized.OrderedDictionary]@{}
-    $outPrivateData = [System.Collections.Specialized.OrderedDictionary]@{}
+    $outManifest = [ordered]@{}
+    $outPSData = [ordered]@{}
+    $outPrivateData = [ordered]@{}
+
     $tempManifest = Get-ModuleManifest -Path $Path
     if ($tempManifest.Keys.Contains('PrivateData')) {
         $tempPrivateData = $tempManifest.PrivateData
@@ -245,13 +246,13 @@
     )
     foreach ($key in $psdataOrder) {
         if (($null -ne $tempPSData) -and $tempPSData.Keys.Contains($key)) {
-            $outPSData.$key = $tempPSData.$key
+            $outPSData[$key] = $tempPSData[$key]
         }
         if ($PSBoundParameters.Keys.Contains($key)) {
-            if ($null -eq $PSBoundParameters.$key) {
+            if ($null -eq $PSBoundParameters[$key]) {
                 $outPSData.Remove($key)
             } else {
-                $outPSData.$key = $PSBoundParameters.$key
+                $outPSData[$key] = $PSBoundParameters[$key]
             }
         }
     }
@@ -262,10 +263,10 @@
         $outPrivateData.Remove('PSData')
     }
     foreach ($key in $tempPrivateData.Keys) {
-        $outPrivateData.$key = $tempPrivateData.$key
+        $outPrivateData[$key] = $tempPrivateData[$key]
     }
     foreach ($key in $PrivateData.Keys) {
-        $outPrivateData.$key = $PrivateData.$key
+        $outPrivateData[$key] = $PrivateData[$key]
     }
 
     $manifestOrder = @(
@@ -302,24 +303,23 @@
     )
     foreach ($key in $manifestOrder) {
         if ($tempManifest.Keys.Contains($key)) {
-            $outManifest.$key = $tempManifest.$key
+            $outManifest[$key] = $tempManifest[$key]
         }
         if ($PSBoundParameters.Keys.Contains($key)) {
-            if ($null -eq $PSBoundParameters.$key) {
+            if ($null -eq $PSBoundParameters[$key]) {
                 $outManifest.Remove($key)
             } else {
-                $outManifest.$key = $PSBoundParameters.$key
+                $outManifest[$key] = $PSBoundParameters[$key]
             }
-        } else {
-            $outManifest.Remove($key)
         }
     }
     if ($outPrivateData.Count -gt 0) {
-        $outManifest.PrivateData = $outPrivateData
+        $outManifest['PrivateData'] = $outPrivateData
     } else {
         $outManifest.Remove('PrivateData')
     }
 
     Remove-Item -Path $Path -Force
     Export-PowerShellDataFile -Hashtable $outManifest -Path $Path
+
 }

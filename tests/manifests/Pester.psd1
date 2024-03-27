@@ -28,7 +28,7 @@
     TypesToProcess    = @()
 
     # Format files (.ps1xml) to be loaded when importing this module
-    FormatsToProcess  = @('Pester.Format.ps1xml', 'PesterConfiguration.Format.ps1xml')
+    FormatsToProcess  = @()
 
     # Functions to export from this module
     FunctionsToExport = @(
