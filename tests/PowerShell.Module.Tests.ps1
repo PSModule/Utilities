@@ -41,6 +41,7 @@ Describe 'Set-ModuleManifest' {
         $filePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.psd1'
         Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
         $manifest = Import-PowerShellDataFile -Path $filePath
+        Write-Verbose ($manifest | Out-String) -Verbose
         $manifest.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
     }
 }
