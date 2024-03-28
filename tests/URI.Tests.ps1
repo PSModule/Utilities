@@ -1,4 +1,11 @@
-﻿Describe "Join-URI" {
+﻿[CmdletBinding()]
+Param(
+    # Path to the module to test.
+    [Parameter()]
+    [string] $Path
+)
+
+Describe 'Join-URI' {
     It "Join-Uri -Path 'https://example.com' -ChildPath 'foo' -AdditionalChildPath 'bar'" {
         $uri = Join-Uri -Path 'https://example.com' -ChildPath 'foo' -AdditionalChildPath 'bar'
         Write-Verbose $uri -Verbose

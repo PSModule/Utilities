@@ -1,4 +1,11 @@
-﻿Describe 'Get-StringCasingStyle' {
+﻿[CmdletBinding()]
+Param(
+    # Path to the module to test.
+    [Parameter()]
+    [string] $Path
+)
+
+Describe 'Get-StringCasingStyle' {
     It "Detects 'testtesttest' as lowercase" {
         'testtesttest' | Get-StringCasingStyle | Should -Be 'lowercase'
     }
