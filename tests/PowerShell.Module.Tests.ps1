@@ -1,4 +1,11 @@
-﻿Describe 'Export-PowerShellDataFile' {
+﻿[CmdletBinding()]
+Param(
+    # Path to the module to test.
+    [Parameter()]
+    [string] $Path
+)
+
+Describe 'Export-PowerShellDataFile' {
     It 'Exports a hashtable to a .psd1 file' {
         $hashtable = @{
             Key1 = 'Value1'

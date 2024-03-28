@@ -1,4 +1,11 @@
-﻿Describe 'IsNullOrEmpty' {
+﻿[CmdletBinding()]
+Param(
+    # Path to the module to test.
+    [Parameter()]
+    [string] $Path
+)
+
+Describe 'IsNullOrEmpty' {
     It 'Returns true for $null' {
         ($null | IsNullOrEmpty -Verbose) | Should -BeTrue
     }
