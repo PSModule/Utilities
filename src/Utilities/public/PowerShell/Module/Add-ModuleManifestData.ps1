@@ -23,6 +23,10 @@
         [Parameter()]
         [Object[]] $RequiredModules,
 
+        # Compatible editions of PowerShell.
+        [Parameter()]
+        [string[]] $CompatiblePSEditions,
+
         # Assemblies that must be loaded prior to importing this module.
         [Parameter()]
         [string[]] $RequiredAssemblies,
@@ -93,6 +97,10 @@
     if ($RequiredAssemblies) {
         $RequiredAssemblies += $moduleManifest.RequiredAssemblies
         $changes.RequiredAssemblies = $RequiredAssemblies
+    }
+    if ($CompatiblePSEditions) {
+        $CompatiblePSEditions += $moduleManifest.CompatiblePSEditions
+        $changes.CompatiblePSEditions = $CompatiblePSEditions
     }
     if ($ScriptsToProcess) {
         $ScriptsToProcess += $moduleManifest.ScriptsToProcess
