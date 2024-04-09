@@ -16,7 +16,7 @@
 
         Gets the available TLS configurations
     #>
-    [OutputType(ParameterSetName = 'Default', [Net.SecurityProtocolType])]
+    [OutputType(ParameterSetName = 'Default', [System.Net.SecurityProtocolType])]
     [OutputType(ParameterSetName = 'ListAvailable', [Array])]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
@@ -25,7 +25,7 @@
         [switch] $ListAvailable
     )
     if ($ListAvailable) {
-        return [enum]::GetValues([Net.SecurityProtocolType])
+        return [enum]::GetValues([System.Net.SecurityProtocolType])
     }
-    return [Net.ServicePointManager]::SecurityProtocol
+    return [System.Net.ServicePointManager]::SecurityProtocol
 }

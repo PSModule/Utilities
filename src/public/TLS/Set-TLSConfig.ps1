@@ -16,13 +16,13 @@
     param(
         # The TLS protocol to enable
         [Parameter()]
-        [Net.SecurityProtocolType[]] $Protocol = [Net.SecurityProtocolType]::Tls12
+        [System.Net.SecurityProtocolType[]] $Protocol = [System.Net.SecurityProtocolType]::Tls12
     )
 
     foreach ($protocolItem in $Protocol) {
         Write-Verbose "Enabling $protocolItem"
-        if ($PSCmdlet.ShouldProcess("Security Protocol to [$Protocol]", "Set")) {
-            [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor $protocolItem
+        if ($PSCmdlet.ShouldProcess("Security Protocol to [$Protocol]", 'Set')) {
+            [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor $protocolItem
         }
     }
 }
