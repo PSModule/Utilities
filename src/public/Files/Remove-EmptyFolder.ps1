@@ -1,4 +1,4 @@
-﻿Function Remove-EmptyFolder {
+﻿function Remove-EmptyFolder {
     <#
         .SYNOPSIS
         Removes empty folders under the folder specified
