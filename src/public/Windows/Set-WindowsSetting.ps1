@@ -10,7 +10,7 @@
         Supported OS: Windows
     #>
     [CmdletBinding(SupportsShouldProcess)]
-    Param (
+    param (
         # Show file extensions in Windows Explorer
         [Parameter()]
         [switch] $ShowFileExtension,
