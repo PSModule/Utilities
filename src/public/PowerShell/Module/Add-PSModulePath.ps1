@@ -18,12 +18,8 @@
         [Parameter(Mandatory)]
         [string] $Path
     )
+    $PSModulePathSeparator = [System.IO.Path]::PathSeparator
 
-    if ([System.Environment]::OSVersion.Platform -eq 'Win32NT') {
-        $PSModulePathSeparator = ';'
-    } else {
-        $PSModulePathSeparator = ':'
-    }
     $env:PSModulePath += "$PSModulePathSeparator$Path"
 
     Write-Verbose 'PSModulePath:'
