@@ -1,11 +1,30 @@
 ﻿function ConvertTo-Hashtable {
+    <#
+    .SYNOPSIS
+    Short description
+
+    .DESCRIPTION
+    Long description
+
+    .PARAMETER InputObject
+    Parameter description
+
+    .EXAMPLE
+    An example
+
+    .NOTES
+    General notes
+    #>
     param (
-        [Parameter(Mandatory=$true, ValueFromPipeline=$true)]
-        [PSObject]$InputObject
+        [Parameter(
+            Mandatory,
+            ValueFromPipeline
+        )]
+        [PSObject] $InputObject
     )
 
     process {
-        if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -notlike "*") {
+        if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -notlike '*') {
             $array = @()
             foreach ($item in $InputObject) {
                 $array += ConvertTo-Hashtable -InputObject $item
@@ -31,8 +50,6 @@ $json = '{
     },
     "key3": ["item1", "item2"]
 }'
-
-$object = $json | ConvertFrom-Json
-$hashtable = ConvertTo-Hashtable -InputObject $object
+$hashtable = $json | ConvertFrom-Json | ConvertTo-Hashtable
 
 $hashtable
