@@ -285,4 +285,160 @@ Test
             't_t' | Get-StringCasingStyle | Should -Be 'snake_case'
         }
     }
+
+    Describe 'ConvertTo-Hashtable' {
+        It 'Can convert a small data structure to a hashtable' {
+            $object = [PSCustomObject]@{
+                Name        = 'John Doe'
+                Age         = 30
+                Address     = [PSCustomObject]@{
+                    Street  = '123 Main St'
+                    City    = 'Somewhere'
+                    ZipCode = '12345'
+                }
+                Occupations = @(
+                    [PSCustomObject]@{
+                        Title   = 'Developer'
+                        Company = 'TechCorp'
+                    },
+                    [PSCustomObject]@{
+                        Title   = 'Consultant'
+                        Company = 'ConsultCorp'
+                    }
+                )
+            }
+
+            $hashtable = $object | ConvertTo-Hashtable
+            $hashtable.Name | Should -Be 'John Doe'
+            $hashtable.Age | Should -Be 30
+            $hashtable.Address.Street | Should -Be '123 Main St'
+            $hashtable.Address.City | Should -Be 'Somewhere'
+            $hashtable.Address.ZipCode | Should -Be '12345'
+            $hashtable.Occupations[0].Title | Should -Be 'Developer'
+            $hashtable.Occupations[0].Company | Should -Be 'TechCorp'
+            $hashtable.Occupations[1].Title | Should -Be 'Consultant'
+            $hashtable.Occupations[1].Company | Should -Be 'ConsultCorp'
+        }
+        It 'Can convert a bigger data structure to a hashtable' {
+            $complexObject = [PSCustomObject]@{
+                Person        = [PSCustomObject]@{
+                    FirstName      = 'Alice'
+                    LastName       = 'Smith'
+                    Age            = 28
+                    Contact        = [PSCustomObject]@{
+                        Email = 'alice.smith@example.com'
+                        Phone = [PSCustomObject]@{
+                            Home   = '555-1234'
+                            Mobile = '555-5678'
+                        }
+                    }
+                    Address        = [PSCustomObject]@{
+                        Street  = '456 Oak St'
+                        City    = 'Anytown'
+                        ZipCode = '67890'
+                        Country = 'USA'
+                    }
+                    Occupations    = @(
+                        [PSCustomObject]@{
+                            Title    = 'Software Engineer'
+                            Company  = 'TechCorp'
+                            Location = 'New York'
+                            Duration = [PSCustomObject]@{
+                                Start = '2015-06-01'
+                                End   = '2019-08-31'
+                            }
+                        },
+                        [PSCustomObject]@{
+                            Title    = 'Senior Developer'
+                            Company  = 'CodeWorks'
+                            Location = 'San Francisco'
+                            Duration = [PSCustomObject]@{
+                                Start = '2019-09-01'
+                                End   = 'Present'
+                            }
+                        }
+                    )
+                    Hobbies        = @('Reading', 'Cycling', 'Hiking')
+                    Certifications = @(
+                        [PSCustomObject]@{
+                            Name       = 'PMP'
+                            IssuedBy   = 'PMI'
+                            IssueDate  = '2020-01-15'
+                            ExpiryDate = '2023-01-15'
+                        },
+                        [PSCustomObject]@{
+                            Name       = 'AWS Certified Solutions Architect'
+                            IssuedBy   = 'Amazon Web Services'
+                            IssueDate  = '2021-03-10'
+                            ExpiryDate = '2024-03-10'
+                        }
+                    )
+                }
+                Company       = [PSCustomObject]@{
+                    Name      = 'Tech Innovations Inc.'
+                    Founded   = '2010'
+                    Industry  = 'Technology'
+                    Employees = @(
+                        [PSCustomObject]@{
+                            EmployeeID = 'E001'
+                            Name       = 'Bob Johnson'
+                            Department = 'Engineering'
+                            Title      = 'Chief Engineer'
+                            Contact    = [PSCustomObject]@{
+                                Email = 'bob.johnson@techinnovations.com'
+                                Phone = '555-9876'
+                            }
+                        },
+                        [PSCustomObject]@{
+                            EmployeeID = 'E002'
+                            Name       = 'Carol Williams'
+                            Department = 'Marketing'
+                            Title      = 'Marketing Manager'
+                            Contact    = [PSCustomObject]@{
+                                Email = 'carol.williams@techinnovations.com'
+                                Phone = '555-3456'
+                            }
+                        }
+                    )
+                }
+                Projects      = @(
+                    [PSCustomObject]@{
+                        ProjectName = 'Project Phoenix'
+                        Budget      = 500000
+                        TeamMembers = @('Alice', 'Bob', 'Carol')
+                        Status      = 'In Progress'
+                    },
+                    [PSCustomObject]@{
+                        ProjectName = 'Project Orion'
+                        Budget      = 750000
+                        TeamMembers = @('Alice', 'Dave', 'Eve')
+                        Status      = 'Completed'
+                    }
+                )
+                Miscellaneous = [PSCustomObject]@{
+                    Notes       = @(
+                        'This is a sample note.',
+                        'Remember to update the project timeline.',
+                        'Check on budget allocations next quarter.'
+                    )
+                    Attachments = @(
+                        [PSCustomObject]@{
+                            FileName = 'budget_report_q1.pdf'
+                            FileSize = '1.2MB'
+                        },
+                        [PSCustomObject]@{
+                            FileName = 'project_plan.docx'
+                            FileSize = '350KB'
+                        }
+                    )
+                }
+            }
+            $hashtable = ConvertTo-Hashtable -InputObject $complexObject
+            $hashtable.Name | Should -Be 'Alice'
+            $hashtable.Contact.Email | Should -Be 'alice.smith@example.com'
+            $hashtable.Contact.Phone.Home | Should -Be '555-1234'
+            $hashtable.Hobbies | Should -Contain 'Hiking'
+            $hashtable.Certifications[0].Name | Should -Be 'PMP'
+        }
+    }
 }

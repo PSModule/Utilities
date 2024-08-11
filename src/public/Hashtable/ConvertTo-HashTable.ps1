@@ -1,21 +1,38 @@
-﻿function ConvertTo-Hashtable {
+﻿filter ConvertTo-Hashtable {
     <#
     .SYNOPSIS
-    Short description
+    Converts an object to a hashtable.
 
     .DESCRIPTION
-    Long description
-
-    .PARAMETER InputObject
-    Parameter description
+    Recursively converts an object to a hashtable. This function is useful for converting complex objects
+     to hashtables for serialization or other purposes.
 
     .EXAMPLE
-    An example
+    $object = [PSCustomObject]@{
+        Name        = 'John Doe'
+        Age         = 30
+        Address     = [PSCustomObject]@{
+            Street  = '123 Main St'
+            City    = 'Somewhere'
+            ZipCode = '12345'
+        }
+        Occupations = @(
+            [PSCustomObject]@{
+                Title   = 'Developer'
+                Company = 'TechCorp'
+            },
+            [PSCustomObject]@{
+                Title   = 'Consultant'
+                Company = 'ConsultCorp'
+            }
+        )
+    }
+    $hashtable = ConvertTo-Hashtable -InputObject $object
 
-    .NOTES
-    General notes
+    This will return a hashtable representation of the object.
     #>
     param (
+        # The object to convert to a hashtable.
         [Parameter(
             Mandatory,
             ValueFromPipeline
@@ -23,33 +40,31 @@
         [PSObject] $InputObject
     )
 
-    process {
-        if ($InputObject -is [System.Collections.IEnumerable] -and $InputObject -notlike '*') {
-            $array = @()
-            foreach ($item in $InputObject) {
-                $array += ConvertTo-Hashtable -InputObject $item
+    $hashtable = @{}
+
+    # Iterate over each property of the object
+    $InputObject.PSObject.Properties | ForEach-Object {
+        $propertyName = $_.Name
+        $propertyValue = $_.Value
+
+        if ($propertyValue -is [PSObject]) {
+            if ($propertyValue -is [Array] -or $propertyValue -is [System.Collections.IEnumerable]) {
+                # Handle arrays and enumerables
+                $hashtable[$propertyName] = @()
+                foreach ($item in $propertyValue) {
+                    $hashtable[$propertyName] += ConvertTo-HashtableRecursively -InputObject $item
+                }
+            } elseif ($propertyValue.PSObject.Properties.Count -gt 0) {
+                # Handle nested objects
+                $hashtable[$propertyName] = ConvertTo-HashtableRecursively -InputObject $propertyValue
+            } else {
+                # Handle simple properties
+                $hashtable[$propertyName] = $propertyValue
             }
-            return $array
-        } elseif ($InputObject.PSObject.Properties.Name.Count -gt 0) {
-            $hashtable = @{}
-            foreach ($property in $InputObject.PSObject.Properties) {
-                $hashtable[$property.Name] = ConvertTo-Hashtable -InputObject $property.Value
-            }
-            return $hashtable
         } else {
-            return $InputObject
+            $hashtable[$propertyName] = $propertyValue
         }
     }
+
+    return $hashtable
 }
-
-$json = '{
-    "key1": "value1",
-    "key2": {
-        "nestedKey1": "nestedValue1",
-        "nestedKey2": [1, 2, 3]
-    },
-    "key3": ["item1", "item2"]
-}'
-$hashtable = $json | ConvertFrom-Json | ConvertTo-Hashtable
-
-$hashtable
