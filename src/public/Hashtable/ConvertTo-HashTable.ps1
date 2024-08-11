@@ -52,11 +52,11 @@
                 # Handle arrays and enumerables
                 $hashtable[$propertyName] = @()
                 foreach ($item in $propertyValue) {
-                    $hashtable[$propertyName] += ConvertTo-HashtableRecursively -InputObject $item
+                    $hashtable[$propertyName] += ConvertTo-HashTable -InputObject $item
                 }
             } elseif ($propertyValue.PSObject.Properties.Count -gt 0) {
                 # Handle nested objects
-                $hashtable[$propertyName] = ConvertTo-HashtableRecursively -InputObject $propertyValue
+                $hashtable[$propertyName] = ConvertTo-Hashtable -InputObject $propertyValue
             } else {
                 # Handle simple properties
                 $hashtable[$propertyName] = $propertyValue
