@@ -434,11 +434,16 @@ Test
                 }
             }
             $hashtable = ConvertTo-Hashtable -InputObject $complexObject
-            $hashtable.Name | Should -Be 'Alice'
-            $hashtable.Contact.Email | Should -Be 'alice.smith@example.com'
-            $hashtable.Contact.Phone.Home | Should -Be '555-1234'
-            $hashtable.Hobbies | Should -Contain 'Hiking'
-            $hashtable.Certifications[0].Name | Should -Be 'PMP'
+            $hashtable | Should -BeOfType 'Hashtable'
+            $hashtable.Keys | Should -Contain 'Person'
+            $hashtable.Keys | Should -Contain 'Company'
+            $hashtable.Keys | Should -Contain 'Projects'
+            $hashtable.Keys | Should -Contain 'Miscellaneous'
+            $hashtable.Person.FirstName | Should -Be 'Alice'
+            $hashtable.Person.Contact.Email | Should -Be 'alice.smith@example.com'
+            $hashtable.Person.Contact.Phone.Home | Should -Be '555-1234'
+            $hashtable.Person.Hobbies | Should -Contain 'Hiking'
+            $hashtable.Person.Certifications.count | Should -Be 2
         }
     }
 }
