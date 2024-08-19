@@ -26,5 +26,5 @@
         [string] $Value
     )
     Write-Verbose (@{ $Name = $Value } | Format-Table -Wrap -AutoSize | Out-String)
-    Write-Output "$Name=$Value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    Write-Host "$Name=$Value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 }
