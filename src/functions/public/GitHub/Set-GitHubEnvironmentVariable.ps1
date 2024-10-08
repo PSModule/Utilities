@@ -15,6 +15,10 @@
         'PSUseShouldProcessForStateChangingFunctions', '', Scope = 'Function',
         Justification = 'Does not change system state significantly'
     )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSAvoidUsingWriteHost', '',
+        Justification = 'Write-Host is used to group log messages.'
+    )]
     [CmdletBinding()]
     param (
         # Name of the variable
