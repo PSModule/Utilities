@@ -1,16 +1,16 @@
 ﻿function ConvertFrom-Base64 {
     <#
         .SYNOPSIS
-        Converts a Base64 encoded string to a string.
+        Converts a base64 encoded string to a string.
 
         .DESCRIPTION
-        Converts a Base64 encoded string to a string.
+        Converts a base64 encoded string to a string.
 
         .EXAMPLE
         ConvertFrom-Base64 -Base64String 'VGhpc0lzQU5pY2VTdHJpbmc='
         ThisIsANiceString
 
-        Converts the Base64 encoded string 'VGhpc0lzQU5pY2VTdHJpbmc=' to a string.
+        Converts the base64 encoded string 'VGhpc0lzQU5pY2VTdHJpbmc=' to a string.
     #>
     [OutputType([string])]
     [CmdletBinding()]

@@ -7,7 +7,7 @@
         Prints the content of a file with line numbers in front of each line.
 
         .EXAMPLE
-        $Path = 'C:\Repos\GitHub\PSModule\Framework\PSModule.FX\src\PSModule.FX\private\Utilities\Show-FileContent.ps1'
+        $Path = 'C:\Utilities\Show-FileContent.ps1'
         Show-FileContent -Path $Path
 
         Shows the content of the file with line numbers in front of each line.
