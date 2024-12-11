@@ -7,7 +7,7 @@
         Prints the content of a file with line numbers in front of each line.
 
         .EXAMPLE
-        $Path = 'C:\Repos\GitHub\PSModule\Framework\PSModule.FX\src\PSModule.FX\private\Utilities\Show-FileContent.ps1'
+        $Path = 'C:\Utilities\Show-FileContent.ps1'
         Show-FileContent -Path $Path
 
         Shows the content of the file with line numbers in front of each line.
@@ -16,7 +16,7 @@
     param (
         # The path to the file to show the content of.
         [Parameter(Mandatory)]
-        [string]$Path
+        [string] $Path
     )
 
     $content = Get-Content -Path $Path
@@ -26,7 +26,7 @@
     # The linenumber should dynamically adjust to the number of digits with the length of the file.
     foreach ($line in $content) {
         $lineNumberFormatted = $lineNumber.ToString().PadLeft($columnSize)
-        '[{0}] {1}' -f $lineNumberFormatted, $line
+        Write-Host "[$lineNumberFormatted] $line"
         $lineNumber++
     }
 }
