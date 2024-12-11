@@ -15,6 +15,7 @@
     [OutputType([string])]
     [CmdletBinding()]
     param (
+        # The string to convert to base64
         [Parameter(Mandatory)]
         [string] $String
     )

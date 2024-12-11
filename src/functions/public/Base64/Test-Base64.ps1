@@ -15,6 +15,8 @@
     [OutputType([bool])]
     [CmdletBinding()]
     param (
+        # The base64 encoded string to test.
+        [Parameter(Mandatory)]
         [string] $Base64String
     )
     try {
