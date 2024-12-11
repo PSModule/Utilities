@@ -16,7 +16,7 @@
     param (
         # The path to the file to show the content of.
         [Parameter(Mandatory)]
-        [string]$Path
+        [string] $Path
     )
 
     $content = Get-Content -Path $Path
@@ -26,7 +26,7 @@
     # The linenumber should dynamically adjust to the number of digits with the length of the file.
     foreach ($line in $content) {
         $lineNumberFormatted = $lineNumber.ToString().PadLeft($columnSize)
-        Write-Host '[{0}] {1}' -f $lineNumberFormatted, $line
+        Write-Host "[$lineNumberFormatted] $line"
         $lineNumber++
     }
 }
