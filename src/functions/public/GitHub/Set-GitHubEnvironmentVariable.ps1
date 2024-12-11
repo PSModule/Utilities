@@ -15,6 +15,10 @@
         'PSUseShouldProcessForStateChangingFunctions', '', Scope = 'Function',
         Justification = 'Does not change system state significantly'
     )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+        'PSAvoidUsingWriteHost', '',
+        Justification = 'Write-Host is used to group log messages.'
+    )]
     [CmdletBinding()]
     param (
         # Name of the variable
@@ -26,5 +30,5 @@
         [string] $Value
     )
     Write-Verbose (@{ $Name = $Value } | Format-Table -Wrap -AutoSize | Out-String)
-    Write-Output "$Name=$Value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    Write-Host "$Name=$Value" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 }
