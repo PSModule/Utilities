@@ -93,6 +93,7 @@
                 $lines += "$indent    )"
             }
         } else {
+            $value = $value -replace "('+)", "''" # Escape single quotes in a manifest file
             $lines += "$indent    $key = '$value'"
         }
     }
