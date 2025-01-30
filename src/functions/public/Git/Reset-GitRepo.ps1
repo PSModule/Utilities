@@ -35,8 +35,7 @@ function Reset-GitRepo {
 
     if ($Push) {
         if ($PSCmdlet.ShouldProcess("git changes to origin", "Push")) {
-
+            git push origin $Branch --force
         }
-        git push origin $Branch --force
     }
 }
