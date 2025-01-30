@@ -1,3 +1,5 @@
+﻿#Requires -Modules @{ ModuleName = 'Admin'; ModuleVersion = '1.1.3' }
+
 function Invoke-ReinstallModule {
     <#
         .SYNOPSIS
