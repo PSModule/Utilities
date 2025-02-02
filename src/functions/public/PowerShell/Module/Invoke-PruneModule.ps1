@@ -1,4 +1,6 @@
-﻿function Invoke-PruneModule {
+﻿#Requires -Modules @{ ModuleName = 'Admin'; RequiredVersion = '1.1.3' }
+
+function Invoke-PruneModule {
     <#
         .SYNOPSIS
         Remove all but the newest version of a module

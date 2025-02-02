@@ -1,5 +1,4 @@
-﻿
-function Restore-PSCredential {
+﻿function Restore-PSCredential {
     <#
         .SYNOPSIS
         Restores a PSCredential from a file.

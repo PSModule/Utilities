@@ -1,4 +1,4 @@
-function Reset-GitRepo {
+﻿function Reset-GitRepo {
     <#
         .SYNOPSIS
         Reset a Git repository to the upstream branch

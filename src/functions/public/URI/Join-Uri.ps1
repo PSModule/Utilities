@@ -1,4 +1,4 @@
-function Join-Uri {
+﻿function Join-Uri {
     <#
         .SYNOPSIS
         Join a base URI with a child paths.
