@@ -95,7 +95,7 @@ function Set-ScriptFileRequirement {
         # $command = $scriptCommands[0]
         foreach ($command in $scriptCommands) {
             $commandName = $command.Name
-            $lineNumber = $command.Extent.StartLineNumber
+            $lineNumber = $command.StartLineNumber
             Write-Verbose "   - Command: $commandName (L:$lineNumber)"
 
             # Skip if the command is a call to self (recursive)
