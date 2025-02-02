@@ -205,7 +205,7 @@ function Set-ScriptFileRequirement {
         if ($requiresToAdd.Count -gt 0) {
             Write-Debug ("Adding {0} #Requires lines to file '{1}'." -f $requiresToAdd.Count, $file.FullName)
             $mergedList.AddRange($requiresToAdd)
-            $mergedList.Add('')
+            $null = $mergedList.Add('')
         }
 
         $mergedList.AddRange($fileLines)
