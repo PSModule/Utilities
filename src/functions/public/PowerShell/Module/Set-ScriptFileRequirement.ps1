@@ -37,6 +37,7 @@ function Set-ScriptFileRequirement {
         - Operators '.' (dot-sourcing) and '&' (call operator) are explicitly ignored,
         since they are not actual commands that map to modules.
     #>
+    [OutputType([void])]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         # A path to either a single .ps1 file or a folder.
@@ -115,7 +116,7 @@ function Set-ScriptFileRequirement {
             Write-Verbose "     - Found $($foundCommands.Count) matches"
 
             if ($foundCommands.Count -eq 0) {
-                Write-Verbose ' - Command not found, attempting to resolve...'
+                Write-Verbose '     - Command not found, attempting to resolve...'
 
                 $foundSuggestions = Find-Command -Name $commandName -ErrorAction SilentlyContinue -Debug:$false -Verbose:$false
                 if ($foundSuggestions) {
@@ -140,11 +141,13 @@ function Set-ScriptFileRequirement {
 
                 # Write a comment to the line so that it can be fixed manually
                 $fileLines = Get-Content -Path $file.FullName
-                $fileLines[$lineNumber] = $fileLines[$lineNumber] -replace ($fileLines[$lineNumber] | Get-LineComment)
-                $fileLines[$lineNumber] = $fileLines[$lineNumber].TrimEnd()
-                $comment = " #FIXME: Add requires for [$commandName] $suggestText"
-                $fileLines[$newIndex] += $comment
-                $fileLines | Set-Content -Path $file.FullName
+                $lineIndex = $lineNumber - 1
+                Write-Verbose "     - Processing [$($fileLines[$lineIndex])]"
+                $fileLines[$lineIndex] = $fileLines[$lineIndex].Replace(($fileLines[$lineIndex] | Get-LineComment), '').TrimEnd()
+                $comment = " #FIXME: Add '#Requires -Modules' for [$commandName] $suggestText"
+                $fileLines[$lineIndex] += $comment
+                Write-Verbose '     - Adding a FIXME comment, so user can fix manually'
+                $null = $fileLines | Set-Content -Path $file.FullName
             }
             # $foundCommand = $foundCommands[0]
             foreach ($foundCommand in $foundCommands) {
@@ -202,7 +205,7 @@ function Set-ScriptFileRequirement {
         if ($requiresToAdd.Count -gt 0) {
             Write-Debug ("Adding {0} #Requires lines to file '{1}'." -f $requiresToAdd.Count, $file.FullName)
             $mergedList.AddRange($requiresToAdd)
-            $mergedList.Add('')
+            $null = $mergedList.Add('')
         }
 
         $mergedList.AddRange($fileLines)
@@ -210,7 +213,7 @@ function Set-ScriptFileRequirement {
 
         Write-Verbose "Updating file: $($file.FullName)"
         if ($PSCmdlet.ShouldProcess('file', 'Write changes')) {
-            $finalLines | Out-File -LiteralPath $file.FullName -Encoding utf8BOM
+            $null = $finalLines | Out-File -LiteralPath $file.FullName -Encoding utf8BOM
         }
     }
 
