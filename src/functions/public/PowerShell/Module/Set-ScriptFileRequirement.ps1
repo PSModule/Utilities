@@ -127,6 +127,7 @@ function Set-ScriptFileRequirement {
                         }
                     } -Descending
 
+                    
                     $moduleNamesOrdered = New-Object System.Collections.Generic.List[string]
                     foreach ($suggestion in $sortedSuggestions) {
                         if (-not $moduleNamesOrdered.Contains($suggestion.ModuleName)) {
