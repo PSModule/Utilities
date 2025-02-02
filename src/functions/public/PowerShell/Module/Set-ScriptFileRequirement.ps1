@@ -37,6 +37,7 @@ function Set-ScriptFileRequirement {
         - Operators '.' (dot-sourcing) and '&' (call operator) are explicitly ignored,
         since they are not actual commands that map to modules.
     #>
+    [OutputType([void])]
     [CmdletBinding(SupportsShouldProcess)]
     param(
         # A path to either a single .ps1 file or a folder.
@@ -145,7 +146,7 @@ function Set-ScriptFileRequirement {
                 $fileLines[$lineIndex] = $fileLines[$lineIndex].Replace(($fileLines[$lineIndex] | Get-LineComment), '').TrimEnd()
                 $comment = " #FIXME: Add '#Requires -Modules' for [$commandName] $suggestText"
                 $fileLines[$lineIndex] += $comment
-                Write-Verbose "     - Adding a FIXME comment, so user can fix manually"
+                Write-Verbose '     - Adding a FIXME comment, so user can fix manually'
                 $null = $fileLines | Set-Content -Path $file.FullName
             }
             # $foundCommand = $foundCommands[0]
@@ -212,7 +213,7 @@ function Set-ScriptFileRequirement {
 
         Write-Verbose "Updating file: $($file.FullName)"
         if ($PSCmdlet.ShouldProcess('file', 'Write changes')) {
-            $finalLines | Out-File -LiteralPath $file.FullName -Encoding utf8BOM
+            $null = $finalLines | Out-File -LiteralPath $file.FullName -Encoding utf8BOM
         }
     }
 
