@@ -1,4 +1,4 @@
-﻿#Requires -Modules @{ ModuleName = 'AST'; ModuleVersion = '0.2.2' }
+﻿#Requires -Modules @{ ModuleName = 'AST'; RequiredVersion = '0.2.3' }
 
 function Set-ScriptFileRequirement {
     <#
@@ -23,9 +23,6 @@ function Set-ScriptFileRequirement {
         - Inserts `#Requires` lines for any truly external modules.
         - Appends `#FIX:` comments for commands that are not resolved.
 
-        .PARAMETER Path
-        A path to either a single .ps1 file or a folder.
-
         .EXAMPLE
         PS> Set-ScriptFileRequirement -Path "C:\MyScripts" -Verbose
         Recursively scans C:\MyScripts, updates #Requires lines in each .ps1 file,
@@ -42,6 +39,7 @@ function Set-ScriptFileRequirement {
     #>
     [CmdletBinding(SupportsShouldProcess)]
     param(
+        # A path to either a single .ps1 file or a folder.
         [Parameter(Mandatory)]
         [ValidateScript({ Test-Path -Path $_ })]
         [string] $Path
@@ -88,7 +86,6 @@ function Set-ScriptFileRequirement {
     Write-Verbose 'Analyzing commands in files'
     # $file = $ps1Files[6]
     foreach ($file in $ps1Files) {
-        $unresolvedCommands = @()
         $requiredModules = @{}
 
         Write-Verbose "Analyzing file: [$($file.FullName)]"
@@ -98,7 +95,8 @@ function Set-ScriptFileRequirement {
         # $command = $scriptCommands[0]
         foreach ($command in $scriptCommands) {
             $commandName = $command.Name
-            Write-Verbose "   - Command: $commandName"
+            $lineNumber = $command.Extent.StartLineNumber
+            Write-Verbose "   - Command: $commandName (L:$lineNumber)"
 
             # Skip if the command is a call to self (recursive)
             if ($functionNames -contains $commandName ) {
@@ -137,14 +135,16 @@ function Set-ScriptFileRequirement {
                     }
                     $suggestText = 'Suggestions: ' + ($moduleNamesOrdered -join ', ')
                 } else {
-                    $suggestText = 'No suggestions found'
+                    $suggestText = '(No suggestions found)'
                 }
 
-                $unresolvedCommands += [PSCustomObject]@{
-                    LineNumber  = $command.Extent.StartLineNumber
-                    CommandName = $commandName
-                    Suggestion  = $suggestText
-                }
+                # Write a comment to the line so that it can be fixed manually
+                $fileLines = Get-Content -Path $file.FullName
+                $fileLines[$lineNumber] = $fileLines[$lineNumber] -replace ($fileLines[$lineNumber] | Get-LineComment)
+                $fileLines[$lineNumber] = $fileLines[$lineNumber].TrimEnd()
+                $comment = " #FIXME: Add requires for [$commandName] $suggestText"
+                $fileLines[$newIndex] += $comment
+                $fileLines | Set-Content -Path $file.FullName
             }
             # $foundCommand = $foundCommands[0]
             foreach ($foundCommand in $foundCommands) {
@@ -180,31 +180,14 @@ function Set-ScriptFileRequirement {
             }
         }
 
-        # Remove top #Requires -Module lines, then leading blank lines
-        $finalLines = [System.Collections.ArrayList]@($originalLines)
-        $topRemoved = 0
-        while ($finalLines.Count -gt 0 -and $finalLines[0] -match '^#Requires\s+-Module') {
-            $finalLines.RemoveAt(0)
-            $topRemoved++
-        }
-        while ($finalLines.Count -gt 0 -and [string]::IsNullOrWhiteSpace($finalLines[0])) {
-            $finalLines.RemoveAt(0)
-            $topRemoved++
-        }
+        # Read the content and remove lines that match "#Requires -Modules"
+        $content = Get-Content $file.FullName | Where-Object { $_ -notmatch '^#Requires\s+-Modules' }
 
-        # Insert or update #FIX comments
-        foreach ($unresolved in $unresolvedCommands) {
-            $newIndex = ($unresolved.LineNumber - 1) - $topRemoved
-            if (($newIndex -ge 0) -and ($newIndex -lt $finalLines.Count)) {
-                $finalLines[$newIndex] = $finalLines[$newIndex] -replace '(?i)(\s*#FIX:\s+Unresolved module dependency.*)', ''
-                $comment = " #FIX: Unresolved module dependency ($($unresolved.Suggestion))"
-                $finalLines[$newIndex] += $comment
-            } else {
-                Write-Debug ("Unresolved command '{0}' at line '{1}' was removed or out-of-range." -f
-                    $unresolved.CommandName,
-                    $unresolved.LineNumber)
-            }
-        }
+        # Remove leading and trailing empty lines
+        $trimmedContent = $content -join "`n" -replace '^\s*\n+', '' -replace '\n+\s*$', '' -split "`n"
+
+        # Write the cleaned content back to the file
+        $trimmedContent | Set-Content $file.FullName
 
         # Build #Requires lines (alphabetically)
         $requiresToAdd = foreach ($moduleName in ($requiredModules.Keys | Sort-Object)) {
@@ -213,27 +196,23 @@ function Set-ScriptFileRequirement {
         }
         $requiresToAdd = @($requiresToAdd)
 
+        $fileLines = Get-Content -Path $file.FullName
+        $mergedList = [System.Collections.ArrayList]::new()
+
         if ($requiresToAdd.Count -gt 0) {
             Write-Debug ("Adding {0} #Requires lines to file '{1}'." -f $requiresToAdd.Count, $file.FullName)
-            $mergedList = [System.Collections.ArrayList]::new()
             $mergedList.AddRange($requiresToAdd)
             $mergedList.Add('')
-            $mergedList.AddRange($finalLines)
-            $finalLines = $mergedList
         }
 
-        # Remove trailing blank lines
-        while ($finalLines.Count -gt 0 -and [string]::IsNullOrWhiteSpace($finalLines[$finalLines.Count - 1])) {
-            $finalLines.RemoveAt($finalLines.Count - 1)
-        }
+        $mergedList.AddRange($fileLines)
+        $finalLines = $mergedList
 
         Write-Verbose "Updating file: $($file.FullName)"
-        if ($PSCmdlet.ShouldProcess("file", 'Write changes')) {
+        if ($PSCmdlet.ShouldProcess('file', 'Write changes')) {
             $finalLines | Out-File -LiteralPath $file.FullName -Encoding utf8BOM
         }
     }
 
     Write-Verbose 'All .ps1 files processed.'
 }
-
-Set-ScriptFileRequirement -Path $Path

@@ -1,4 +1,4 @@
-﻿#Requires -Modules @{ ModuleName = 'Admin'; ModuleVersion = '1.1.3' }
+﻿#Requires -Modules @{ ModuleName = 'Admin'; RequiredVersion = '1.1.3' }
 
 function Invoke-PruneModule {
     <#
