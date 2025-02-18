@@ -19,7 +19,12 @@
     Copyright         = 'Copyright (c) 2021 by Pester Team, licensed under Apache 2.0 License.'
 
     # Description of the functionality provided by this module
-    Description       = 'Pester provides a framework for running BDD style Tests to execute and validate PowerShell commands inside of PowerShell and offers a powerful set of Mocking Functions that allow tests to mimic and mock the functionality of any command inside of a piece of PowerShell code being tested. Pester tests can execute any command or script that is accessible to a pester test file. This can include functions, Cmdlets, Modules and scripts. Pester can be run in ad hoc style in a console or it can be integrated into the Build scripts of a Continuous Integration system.'
+    Description       = '
+Pester provides a framework for running BDD style Tests to execute and validate PowerShell
+commands inside of PowerShell and offers a powerful set of Mocking Functions that allow tests to mimic and Mock
+the functionality of any command inside of a piece of PowerShell code being tested. Pester tests can execute any
+command or script that is accessible to a pester test file. This can include functions, Cmdlets, Modules and scripts.
+Pester can be run in ad hoc style in a console or it can be integrated into the Build scripts of a Continuous Integration system.'
 
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '3.0'
@@ -101,19 +106,30 @@
         # https://connect.microsoft.com/PowerShell/feedback/details/421837
         PSData                  = @{
             # The primary categorization of this module (from the TechNet Gallery tech tree).
-            Category     = "Scripting Techniques"
+            Category     = 'Scripting Techniques'
 
             # Keyword tags to help users find this module via navigations and search.
-            Tags         = @('powershell', 'unit_testing', 'bdd', 'tdd', 'mocking', 'PSEdition_Core', 'PSEdition_Desktop', 'Windows', 'Linux', 'MacOS')
+            Tags         = @(
+                'powershell'
+                'unit_testing'
+                'bdd'
+                'tdd'
+                'mocking'
+                'PSEdition_Core'
+                'PSEdition_Desktop'
+                'Windows'
+                'Linux'
+                'MacOS'
+            )
 
             # The web address of an icon which can be used in galleries to represent this module
             IconUri      = 'https://raw.githubusercontent.com/pester/Pester/main/images/pester.PNG'
 
             # The web address of this module's project or support homepage.
-            ProjectUri   = "https://github.com/Pester/Pester"
+            ProjectUri   = 'https://github.com/Pester/Pester'
 
             # The web address of this module's license. Points to a page that's embeddable and linkable.
-            LicenseUri   = "https://www.apache.org/licenses/LICENSE-2.0.html"
+            LicenseUri   = 'https://www.apache.org/licenses/LICENSE-2.0.html'
 
             # Release notes for this particular version of the module
             ReleaseNotes = 'https://github.com/pester/Pester/releases/tag/5.5.0'

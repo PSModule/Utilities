@@ -11,3 +11,8 @@
 
 # PSModule framework outputs folder
 outputs/*
+
+# .Net build output
+bin/
+obj/
+libs/

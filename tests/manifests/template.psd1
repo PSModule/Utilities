@@ -27,7 +27,7 @@
     ModuleList             = @()
     FileList               = @()
     PrivateData            = @{
-        PSData    = @{
+        PSData = @{
             Tags                       = @()
             LicenseUri                 = ''
             ProjectUri                 = ''
