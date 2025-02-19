@@ -1,4 +1,4 @@
-﻿#Requires -Modules @{ ModuleName = 'Hashtable'; ModuleVersion = '1.0.0' }
+﻿#Requires -Modules @{ ModuleName = 'Hashtable'; ModuleVersion = '1.1.1' }
 
 function Export-PowerShellDataFile {
     <#
