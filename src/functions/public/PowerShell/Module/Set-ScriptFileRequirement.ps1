@@ -1,6 +1,4 @@
-﻿#Requires -Modules @{ ModuleName = 'Ast'; RequiredVersion = '0.3.0' }
-
-function Set-ScriptFileRequirement {
+﻿function Set-ScriptFileRequirement {
     <#
         .SYNOPSIS
         Sets correct module requirements for PowerShell scripts, ignoring local functions, [Alias()] attributes,
