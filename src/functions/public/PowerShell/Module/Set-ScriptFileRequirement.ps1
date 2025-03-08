@@ -1,4 +1,4 @@
-﻿#Requires -Modules @{ ModuleName = 'AST'; RequiredVersion = '0.2.3' }
+﻿#Requires -Modules @{ ModuleName = 'Ast'; RequiredVersion = '0.4.0' }
 
 function Set-ScriptFileRequirement {
     <#
@@ -68,7 +68,7 @@ function Set-ScriptFileRequirement {
 
     foreach ($file in $ps1Files) {
         Write-Verbose "Gathering info from file: [$($file.FullName)]"
-        $functionName = Get-FunctionName -Path $file.FullName
+        $functionName = Get-AstFunctionName -Path $file.FullName
         Write-Verbose " - Name: $functionName"
         $localFunctions += $functionName
         Get-FunctionAlias -Path $file.FullName | Select-Object -ExpandProperty Alias | ForEach-Object {
@@ -90,8 +90,8 @@ function Set-ScriptFileRequirement {
         $requiredModules = @{}
 
         Write-Verbose "Analyzing file: [$($file.FullName)]"
-        $functionNames = Get-FunctionName -Path $file.FullName
-        $scriptCommands = Get-ScriptCommand -Path $file.FullName
+        $functionNames = Get-AstFunctionName -Path $file.FullName
+        $scriptCommands = Get-AstScriptCommand -Path $file.FullName
         Write-Verbose " - Found $($scriptCommands.Count) commands"
         # $command = $scriptCommands[0]
         foreach ($command in $scriptCommands) {
