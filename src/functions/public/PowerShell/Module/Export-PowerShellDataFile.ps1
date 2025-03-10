@@ -1,4 +1,6 @@
-﻿function Export-PowerShellDataFile {
+﻿#Requires -Modules @{ ModuleName = 'Hashtable'; ModuleVersion = '1.1.1' }
+
+function Export-PowerShellDataFile {
     <#
         .SYNOPSIS
         Export a hashtable to a .psd1 file.
@@ -24,7 +26,7 @@
         [switch] $Force
     )
 
-    $content = Convert-HashtableToString -Hashtable $Hashtable
+    $content = Format-Hashtable -Hashtable $Hashtable
     $content | Out-File -FilePath $Path -Force:$Force
     Format-ModuleManifest -Path $Path
 }
