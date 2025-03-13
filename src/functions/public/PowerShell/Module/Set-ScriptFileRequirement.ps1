@@ -24,9 +24,8 @@ function Set-ScriptFileRequirement {
         - Appends `#FIX:` comments for commands that are not resolved.
 
         .EXAMPLE
-        PS> Set-ScriptFileRequirement -Path "C:\MyScripts" -Verbose
-        Recursively scans C:\MyScripts, updates #Requires lines in each .ps1 file,
-        and provides verbose output.
+        PS> Set-ScriptFileRequirement -Path "C:\MyScripts"
+        Recursively scans C:\MyScripts, updates #Requires lines in each .ps1 file.
 
         .EXAMPLE
         PS> Set-ScriptFileRequirement -Path "./Scripts/Deploy.ps1" -Debug
@@ -55,7 +54,7 @@ function Set-ScriptFileRequirement {
         $rootFolderPath = (Resolve-Path -Path $Path).ProviderPath
     } else {
         if ([IO.Path]::GetExtension($Path) -ne '.ps1') {
-            Throw "Path '$Path' does not reference a .ps1 file or directory."
+            throw "Path '$Path' does not reference a .ps1 file or directory."
         }
         $ps1Files = @( $item )
         Write-Verbose "Processing single file: $Path"
