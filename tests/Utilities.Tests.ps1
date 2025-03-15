@@ -79,7 +79,7 @@ Test
             $test.Key4 | Should -Be $true
         }
         It "Can correctly read 'Pester.psd1' after importing and exporting it" {
-            $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.psd1'
+            $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.Raw.psd1'
             $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.tmp.psd1'
             $hashtable = Import-PowerShellDataFile -Path $originalFilePath
             Export-PowerShellDataFile -Hashtable $hashtable -Path $tempFilePath
@@ -118,11 +118,11 @@ Test
             BeforeAll {
                 $filePath = Join-Path -Path $PSScriptRoot $RawFile
                 Set-ModuleManifest -Path $filePath
-                $manifest = Import-PowerShellDataFile -Path $filePath
-                Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
+                $manifest = Get-Content -Path $filePath
+                Write-Verbose ($manifest | Out-String) -Verbose
                 $expectedFilePath = Join-Path -Path $PSScriptRoot $ExpectedFile
-                $expected = Import-PowerShellDataFile -Path $expectedFilePath
-                Write-Verbose (Get-Content -Path $expectedFilePath | Out-String) -Verbose
+                $expected = Get-Content -Path $expectedFilePath
+                Write-Verbose ($expected | Out-String) -Verbose
             }
             It 'Sets the module manifest correctly' {
                 $manifest | Should -Be $expected
