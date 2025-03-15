@@ -344,12 +344,13 @@
     foreach ($section in $objectSectionsToSort) {
         if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
             $sortedObjects = $outManifest[$section] | Sort-Object -Property { if ($_ -is [string]) { $_ } else { $_.ModuleName } } | ForEach-Object {
-                if ($_ -is [string]) {
-                    $_
+                $item = $_
+                if ($item -is [string]) {
+                    $item
                 } else {
                     $sortedObject = [ordered]@{}
-                    $_.PSObject.Properties.Name | Sort-Object | ForEach-Object {
-                        $sortedObject[$_] = $_.($_)
+                    $item.PSObject.Properties.Name | Sort-Object | ForEach-Object {
+                        $sortedObject[$_] = $item.($_)
                     }
                     $sortedObject
                 }
