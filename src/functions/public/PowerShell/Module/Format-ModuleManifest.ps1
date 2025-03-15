@@ -32,5 +32,4 @@
     $content = $content.TrimEnd([System.Environment]::NewLine) + [System.Environment]::NewLine
 
     [System.IO.File]::WriteAllText($Path, $content, $Utf8BomEncoding)
-
 }
