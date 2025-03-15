@@ -343,16 +343,28 @@
     $objectSectionsToSort = @('RequiredModules', 'NestedModules')
     foreach ($section in $objectSectionsToSort) {
         if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
-            $sortedObjects = $outManifest[$section] | Sort-Object -Property { if ($_ -is [string]) { $_ } else { $_.ModuleName } } | ForEach-Object {
-                $item = $_
-                if ($item -is [string]) {
-                    $item
+            $sortedItems = [System.Collections.Generic.List[object]]::new()
+            $sortedObjects = $outManifest[$section] | Sort-Object -Property {
+                if ($_ -is [hashtable]) {
+                    $_.ModuleName
+                } elseif ($_ -is [string]) {
+                    $_
                 } else {
+                    throw 'Unsupported type in module manifest.'
+                }
+            }
+            $sortedObjects | ForEach-Object {
+                $item = $_
+                if ($_ -is [hashtable]) {
                     $sortedObject = [ordered]@{}
                     $item.PSObject.Properties.Name | Sort-Object | ForEach-Object {
                         $sortedObject.Add($_, $item[$_])
                     }
-                    $sortedObject
+                    $sortedItems.Add($sortedObject)
+                } elseif ($item -is [string]) {
+                    $sortedItems.Add($item)
+                } else {
+                    throw 'Unsupported type in module manifest.'
                 }
             }
 
