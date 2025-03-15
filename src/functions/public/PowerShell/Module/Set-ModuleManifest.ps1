@@ -350,7 +350,7 @@
                 } else {
                     $sortedObject = [ordered]@{}
                     $item.PSObject.Properties.Name | Sort-Object | ForEach-Object {
-                        $sortedObject[$_] = $item.($_)
+                        $sortedObject.Add($_, $item[$_])
                     }
                     $sortedObject
                 }
