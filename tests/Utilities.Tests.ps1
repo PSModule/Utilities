@@ -113,6 +113,8 @@ Test
             Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
             $manifest = Import-PowerShellDataFile -Path $filePath
             Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
+            $manifest.FunctionsToExport[0] | Should -Be 'Add-ShouldOperator'
+            $manifest.PrivateData.PSData.Tags[0] | Should -Be 'Linux'
             $manifest.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
         }
     }
