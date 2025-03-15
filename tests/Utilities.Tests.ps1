@@ -113,6 +113,7 @@ Test
     Describe 'Set-ModuleManifest' {
         $tests = @(
             @{ Name = 'Pester'; RawFile = 'manifests/Pester.Raw.psd1'; ExpectedFile = 'manifests/Pester.Expected.psd1' }
+            @{ Name = 'GitHub'; RawFile = 'manifests/GitHub.Raw.psd1'; ExpectedFile = 'manifests/GitHub.Expected.psd1' }
         )
         Context '<Name>' -ForEach $tests {
             BeforeAll {
