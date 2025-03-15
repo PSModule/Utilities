@@ -342,9 +342,11 @@
 
     $objectSectionsToSort = @('RequiredModules', 'NestedModules')
     foreach ($section in $objectSectionsToSort) {
+        Write-Warning "Sorting $section"
         if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
             $sortedItems = [System.Collections.Generic.List[object]]::new()
             $sortedObjects = $outManifest[$section] | Sort-Object -Property {
+                Write-Warning "Item: $_"
                 if ($_ -is [hashtable]) {
                     $_.ModuleName
                 } elseif ($_ -is [string]) {
@@ -353,6 +355,7 @@
                     throw 'Unsupported type in module manifest.'
                 }
             }
+            Write-Warning "Sorted objects: $($sortedObjects | Out-String)"
             $sortedObjects | ForEach-Object {
                 $item = $_
                 if ($_ -is [hashtable]) {
@@ -368,7 +371,7 @@
                 }
             }
 
-            $outManifest[$section] = @($sortedItems)
+            $outManifest[$section] = $sortedItems
         }
     }
 
