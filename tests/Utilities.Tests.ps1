@@ -1,6 +1,9 @@
 ﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
     'PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification = 'Test code only'
 )]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+    'PSUseDeclaredVarsMoreThanAssignments', '', Justification = 'Pester things'
+)]
 [CmdletBinding()]
 param()
 
@@ -76,7 +79,7 @@ Test
             $test.Key4 | Should -Be $true
         }
         It "Can correctly read 'Pester.psd1' after importing and exporting it" {
-            $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.psd1'
+            $originalFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.Raw.psd1'
             $tempFilePath = Join-Path -Path $PSScriptRoot -ChildPath 'manifests/Pester.tmp.psd1'
             $hashtable = Import-PowerShellDataFile -Path $originalFilePath
             Export-PowerShellDataFile -Hashtable $hashtable -Path $tempFilePath
@@ -108,12 +111,23 @@ Test
     }
 
     Describe 'Set-ModuleManifest' {
-        It 'Sets the module manifest' {
-            $filePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.psd1'
-            Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
-            $manifest = Import-PowerShellDataFile -Path $filePath
-            Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
-            $manifest.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
+        $tests = @(
+            @{ Name = 'Pester'; RawFile = 'manifests/Pester.Raw.psd1'; ExpectedFile = 'manifests/Pester.Expected.psd1' }
+            @{ Name = 'GitHub'; RawFile = 'manifests/GitHub.Raw.psd1'; ExpectedFile = 'manifests/GitHub.Expected.psd1' }
+        )
+        Context '<Name>' -ForEach $tests {
+            BeforeAll {
+                $filePath = Join-Path -Path $PSScriptRoot $RawFile
+                Set-ModuleManifest -Path $filePath
+                $manifest = Get-Content -Path $filePath
+                Write-Verbose "[$($manifest | Out-String)]" -Verbose
+                $expectedFilePath = Join-Path -Path $PSScriptRoot $ExpectedFile
+                $expected = Get-Content -Path $expectedFilePath
+                Write-Verbose "[$($expected | Out-String)]" -Verbose
+            }
+            It 'Sets the module manifest correctly' {
+                $manifest | Should -Be $expected
+            }
         }
     }
 }

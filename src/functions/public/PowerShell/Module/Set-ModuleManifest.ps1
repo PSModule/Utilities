@@ -319,7 +319,97 @@
         $outManifest.Remove('PrivateData')
     }
 
+    $sectionsToSort = @(
+        'CompatiblePSEditions',
+        'RequiredAssemblies',
+        'ScriptsToProcess',
+        'TypesToProcess',
+        'FormatsToProcess',
+        'FunctionsToExport',
+        'CmdletsToExport',
+        'VariablesToExport',
+        'AliasesToExport',
+        'DscResourcesToExport',
+        'ModuleList',
+        'FileList'
+    )
+
+    foreach ($section in $sectionsToSort) {
+        if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
+            $outManifest[$section] = @($outManifest[$section] | Sort-Object)
+        }
+    }
+
+    $objectSectionsToSort = @('RequiredModules', 'NestedModules')
+    foreach ($section in $objectSectionsToSort) {
+        if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
+            $sortedObjects = $outManifest[$section] | Sort-Object -Property {
+                if ($_ -is [hashtable]) {
+                    $_['ModuleName']
+                } elseif ($_ -is [Microsoft.PowerShell.Commands.ModuleSpecification]) {
+                    $_.Name
+                } elseif ($_ -is [string]) {
+                    $_
+                } else {
+                    throw "Unsupported type '$($_.GetType().Name)' in module manifest."
+                }
+            }
+
+            $formattedModules = foreach ($item in $sortedObjects) {
+                if ($item -is [Microsoft.PowerShell.Commands.ModuleSpecification]) {
+                    $hash = [ordered]@{}
+                    $hash['ModuleName'] = $item.Name
+                    if ($item.RequiredVersion) {
+                        $hash['RequiredVersion'] = $item.RequiredVersion.ToString()
+                    } elseif ($item.Version) {
+                        $hash['ModuleVersion'] = $item.Version.ToString()
+                    } elseif ($item.MaximumVersion) {
+                        $hash['MaximumVersion'] = $item.MaximumVersion.ToString()
+                    }
+
+                    if ($hash.Count -eq 1) {
+                        # Simplify if only ModuleName
+                        $hash.ModuleName
+                    } else {
+                        $hash
+                    }
+                } elseif ($item -is [hashtable]) {
+                    # Recreate as ordered hashtable explicitly
+                    $orderedItem = [ordered]@{}
+                    if ($item.ContainsKey('ModuleName')) {
+                        $orderedItem['ModuleName'] = $item['ModuleName']
+                    }
+                    if ($item.RequiredVersion) {
+                        $orderedItem['RequiredVersion'] = $item.RequiredVersion
+                    }
+                    if ($item.ModuleVersion) {
+                        $orderedItem['ModuleVersion'] = $item.ModuleVersion
+                    }
+                    if ($item.MaximumVersion) {
+                        $orderedItem['MaximumVersion'] = $item.MaximumVersion
+                    }
+                    $orderedItem
+                } elseif ($item -is [string]) {
+                    $item
+                }
+            }
+
+            $outManifest[$section] = @($formattedModules)
+        }
+    }
+
+
+
+
+    if ($outPrivateData.Contains('PSData')) {
+        if ($outPrivateData.PSData.Contains('ExternalModuleDependencies') -and $null -ne $outPrivateData.PSData.ExternalModuleDependencies) {
+            $outPrivateData.PSData.ExternalModuleDependencies = @($outPrivateData.PSData.ExternalModuleDependencies | Sort-Object)
+        }
+        if ($outPrivateData.PSData.Contains('Tags') -and $null -ne $outPrivateData.PSData.Tags) {
+            $outPrivateData.PSData.Tags = @($outPrivateData.PSData.Tags | Sort-Object)
+        }
+    }
+
     Remove-Item -Path $Path -Force
     Export-PowerShellDataFile -Hashtable $outManifest -Path $Path
-
 }

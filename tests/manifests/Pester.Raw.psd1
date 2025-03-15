@@ -88,8 +88,8 @@ Pester can be run in ad hoc style in a console or it can be integrated into the 
 
     # # Aliases to export from this module
     AliasesToExport   = @(
-        'Add-AssertionOperator'
         'Get-AssertionOperator'
+        'Add-AssertionOperator'
     )
 
 
