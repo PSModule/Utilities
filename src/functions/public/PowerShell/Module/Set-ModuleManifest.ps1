@@ -356,9 +356,8 @@
                 }
             }
             Write-Warning "Sorted objects: $($sortedObjects | Out-String)"
-            $sortedObjects | ForEach-Object {
-                $item = $_
-                if ($_ -is [hashtable]) {
+            foreach ($item in $sortedObjects) {
+                if ($item -is [hashtable]) {
                     $sortedObject = [ordered]@{}
                     $item.PSObject.Properties.Name | Sort-Object | ForEach-Object {
                         $sortedObject.Add($_, $item[$_])
