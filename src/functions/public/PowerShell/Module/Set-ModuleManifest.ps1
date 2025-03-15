@@ -346,7 +346,7 @@
         if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
             $sortedItems = [System.Collections.Generic.List[object]]::new()
             $sortedObjects = $outManifest[$section] | Sort-Object -Property {
-                Write-Warning "Item: $_"
+                Write-Warning "Item: $($_ | Out-String)"
                 if ($_ -is [hashtable]) {
                     $_.ModuleName
                 } elseif ($_ -is [string]) {
