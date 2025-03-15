@@ -29,7 +29,7 @@
     $content = Invoke-Formatter -ScriptDefinition $manifestContent
 
     # Ensure exactly one empty line at the end
-    $content = $content.TrimEnd("`r", "`n") + "`r`n"
+    $content = $content.TrimEnd([System.Environment]::NewLine) + [System.Environment]::NewLine
 
     [System.IO.File]::WriteAllText($Path, $content, $Utf8BomEncoding)
 
