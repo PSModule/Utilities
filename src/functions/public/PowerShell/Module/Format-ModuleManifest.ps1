@@ -27,6 +27,10 @@
     $manifestContent = Get-Content -Path $Path -Raw
 
     $content = Invoke-Formatter -ScriptDefinition $manifestContent
-    [System.IO.File]::WriteAllLines($Path, $content, $Utf8BomEncoding)
+
+    # Ensure exactly one empty line at the end
+    $content = $content.TrimEnd("`r", "`n") + "`r`n"
+
+    [System.IO.File]::WriteAllText($Path, $content, $Utf8BomEncoding)
 
 }
