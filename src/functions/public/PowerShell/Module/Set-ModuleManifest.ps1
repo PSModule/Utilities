@@ -368,7 +368,7 @@
                 }
             }
 
-            $outManifest[$section] = @($sortedObjects)
+            $outManifest[$section] = @($sortedItems)
         }
     }
 
