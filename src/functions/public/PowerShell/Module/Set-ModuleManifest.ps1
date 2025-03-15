@@ -357,7 +357,8 @@
 
             $formattedModules = foreach ($item in $sortedObjects) {
                 if ($item -is [Microsoft.PowerShell.Commands.ModuleSpecification]) {
-                    $hash = @{ ModuleName = $item.Name }
+                    $hash = [ordered]@{}
+                    $hash['ModuleName'] = $item.Name
                     if ($item.RequiredVersion) {
                         $hash['RequiredVersion'] = $item.RequiredVersion.ToString()
                     } elseif ($item.Version) {
@@ -367,13 +368,27 @@
                     }
 
                     if ($hash.Count -eq 1) {
-                        # Only ModuleName was set, simplify to string
+                        # Simplify if only ModuleName
                         $hash.ModuleName
                     } else {
                         $hash
                     }
                 } elseif ($item -is [hashtable]) {
-                    $item
+                    # Recreate as ordered hashtable explicitly
+                    $orderedItem = [ordered]@{}
+                    if ($item.ContainsKey('ModuleName')) {
+                        $orderedItem['ModuleName'] = $item['ModuleName']
+                    }
+                    if ($item.RequiredVersion) {
+                        $orderedItem['RequiredVersion'] = $item.RequiredVersion
+                    }
+                    if ($item.ModuleVersion) {
+                        $orderedItem['ModuleVersion'] = $item.ModuleVersion
+                    }
+                    if ($item.MaximumVersion) {
+                        $orderedItem['MaximumVersion'] = $item.MaximumVersion
+                    }
+                    $orderedItem
                 } elseif ($item -is [string]) {
                     $item
                 }
@@ -382,6 +397,7 @@
             $outManifest[$section] = @($formattedModules)
         }
     }
+
 
 
 
