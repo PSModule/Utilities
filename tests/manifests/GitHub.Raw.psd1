@@ -13,26 +13,11 @@
     PowerShellVersion     = '5.1'
     ProcessorArchitecture = 'None'
     RequiredModules       = @(
-        @{
-            ModuleName      = 'CasingStyle'
-            RequiredVersion = '1.0.2'
-        }
-        @{
-            ModuleName      = 'Context'
-            RequiredVersion = '7.0.2'
-        }
-        @{
-            ModuleName      = 'DynamicParams'
-            RequiredVersion = '1.1.8'
-        }
-        @{
-            ModuleName      = 'Hashtable'
-            RequiredVersion = '1.1.5'
-        }
-        @{
-            ModuleName      = 'Uri'
-            RequiredVersion = '1.1.0'
-        }
+        'Context'
+        @{ ModuleName = 'CasingStyle'; RequiredVersion = '1.0.2' }
+        @{ ModuleName = 'DynamicParams'; RequiredVersion = '1.1.8' }
+        @{ ModuleName = 'Hashtable'; RequiredVersion = '1.1.5' }
+        @{ ModuleName = 'Uri'; RequiredVersion = '1.1.0' }
     )
     TypesToProcess        = @()
     FormatsToProcess      = @(

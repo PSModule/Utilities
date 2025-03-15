@@ -17,10 +17,7 @@
             ModuleName      = 'CasingStyle'
             RequiredVersion = '1.0.2'
         }
-        @{
-            ModuleName      = 'Context'
-            RequiredVersion = '7.0.2'
-        }
+        'Context'
         @{
             ModuleName      = 'DynamicParams'
             RequiredVersion = '1.1.8'
