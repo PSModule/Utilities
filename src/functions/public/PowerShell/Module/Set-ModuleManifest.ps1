@@ -342,31 +342,47 @@
 
     $objectSectionsToSort = @('RequiredModules', 'NestedModules')
     foreach ($section in $objectSectionsToSort) {
-        Write-Warning "Sorting $section"
         if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
-            $sortedModuleSpecs = [System.Collections.Generic.List[object]]::new()
             $sortedObjects = $outManifest[$section] | Sort-Object -Property {
-                Write-Warning "Item: $($_ | Out-String)"
                 if ($_ -is [hashtable]) {
-                    $_.ModuleName
+                    $_['ModuleName']
+                } elseif ($_ -is [Microsoft.PowerShell.Commands.ModuleSpecification]) {
+                    $_.Name
                 } elseif ($_ -is [string]) {
                     $_
                 } else {
-                    throw 'Unsupported type in module manifest.'
+                    throw "Unsupported type '$($_.GetType().Name)' in module manifest."
                 }
             }
-            Write-Warning "Sorted objects: $($sortedObjects | Out-String)"
-            foreach ($item in $sortedObjects) {
-                $moduleSpec = [Microsoft.PowerShell.Commands.ModuleSpecification]::new($item)
-                Write-Warning 'Processing'
-                Write-Warning "Item: $($moduleSpec | Out-String)"
-                $sortedModuleSpecs.Add($moduleSpec)
-            }
-            Write-Warning "Sorted items: $($sortedModuleSpecs | Out-String)"
 
-            $outManifest[$section] = $sortedModuleSpecs
+            $formattedModules = foreach ($item in $sortedObjects) {
+                if ($item -is [Microsoft.PowerShell.Commands.ModuleSpecification]) {
+                    $hash = @{ ModuleName = $item.Name }
+                    if ($item.RequiredVersion) {
+                        $hash['RequiredVersion'] = $item.RequiredVersion.ToString()
+                    } elseif ($item.Version) {
+                        $hash['ModuleVersion'] = $item.Version.ToString()
+                    } elseif ($item.MaximumVersion) {
+                        $hash['MaximumVersion'] = $item.MaximumVersion.ToString()
+                    }
+
+                    if ($hash.Count -eq 1) {
+                        # Only ModuleName was set, simplify to string
+                        $hash.ModuleName
+                    } else {
+                        $hash
+                    }
+                } elseif ($item -is [hashtable]) {
+                    $item
+                } elseif ($item -is [string]) {
+                    $item
+                }
+            }
+
+            $outManifest[$section] = @($formattedModules)
         }
     }
+
 
 
     if ($outPrivateData.Contains('PSData')) {
