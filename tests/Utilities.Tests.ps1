@@ -119,10 +119,10 @@ Test
                 $filePath = Join-Path -Path $PSScriptRoot $RawFile
                 Set-ModuleManifest -Path $filePath
                 $manifest = Get-Content -Path $filePath
-                Write-Verbose ($manifest | Out-String) -Verbose
+                Write-Verbose "[$($manifest | Out-String)]" -Verbose
                 $expectedFilePath = Join-Path -Path $PSScriptRoot $ExpectedFile
                 $expected = Get-Content -Path $expectedFilePath
-                Write-Verbose ($expected | Out-String) -Verbose
+                Write-Verbose "[$($expected | Out-String)]" -Verbose
             }
             It 'Sets the module manifest correctly' {
                 $manifest | Should -Be $expected
