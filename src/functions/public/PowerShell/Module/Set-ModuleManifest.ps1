@@ -357,18 +357,25 @@
             }
             Write-Warning "Sorted objects: $($sortedObjects | Out-String)"
             foreach ($item in $sortedObjects) {
+                Write-Warning "Processing"
+                Write-Warning "Item: $($item | Out-String)"
                 if ($item -is [hashtable]) {
+                    Write-Warning "Item is hashtable"
                     $sortedObject = [ordered]@{}
-                    $item.PSObject.Properties.Name | Sort-Object | ForEach-Object {
-                        $sortedObject.Add($_, $item[$_])
+                    $item.PSObject.Properties | Sort-Object -Property Name | ForEach-Object {
+                        Write-Warning "Processing property: $($_.Name)"
+                        $name = $_.Name
+                        $sortedObject.Add($name, $item[$name])
                     }
                     $sortedItems.Add($sortedObject)
                 } elseif ($item -is [string]) {
+                    Write-Warning "Item is string"
                     $sortedItems.Add($item)
                 } else {
                     throw 'Unsupported type in module manifest.'
                 }
             }
+            Write-Warning "Sorted items: $($sortedItems | Out-String)"
 
             $outManifest[$section] = $sortedItems
         }
