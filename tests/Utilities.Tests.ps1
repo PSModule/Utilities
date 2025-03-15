@@ -111,27 +111,21 @@ Test
     }
 
     Describe 'Set-ModuleManifest' {
-        Context 'Pester.psd1' {
+        $tests = @(
+            @{ Name = 'Pester'; RawFile = 'manifests/Pester.Raw.psd1'; ExpectedFile = 'manifests/Pester.Expected.psd1' }
+        )
+        Context '<Name>' -ForEach $tests {
             BeforeAll {
-                $filePath = Join-Path -Path $PSScriptRoot 'manifests/Pester.psd1'
-            }
-            It 'ProjectUri is set correctly' {
-                Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
+                $filePath = Join-Path -Path $PSScriptRoot $RawFile
+                Set-ModuleManifest -Path $filePath
                 $manifest = Import-PowerShellDataFile -Path $filePath
                 Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
-                $manifest.PrivateData.PSData.ProjectUri | Should -Be 'https://github.com/Pester/Pester'
+                $expectedFilePath = Join-Path -Path $PSScriptRoot $ExpectedFile
+                $expected = Import-PowerShellDataFile -Path $expectedFilePath
+                Write-Verbose (Get-Content -Path $expectedFilePath | Out-String) -Verbose
             }
-            It 'Sorts FunctionsToExport' {
-                Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
-                $manifest = Import-PowerShellDataFile -Path $filePath
-                Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
-                $manifest.FunctionsToExport[0] | Should -Be 'Add-ShouldOperator'
-            }
-            It 'Sorts tags' {
-                Set-ModuleManifest -Path $filePath -RootModule 'Pester.psm1' -ModuleVersion '10.0.0'
-                $manifest = Import-PowerShellDataFile -Path $filePath
-                Write-Verbose (Get-Content -Path $filePath | Out-String) -Verbose
-                $manifest.PrivateData.PSData.Tags[0] | Should -Be 'Linux'
+            It 'Sets the module manifest correctly' {
+                $manifest | Should -Be $expected
             }
         }
     }
