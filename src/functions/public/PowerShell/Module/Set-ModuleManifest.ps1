@@ -344,7 +344,7 @@
     foreach ($section in $objectSectionsToSort) {
         Write-Warning "Sorting $section"
         if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
-            $sortedItems = [System.Collections.Generic.List[object]]::new()
+            $sortedModuleSpecs = [System.Collections.Generic.List[object]]::new()
             $sortedObjects = $outManifest[$section] | Sort-Object -Property {
                 Write-Warning "Item: $($_ | Out-String)"
                 if ($_ -is [hashtable]) {
@@ -357,27 +357,14 @@
             }
             Write-Warning "Sorted objects: $($sortedObjects | Out-String)"
             foreach ($item in $sortedObjects) {
-                Write-Warning "Processing"
-                Write-Warning "Item: $($item | Out-String)"
-                if ($item -is [hashtable]) {
-                    Write-Warning "Item is hashtable"
-                    $sortedObject = [ordered]@{}
-                    $item.PSObject.Properties | Sort-Object -Property Name | ForEach-Object {
-                        Write-Warning "Processing property: $($_.Name)"
-                        $name = $_.Name
-                        $sortedObject.Add($name, $item[$name])
-                    }
-                    $sortedItems.Add($sortedObject)
-                } elseif ($item -is [string]) {
-                    Write-Warning "Item is string"
-                    $sortedItems.Add($item)
-                } else {
-                    throw 'Unsupported type in module manifest.'
-                }
+                $moduleSpec = [Microsoft.PowerShell.Commands.ModuleSpecification]::new($item)
+                Write-Warning 'Processing'
+                Write-Warning "Item: $($moduleSpec | Out-String)"
+                $sortedModuleSpecs.Add($moduleSpec)
             }
-            Write-Warning "Sorted items: $($sortedItems | Out-String)"
+            Write-Warning "Sorted items: $($sortedModuleSpecs | Out-String)"
 
-            $outManifest[$section] = $sortedItems
+            $outManifest[$section] = $sortedModuleSpecs
         }
     }
 
