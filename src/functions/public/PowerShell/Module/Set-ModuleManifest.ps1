@@ -319,7 +319,36 @@
         $outManifest.Remove('PrivateData')
     }
 
+    $sectionsToSort = @(
+        'CompatiblePSEditions',
+        'RequiredAssemblies',
+        'ScriptsToProcess',
+        'TypesToProcess',
+        'FormatsToProcess',
+        'FunctionsToExport',
+        'CmdletsToExport',
+        'VariablesToExport',
+        'AliasesToExport',
+        'DscResourcesToExport',
+        'ModuleList',
+        'FileList'
+    )
+
+    foreach ($section in $sectionsToSort) {
+        if ($outManifest.Contains($section) -and $null -ne $outManifest[$section]) {
+            $outManifest[$section] = @($outManifest[$section] | Sort-Object)
+        }
+    }
+
+    if ($outPrivateData.Contains('PSData')) {
+        if ($outPrivateData.PSData.Contains('ExternalModuleDependencies') -and $null -ne $outPrivateData.PSData.ExternalModuleDependencies) {
+            $outPrivateData.PSData.ExternalModuleDependencies = @($outPrivateData.PSData.ExternalModuleDependencies | Sort-Object)
+        }
+        if ($outPrivateData.PSData.Contains('Tags') -and $null -ne $outPrivateData.PSData.Tags) {
+            $outPrivateData.PSData.Tags = @($outPrivateData.PSData.Tags | Sort-Object)
+        }
+    }
+
     Remove-Item -Path $Path -Force
     Export-PowerShellDataFile -Hashtable $outManifest -Path $Path
-
 }
