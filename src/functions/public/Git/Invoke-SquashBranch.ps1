@@ -18,3 +18,5 @@
     )
     git reset $(git merge-base $BranchName $(git branch --show-current))
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

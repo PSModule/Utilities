@@ -61,3 +61,5 @@ function Invoke-ReinstallModule {
         Install-Module -Name $_ -Scope $Scope -Force
     }
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

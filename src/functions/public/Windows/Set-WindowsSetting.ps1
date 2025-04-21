@@ -35,3 +35,5 @@
     $Shell = New-Object -ComObject Shell.Application
     $Shell.Windows() | ForEach-Object { $_.Refresh() }
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

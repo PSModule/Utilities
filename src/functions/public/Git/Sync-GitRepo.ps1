@@ -9,6 +9,7 @@
         .EXAMPLE
         Sync-GitRepo
     #>
+    [Alias('Sync-Git')]
     [OutputType([void])]
     [CmdletBinding()]
     param()
@@ -16,4 +17,5 @@
     git pull
     git push
 }
-Set-Alias -Name sync -Value Sync-Git
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

@@ -18,3 +18,5 @@
     git fetch --all --prune
     (git branch).Trim() | Where-Object { $_ -notmatch 'main|\*' } | ForEach-Object { git branch $_ --delete --force }
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

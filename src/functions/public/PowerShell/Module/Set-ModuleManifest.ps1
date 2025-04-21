@@ -413,3 +413,5 @@
     Remove-Item -Path $Path -Force
     Export-PowerShellDataFile -Hashtable $outManifest -Path $Path
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR
