@@ -29,4 +29,4 @@ jobs:
     uses: PSModule/Process-PSModule/.github/workflows/workflow.yml@v4
     secrets: inherit
     with:
-      SkipTests: SourceCode
+      Skip: SourceCode
