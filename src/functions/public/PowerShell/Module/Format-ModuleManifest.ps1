@@ -33,3 +33,5 @@
 
     [System.IO.File]::WriteAllText($Path, $content, $Utf8BomEncoding)
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

@@ -25,3 +25,5 @@
     $InputObject | ConvertTo-Json -Depth 100 | ConvertFrom-Json
 
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

@@ -52,3 +52,5 @@
         Remove-Item -Path $pesterPath -Recurse -Force -Confirm:$false
     }
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

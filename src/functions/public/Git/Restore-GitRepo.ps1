@@ -21,3 +21,5 @@
     git fetch upstream
     git restore --source upstream/$BranchName * ':!*global.variables.*' ':!settings.json*'
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

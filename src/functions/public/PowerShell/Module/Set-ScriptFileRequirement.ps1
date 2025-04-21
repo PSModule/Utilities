@@ -218,3 +218,5 @@ function Set-ScriptFileRequirement {
 
     Write-Verbose 'All .ps1 files processed.'
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR

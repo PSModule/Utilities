@@ -30,3 +30,5 @@ function Export-PowerShellDataFile {
     $content | Out-File -FilePath $Path -Force:$Force
     Format-ModuleManifest -Path $Path
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR
