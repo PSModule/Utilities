@@ -82,3 +82,5 @@
     Write-Debug 'Object is not null or empty'
     return $false
 }
+
+#SkipTest:FunctionTest:Will add a test for this function in a future PR
