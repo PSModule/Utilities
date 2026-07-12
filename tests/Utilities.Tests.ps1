@@ -1,4 +1,6 @@
-﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+﻿#Requires -Modules @{ ModuleName = 'Pester'; ModuleVersion = '6.0.0'; MaximumVersion = '6.*' }
+
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
     'PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification = 'Test code only'
 )]
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute(
